@@ -307,8 +307,8 @@ public class Block {
                 return Const.OV_EINVAL;
             }
 
-            op.b_o_s = 0;
-            op.e_o_s = this.eofFlag;
+            op.b_o_s = false;
+            op.e_o_s = this.eofFlag != 0;
             op.granulePos = this.granulePos;
             op.packetNo = this.sequence; /* for sake of completeness */
         }

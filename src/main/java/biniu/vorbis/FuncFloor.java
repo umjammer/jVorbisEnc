@@ -24,6 +24,8 @@ abstract class FuncFloor {
 
     abstract void pack(Object i, Buffer opb);
 
+    abstract Object unpack(Info i, Buffer opb);
+
     abstract Object look(DspState vd, Object i);
 
     abstract Object look(DspState vd, InfoMode mi, Object i);

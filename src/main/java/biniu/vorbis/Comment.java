@@ -12,10 +12,11 @@ package biniu.vorbis;
 
 import biniu.ogg.Buffer;
 
+
 /**
  * EncoderVorbis</p>
  * <p>Description: Codec for encoding music files (wav -> ogg) </p>
- *
+ * <p>
  * the comments are not part of vorbis_info so that vorbis_info can be
  * static storage
  *
@@ -42,11 +43,11 @@ public class Comment {
         vendor = null;
     }
 
-    public void add(String comment) {
-        add(comment.getBytes());
+    public void addComment(String comment) {
+        addComment(comment.getBytes());
     }
 
-    private void add(byte[] comment) {
+    private void addComment(byte[] comment) {
         byte[][] foo = new byte[comments + 2][];
         if (user_comments != null) {
             System.arraycopy(user_comments, 0, foo, 0, comments);
@@ -69,7 +70,7 @@ public class Comment {
 
     public void addTag(String tag, String contents) {
         if (contents == null) contents = "";
-        add(tag + "=" + contents);
+        addComment(tag + "=" + contents);
     }
 
     /**

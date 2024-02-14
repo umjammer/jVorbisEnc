@@ -51,12 +51,12 @@ public class StreamState {
      * set when we have buffered the last packet in the
      * logical bitstream
      */
-    public int e_o_s;
+    public boolean e_o_s;
     /**
      * set after we've written the initial page
      * of a logical bitstream
      */
-    int b_o_s;
+    boolean b_o_s;
     public int serialNo;
     private int pageNo;
     /**
@@ -175,7 +175,7 @@ public class StreamState {
         /* for the sake of completeness */
         packetNo++;
 
-        if (op.e_o_s != 0) e_o_s = 1;
+        if (op.e_o_s) e_o_s = true;
         return 0;
     }
 
@@ -184,7 +184,7 @@ public class StreamState {
      * segments.  Now we need to group them into packets (or return the
      * out of sync markers)
      */
-    public int packetout(Packet op) {
+    public int packetOut(Packet op) {
 
         int ptr = lacing_returned;
 
@@ -209,14 +209,14 @@ public class StreamState {
 
             op.packetByte = bodyData;
 //            op.packet = bodyReturned;
-            op.e_o_s = lacing_vals[ptr] & 0x200; // last packet of the stream?
-            op.b_o_s = lacing_vals[ptr] & 0x100; // first packet of the stream?
+            op.e_o_s = (lacing_vals[ptr] & 0x200) != 0; // last packet of the stream?
+            op.b_o_s = (lacing_vals[ptr] & 0x100) != 0; // first packet of the stream?
             bytes += size;
 
             while (size == 255) {
                 int val = lacing_vals[++ptr];
                 size = val & 0xff;
-                if ((val & 0x200) != 0) op.e_o_s = 0x200;
+                if ((val & 0x200) != 0) op.e_o_s = true;
                 bytes += size;
             }
 
@@ -232,10 +232,11 @@ public class StreamState {
         return 1;
     }
 
-    // add the incoming page to the stream state; we decompose the page
-    // into packet segments here as well.
-
-    public int pagein(Page og) {
+    /**
+     * add the incoming page to the stream state; we decompose the page
+     * into packet segments here as well.
+     */
+    public int pageIn(Page og) {
         byte[] header_base = og.header_base;
         int header = og.header;
         byte[] body_base = og.body_base;
@@ -244,12 +245,12 @@ public class StreamState {
         int segptr = 0;
 
         int version = og.version();
-        int continued = og.continued();
-        int bos = og.bos();
+        boolean continued = og.continued();
+        boolean bos = og.bos();
         boolean eos = og.eos();
-        long granulepos = og.granulepos();
-        int _serialno = og.serialno();
-        int _pageno = og.pageno();
+        long granulepos = og.granulePos();
+        int _serialno = og.serialNo();
+        int _pageno = og.pageNo();
         int segments = header_base[header + 26] & 0xff;
 
         // clean up 'returned data'
@@ -302,8 +303,8 @@ public class StreamState {
 
             // are we a 'continued packet' page?  If so, we'll need to skip
             // some segments
-            if (continued != 0) {
-                bos = 0;
+            if (continued) {
+                bos = false;
                 for (; segptr < segments; segptr++) {
                     int val = (header_base[header + 27 + segptr] & 0xff);
                     body += val;
@@ -329,9 +330,9 @@ public class StreamState {
                 lacing_vals[lacing_fill] = val;
                 granule_vals[lacing_fill] = -1;
 
-                if (bos != 0) {
+                if (bos) {
                     lacing_vals[lacing_fill] |= 0x100;
-                    bos = 0;
+                    bos = false;
                 }
 
                 if (val < 255) saved = lacing_fill;
@@ -349,7 +350,7 @@ public class StreamState {
         }
 
         if (eos) {
-            e_o_s = 1;
+            e_o_s = true;
             if (lacing_fill > 0)
                 lacing_vals[lacing_fill - 1] |= 0x200;
         }
@@ -389,7 +390,7 @@ public class StreamState {
 
         // If this is the initial header case, the first page must only include
         // the initial header packet
-        if (b_o_s == 0) {  // 'initial header page' case
+        if (!b_o_s) {  // 'initial header page' case
             granule_pos = 0;
             for (vals = 0; vals < maxvals; vals++) {
                 if ((lacing_vals[vals] & 0x0ff) < 255) {
@@ -415,10 +416,10 @@ public class StreamState {
         header[5] = 0x00;
         if ((lacing_vals[0] & 0x100) == 0) header[5] |= 0x01;
         // first page flag?
-        if (b_o_s == 0) header[5] |= 0x02;
+        if (!b_o_s) header[5] |= 0x02;
         // last page flag?
-        if (e_o_s != 0 && lacing_fill == vals) header[5] |= 0x04;
-        b_o_s = 1;
+        if (e_o_s && lacing_fill == vals) header[5] |= 0x04;
+        b_o_s = true;
 
         // 64 bits of PCM position
         for (i = 6; i < 14; i++) {
@@ -491,16 +492,16 @@ public class StreamState {
      * good only until the next call (using the same ogg_stream_state)
      */
     public boolean pageOut(Page og) {
-        if ((e_o_s != 0 && lacing_fill != 0) ||     // 'were done, now flush' case
+        if ((e_o_s && lacing_fill != 0) ||     // 'were done, now flush' case
                 bodyFill - bodyReturned > 4096 ||   // 'page nominal size' case
                 lacing_fill >= 255 ||               // 'segment table full' case
-                (lacing_fill != 0 && b_o_s == 0)) { // 'initial header page' case
+                (lacing_fill != 0 && !b_o_s)) { // 'initial header page' case
             return flush(og);
         }
         return false;
     }
 
-    public int eof() {
+    public boolean eof() {
         return e_o_s;
     }
 
@@ -514,11 +515,86 @@ public class StreamState {
 
         header_fill = 0;
 
-        e_o_s = 0;
-        b_o_s = 0;
+        e_o_s = false;
+        b_o_s = false;
         pageNo = -1;
         packetNo = 0;
         granulePos = 0;
         return 0;
+    }
+
+    /**
+     * Calls ogg_stream_packetpeek().
+     */
+    public int packetPeek(Packet packet) {
+        return packetOutInternal(packet, false);
+    }
+
+    /**
+     * Retrieves a packet from the internal storage for emission.
+     * This method is called by packetOut and packetPeek.
+     *
+     * @param packet   the Packet object to store the retrieved packet
+     *                 data in. May be null if bAdvance is false.
+     * @param bAdvance should the internal pointers to the packet
+     *                 data storage be advanced to the next packet after retrieving
+     *                 this one? Called with a value of true for ordinary packet out
+     *                 and with a value of false for packet peek.
+     * @return 0: success, -1: failure
+     */
+    private int packetOutInternal(Packet packet, boolean bAdvance) {
+        // The last part of decode. We have the stream broken into
+        // packet segments.  Now we need to group them into packets
+        // (or return the out of sync markers)
+
+        int ptr = lacing_returned;
+
+        if (lacing_packet <= ptr)
+            return 0;
+
+        if ((lacing_vals[ptr] & 0x400) != 0) {
+            // we need to tell the codec there's a gap; it might need
+            // to handle previous packet dependencies.
+            lacing_returned++;
+            packetNo++;
+            return -1;
+        }
+
+        if (packet == null && !bAdvance)
+            // just using peek as an inexpensive way
+            // to ask if there's a whole packet
+            // waiting
+            return 1;
+        // Gather the whole packet. We'll have no holes or a partial
+        // packet
+        int size = lacing_vals[ptr] & 0xFF;
+        int bytes = size;
+        // last packet of the stream?
+        boolean eos = (lacing_vals[ptr] & 0x200) != 0;
+        // first packet of the stream?
+        boolean bos = (lacing_vals[ptr] & 0x100) != 0;
+
+        while (size == 255) {
+            int val = lacing_vals[++ptr];
+            size = val & 0xff;
+            if ((val & 0x200) != 0)
+                eos = true;
+            bytes += size;
+        }
+
+        if (packet != null) {
+            packet.packetByte = Arrays.copyOfRange(bodyData, bodyReturned, bytes);
+            packet.b_o_s = bos;
+            packet.e_o_s = eos;
+            packet.granulePos = granule_vals[ptr];
+            packet.packetNo = packetNo;
+        }
+
+        if (bAdvance) {
+            bodyReturned += bytes;
+            lacing_returned = ptr + 1;
+            packetNo++;
+        }
+        return 1;
     }
 }

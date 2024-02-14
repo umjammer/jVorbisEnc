@@ -21,8 +21,8 @@ public class Packet {
     public byte[] packetByte;
 //    public int packet;
     public int bytes;
-    public int b_o_s;
-    public int e_o_s;
+    public boolean b_o_s;
+    public boolean e_o_s;
 
     public long granulePos;
 
@@ -34,4 +34,22 @@ public class Packet {
      * layer) also knows about the gap
      */
     public long packetNo;
+
+    public boolean isBos() {
+        return b_o_s;
+    }
+
+    public boolean isEos() {
+        return e_o_s;
+    }
+
+    public void clear() {
+        packetByte = null;
+        bytes = 0;
+        b_o_s = false;
+        e_o_s = false;
+
+        granulePos = 0;
+        packetNo = 0;
+    }
 }

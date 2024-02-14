@@ -58,8 +58,8 @@ public class DspState {
     PrivateState backEndState;
 
     // local lookup storage
-    float[][][][][] window;                 // block, leadin, leadout, type
-    //vorbis_look_transform **transform[2];    // block, type
+    float[][][][][] window; // block, leadin, leadout, type
+    //vorbis_look_transform **transform[2]; // block, type
     Object[][] transform;
     CodeBook[] fullbooks;
     // backend lookups are tied to the mode, not the backend or naked mapping
@@ -72,6 +72,8 @@ public class DspState {
     byte[] header;
     byte[] header1;
     byte[] header2;
+
+    private Window _w = new Window();
 
     public DspState() {
         transform = new Object[2][];
@@ -520,8 +522,8 @@ public class DspState {
             System.arraycopy(opb.buffer, 0, backEndState.header, 0, backEndState.header.length);
             op.packetByte = backEndState.header;
             op.bytes = opb.getBytes();
-            op.b_o_s = 1;
-            op.e_o_s = 0;
+            op.b_o_s = true;
+            op.e_o_s = false;
             op.granulePos = 0;
 
             // second header packet (comments)
@@ -534,8 +536,8 @@ public class DspState {
                 System.arraycopy(opb.buffer, 0, backEndState.header1, 0, backEndState.header1.length);
                 op_comm.packetByte = backEndState.header1;
                 op_comm.bytes = opb.getBytes();
-                op_comm.b_o_s = 0;
-                op_comm.e_o_s = 0;
+                op_comm.b_o_s = false;
+                op_comm.e_o_s = false;
                 op_comm.granulePos = 0;
 
                 // third header packet (modes/codebooks)
@@ -547,8 +549,8 @@ public class DspState {
                     System.arraycopy(opb.buffer, 0, backEndState.header2, 0, backEndState.header2.length);
                     op_code.packetByte = backEndState.header2;
                     op_code.bytes = opb.getBytes();
-                    op_code.b_o_s = 0;
-                    op_code.e_o_s = 0;
+                    op_code.b_o_s = false;
+                    op_code.e_o_s = false;
                     op_code.granulePos = 0;
 
                     opb.writeClear();
@@ -583,8 +585,8 @@ public class DspState {
 
             op.packetByte = vbi.packetblob[choice].buffer;
             op.bytes = vbi.packetblob[choice].getBytes();
-            op.b_o_s = 0;
-            op.e_o_s = vb.eofFlag;
+            op.b_o_s = false;
+            op.e_o_s = vb.eofFlag != 0;
             op.granulePos = vb.granulePos;
             op.packetNo = vb.sequence; // for sake of completeness
         }
@@ -593,4 +595,331 @@ public class DspState {
         return true;
     }
 
+    /**
+     * Unlike in analysis, the window is only partially applied for each
+     * block.  The time domain envelope is not yet handled at the point of
+     * calling (as it relies on the previous block).
+     */
+    public int blockIn(Block vb) {
+        Info vi = this.vi;
+        CodecSetupInfo ci = vi.getCodecSetup();
+        PrivateState b = this.backEndState;
+        int hs = ci.halfrateFlag;
+        int i, j;
+
+        if (vb == null) return -131;
+        if (this.pcm_current > this.pcm_returned && this.pcm_returned != -1) return -131;
+
+        this.lW = this.W;
+        this.W = vb.W;
+        this.nW = -1;
+
+        if ((this.sequence == -1) || (this.sequence + 1 != vb.sequence)) {
+            this.granulepos = -1; // out of sequence; lose count
+            b.sample_count = -1;
+        }
+
+        this.sequence = vb.sequence;
+
+        if (vb.pcm != null) {
+            // no pcm to process if vorbis_synthesis_trackonly
+            // was called on block
+            int n = ci.blocksizes[this.W] >> (hs + 1);
+            int n0 = ci.blocksizes[0] >> (hs + 1);
+            int n1 = ci.blocksizes[1] >> (hs + 1);
+
+            int thisCenter;
+            int prevCenter;
+
+            this.glue_bits += vb.glue_bits;
+            this.time_bits += vb.time_bits;
+            this.floor_bits += vb.floor_bits;
+            this.res_bits += vb.res_bits;
+
+            if (this.centerW != 0) {
+                thisCenter = n1;
+                prevCenter = 0;
+            } else {
+                thisCenter = 0;
+                prevCenter = n1;
+            }
+
+            // this.pcm is now used like a two-stage double buffer.  We don't want
+            // to have to constantly shift *or* adjust memory usage.  Don't
+            // accept a new block until the old is shifted out */
+
+            for (j = 0; j < vi.channels; j++) {
+                // the overlap/add section
+                if (this.lW != 0) {
+                    if (this.W != 0) {
+                        // large/large
+                        float[] w = this._w.getWindow(b.window[1] - hs);
+                        int pcm = prevCenter; // this.pcm[j]
+                        float[] p = vb.pcm[j];
+                        for (i = 0; i < n1; i++)
+                            this.pcm[j][pcm + i] = this.pcm[j][pcm + i] * w[n1 - i - 1] + p[i] * w[i];
+                    } else {
+                        // large/small
+                        float[] w = this._w.getWindow(b.window[0] - hs);
+                        int pcm = prevCenter + n1 / 2 - n0 / 2; // this.pcm[j]
+                        float[] p = vb.pcm[j];
+                        for (i = 0; i < n0; i++)
+                            this.pcm[j][pcm + i] = this.pcm[j][pcm + i] * w[n0 - i - 1] + p[i] * w[i];
+                    }
+                } else {
+                    if (this.W != 0) {
+                        // small/large
+                        float[] w = this._w.getWindow(b.window[0] - hs);
+                        int pcm = prevCenter; // this.pcm[j]
+                        int p = n1 / 2 - n0 / 2; // vb.pcm[j]
+                        for (i = 0; i < n0; i++)
+                            this.pcm[j][pcm + i] = this.pcm[j][pcm + i] * w[n0 - i - 1] + vb.pcm[j][p + i] * w[i];
+                        for (; i < n1 / 2 + n0 / 2; i++)
+                            this.pcm[j][pcm + i] = vb.pcm[j][p + i];
+                    } else {
+                        // small/small
+                        float[] w = this._w.getWindow(b.window[0] - hs);
+                        int pcm = prevCenter; // this.pcm[j]
+                        float[] p = vb.pcm[j];
+                        for (i = 0; i < n0; i++)
+                            this.pcm[j][pcm + i] = this.pcm[j][pcm + i] * w[n0 - i - 1] + p[i] * w[i];
+                    }
+                }
+
+                // the copy section
+                {
+                    int pcm = thisCenter; // this.pcm[j]
+                    int p = n; // vb.pcm[j]
+                    for (i = 0; i < n; i++)
+                        this.pcm[j][pcm + i] = vb.pcm[j][p + i];
+                }
+            }
+
+            if (this.centerW != 0)
+                this.centerW = 0;
+            else
+                this.centerW = n1;
+
+            // deal with initial packet state; we do this using the explicit
+            // pcm_returned==-1 flag otherwise we're sensitive to first block
+            // being short or long
+
+            if (this.pcm_returned == -1) {
+                this.pcm_returned = thisCenter;
+                this.pcm_current = thisCenter;
+            } else {
+                this.pcm_returned = prevCenter;
+                this.pcm_current = prevCenter +
+                        ((ci.blocksizes[this.lW] / 4 +
+                                ci.blocksizes[this.W] / 4) >> hs);
+            }
+        }
+
+        // track the frame number... This is for convenience, but also
+        // making sure our last packet doesn't end with added padding.  If
+        // the last packet is partial, the number of samples we'll have to
+        // return will be past the vb.granulepos.
+        //
+        // This is not foolproof!  It will be confused if we begin
+        // decoding at the last page after a seek or hole.  In that case,
+        // we don't have a starting point to judge where the last frame
+        // is.  For this reason, vorbisfile will always try to make sure
+        // it reads the last two marked pages in proper sequence
+
+        if (b.sample_count == -1) {
+            b.sample_count = 0;
+        } else {
+            b.sample_count += ci.blocksizes[this.lW] / 4 + ci.blocksizes[this.W] / 4;
+        }
+
+        if (this.granulepos == -1) {
+            if (vb.granulePos != -1) { /* only set if we have a position to set to */
+
+                this.granulepos = vb.granulePos;
+
+                // is this a short page?
+                if (b.sample_count > this.granulepos) {
+                    // corner case; if this is both the first and last audio page,
+                    // then spec says the end is cut, not beginning
+                    long extra = b.sample_count - vb.granulePos;
+
+                    // we use ogg_int64_t for granule positions because a
+                    // uint64 isn't universally available.  Unfortunately,
+                    // that means granposes can be 'negative' and result in
+                    // extra being negative
+                    if (extra < 0)
+                        extra = 0;
+
+                    if (vb.eofFlag != 0) {
+                        // trim the end
+                        // no preceding granulepos; assume we started at zero (we'd
+                        // have to in a short single-page stream)
+                        // granulepos could be -1 due to a seek, but that would result
+                        // in a long count, not short count
+
+                        // Guard against corrupt/malicious frames that set EOP and
+                        // a backdated granpos; don't rewind more samples than we
+                        // actually have
+                        if (extra > (this.pcm_current - this.pcm_returned) << hs)
+                            extra = (this.pcm_current - this.pcm_returned) << hs;
+
+                        this.pcm_current -= extra >> hs;
+                    } else {
+                        // trim the beginning
+                        this.pcm_returned += extra >> hs;
+                        if (this.pcm_returned > this.pcm_current)
+                            this.pcm_returned = this.pcm_current;
+                    }
+                }
+            }
+        } else {
+            this.granulepos += ci.blocksizes[this.lW] / 4 + ci.blocksizes[this.W] / 4;
+            if (vb.granulePos != -1 && this.granulepos != vb.granulePos) {
+
+                if (this.granulepos > vb.granulePos) {
+                    long extra = this.granulepos - vb.granulePos;
+
+                    if (extra != 0)
+                        if (vb.eofFlag != 0) {
+                            // partial last frame.  Strip the extra samples off
+
+                            // Guard against corrupt/malicious frames that set EOP and
+                            // a backdated granpos; don't rewind more samples than we
+                            // actually have
+                            if (extra > (this.pcm_current - this.pcm_returned) << hs)
+                                extra = (this.pcm_current - this.pcm_returned) << hs;
+
+                            // we use ogg_int64_t for granule positions because a
+                            // uint64 isn't universally available.  Unfortunately,
+                            // that means granposes can be 'negative' and result in
+                            // extra being negative
+                            if (extra < 0)
+                                extra = 0;
+
+                            this.pcm_current -= extra >> hs;
+                        }
+                    // else {Shouldn't happen *unless* the bitstream is out of
+                    // spec.  Either way, believe the bitstream }
+                }
+                // else {Shouldn't happen *unless* the bitstream is out of
+                // spec.  Either way, believe the bitstream }
+                this.granulepos = vb.granulePos;
+            }
+        }
+
+        // Update, cleanup
+
+        if (vb.eofFlag != 0) this.eofflag = 1;
+        return 0;
+    }
+
+    /** pcm==NULL indicates we just want the pending samples, no more */
+    public int pcmOut(float[][][] pcm) {
+        Info vi = this.vi;
+
+        float[][] pcmret = new float[vi.channels][];
+        if (this.pcm_returned > -1 && this.pcm_returned < this.pcm_current) {
+            if (pcm[0] != null) {
+                int i;
+                for (i = 0; i < vi.channels; i++) {
+                    int l = pcmret[i].length - this.pcm_returned;
+                    pcmret[i] = new float[l];
+                    System.arraycopy(this.pcm[i], this.pcm_returned, pcmret[i], 0, l);
+                }
+                pcm[0] = pcmret;
+            }
+            return this.pcm_current - this.pcm_returned;
+        }
+        return 0;
+    }
+
+    public int read(int n) {
+        if (n != 0 && this.pcm_returned + n > this.pcm_current) return -131;
+        this.pcm_returned += n;
+        return 0;
+    }
+
+    /**
+     * intended for use with a specific vorbisfile feature; we want access
+     * to the [usually synthetic/postextrapolated] buffer and lapping at
+     * the end of a decode cycle, specifically, a half-short-block worth.
+     * This funtion works like pcmout above, except it will also expose
+     * this implicit buffer data not normally decoded.
+     */
+    public int lapout(float[][][] pcm) {
+        Info vi = this.vi;
+        CodecSetupInfo ci = vi.getCodecSetup();
+        int hs = ci.halfrateFlag;
+
+        int n = ci.blocksizes[this.W] >> (hs + 1);
+        int n0 = ci.blocksizes[0] >> (hs + 1);
+        int n1 = ci.blocksizes[1] >> (hs + 1);
+        int i, j;
+
+        if (this.pcm_returned < 0) return 0;
+
+        // our returned data ends at pcm_returned; because the synthesis pcm
+        // buffer is a two-fragment ring, that means our data block may be
+        // fragmented by buffering, wrapping or a short block not filling
+        // out a buffer.  To simplify things, we unfragment if it's at all
+        // possibly needed. Otherwise, we'd need to call lapout more than
+        // once as well as hold additional dsp state.  Opt for
+        // simplicity.
+
+        // centerW was advanced by blockin; it would be the center of the
+        // *next* block
+        if (this.centerW == n1) {
+            // the data buffer wraps; swap the halves
+            // slow, sure, small
+            for (j = 0; j < vi.channels; j++) {
+                float[] p = this.pcm[j];
+                for (i = 0; i < n1; i++) {
+                    float temp = p[i];
+                    p[i] = p[i + n1];
+                    p[i + n1] = temp;
+                }
+            }
+
+            this.pcm_current -= n1;
+            this.pcm_returned -= n1;
+            this.centerW = 0;
+        }
+
+        // solidify buffer into contiguous space
+        if ((this.lW ^ this.W) == 1) {
+            // long/short or short/long
+            for (j = 0; j < vi.channels; j++) {
+                float[] s = this.pcm[j];
+                int d = (n1 - n0) / 2; // this.pcm[j]
+                for (i = (n1 + n0) / 2 - 1; i >= 0; --i)
+                    s[d + i] = s[i];
+            }
+            this.pcm_returned += (n1 - n0) / 2;
+            this.pcm_current += (n1 - n0) / 2;
+        } else {
+            if (this.lW == 0) {
+                // short/short
+                for (j = 0; j < vi.channels; j++) {
+                    float[] s = this.pcm[j];
+                    int d = n1 - n0; // this.pcm[j]
+                    for (i = n0 - 1; i >= 0; --i)
+                        s[d + i] = s[i];
+                }
+                this.pcm_returned += n1 - n0;
+                this.pcm_current += n1 - n0;
+            }
+        }
+
+        float[][] pcmret = new float[vi.channels][];
+        if (pcm[0] != null) {
+            for (i = 0; i < vi.channels; i++) {
+                int l = pcmret[i].length - this.pcm_returned;
+                pcmret[i] = new float[l];
+                System.arraycopy(this.pcm[i], this.pcm_returned, pcmret[i], 0, l);
+            }
+            pcm[0] = pcmret;
+        }
+
+        return (n1 + n - this.pcm_returned);
+    }
 }

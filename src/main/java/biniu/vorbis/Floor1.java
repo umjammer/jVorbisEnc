@@ -11,8 +11,11 @@
 package biniu.vorbis;
 
 import java.util.Arrays;
+import java.util.logging.Level;
 
 import biniu.ogg.Buffer;
+import vavi.util.Debug;
+
 
 /**
  * EncoderVorbis</p>
@@ -68,6 +71,12 @@ class Floor1 extends FuncFloor {
                 opb.write(info.postlist[k + 2], rangebits);
             }
         }
+    }
+
+    @Override
+    Object unpack(Info i, Buffer opb) {
+Debug.println(Level.WARNING, "not implemented yet");
+        return null; // TODO
     }
 
     @Override

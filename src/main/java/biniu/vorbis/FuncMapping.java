@@ -24,6 +24,8 @@ abstract class FuncMapping {
 
     abstract void pack(Info info, Object imap, Buffer buffer);
 
+    abstract Object unpack(Info info, Buffer buffer);
+
     abstract Object look(DspState vd, InfoMode vm, Object m);
 
     abstract void clear(Object imap);

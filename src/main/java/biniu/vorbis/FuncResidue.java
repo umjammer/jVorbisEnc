@@ -26,7 +26,7 @@ abstract class FuncResidue {
 
     abstract void pack(Object vr, Buffer opb);
 
-    abstract LookResidue unpack(Info vi, Buffer opb);
+    abstract Object unpack(Info vi, Buffer opb);
 
     abstract LookResidue look(DspState vd, InfoMode vm, Object vr);
 

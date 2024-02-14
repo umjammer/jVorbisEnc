@@ -48,23 +48,23 @@ public class Page {
     public int body;
     public int body_len;
 
-    int version() {
+    public int version() {
         return header_base[header + 4] & 0xff;
     }
 
-    int continued() {
-        return (header_base[header + 5] & 0x01);
+    public boolean continued() {
+        return (header_base[header + 5] & 0x01) != 0;
     }
 
-    public int bos() {
-        return (header_base[header + 5] & 0x02);
+    public boolean bos() {
+        return (header_base[header + 5] & 0x02) != 0;
     }
 
     public boolean eos() {
         return ((header_base[header + 5] & 0x04) != 0);
     }
 
-    public long granulepos() {
+    public long granulePos() {
         long foo = header_base[header + 13] & 0xff;
         foo = (foo << 8) | (header_base[header + 12] & 0xff);
         foo = (foo << 8) | (header_base[header + 11] & 0xff);
@@ -76,21 +76,21 @@ public class Page {
         return foo;
     }
 
-    public int serialno() {
+    public int serialNo() {
         return (header_base[header + 14] & 0xff) |
                 ((header_base[header + 15] & 0xff) << 8) |
                 ((header_base[header + 16] & 0xff) << 16) |
                 ((header_base[header + 17] & 0xff) << 24);
     }
 
-    int pageno() {
+    public int pageNo() {
         return (header_base[header + 18] & 0xff) |
                 ((header_base[header + 19] & 0xff) << 8) |
                 ((header_base[header + 20] & 0xff) << 16) |
                 ((header_base[header + 21] & 0xff) << 24);
     }
 
-    void checksum() {
+    public void checksum() {
         int crc_reg = 0;
 
         for (int i = 0; i < header_len; i++) {
@@ -121,5 +121,36 @@ public class Page {
         p.body_base = tmp;
         p.body = 0;
         return p;
+    }
+
+    /**
+     * Calls ogg_page_packets().
+     * <p>
+     * NOTE:
+     * If a page consists of a packet begun on a previous page, and a new
+     * packet begun (but not completed) on this page, the return will be:
+     * <pre>
+     * ogg_page_packets(page)   ==1,
+     * ogg_page_continued(page) !=0
+     * </pre>
+     * If a page happens to be a single packet that was begun on a
+     * previous page, and spans to the next page (in the case of a three or
+     * more page packet), the return will be:
+     * <pre>
+     * ogg_page_packets(page)   ==0,
+     * ogg_page_continued(page) !=0
+     * </pre>
+     *
+     * @return the number of packets that are completed on this page (if
+     * the leading packet is begun on a previous page, but ends on this
+     * page, it's counted
+     */
+    public int getPackets() {
+        int n = this.header_base[26] & 0xFF;
+        int count = 0;
+        for (int i = 0; i < n; i++)
+            if ((this.header_base[27 + i] & 0xFF) < 255)
+                count++;
+        return count;
     }
 }

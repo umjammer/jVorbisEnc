@@ -10,7 +10,12 @@
 
 package biniu.vorbis;
 
+import java.util.Arrays;
+
 import biniu.ogg.Buffer;
+import biniu.ogg.Packet;
+import biniu.vorbis.modes.FloorAll;
+
 
 /**
  * EncoderVorbis</p>
@@ -197,6 +202,262 @@ public class Info {
             return -1;
         }
         return 0;
+    }
+
+    private int vorbis_unpack_comment(Comment vc, Buffer opb) {
+        int vendorlen = opb.read(32);
+        if (vendorlen < 0) {
+            vc.clear();
+            return -133;
+        }
+        if (vendorlen > opb.storage - 8) {
+            vc.clear();
+            return -133;
+        }
+        vc.vendor = new byte[vendorlen + 1];
+        opb.read(vc.vendor, vendorlen);
+        int i = opb.read(32);
+        if (i < 0) {
+            vc.clear();
+            return -133;
+        }
+        if (i > ((opb.storage - opb.getBytes()) >> 2)) {
+            vc.clear();
+            return -133;
+        }
+        vc.comments = i;
+        vc.user_comments = new byte[vc.comments + 1][vc.user_comments[0].length];
+        vc.comment_lengths = new int[vc.comments + 1];
+
+        for (i = 0; i < vc.comments; i++) {
+            int len = opb.read(32);
+            if (len < 0) {
+                vc.clear();
+                return -133;
+            }
+            if (len > opb.storage - opb.getBytes()) {
+                vc.clear();
+                return -133;
+            }
+            vc.comment_lengths[i] = len;
+            vc.user_comments[i] = new byte[len + 1];
+            opb.read(vc.user_comments[i], len);
+        }
+        if (opb.read(1) != 1) { // EOP check
+            vc.clear();
+            return -133;
+        }
+
+        return 0;
+    }
+
+    /**
+     * all of the real encoding details are here.  The modes, books,
+     * everything
+     */
+    private int vorbis_unpack_books(Info vi, Buffer opb) {
+        CodecSetupInfo ci = vi.getCodecSetup();
+        int i;
+
+        // codebooks
+        ci.books = opb.read(8) + 1;
+        if (ci.books <= 0) {
+            vi.clear();
+            return -133;
+        }
+        for (i = 0; i < ci.books; i++) {
+            StaticCodeBook scb = new StaticCodeBook();
+            int r = scb.unpack(opb);
+            if (r < 0) {
+                vi.clear();
+                return -133;
+            }
+            ci.bookParam[i] = scb;
+        }
+
+        // time backend settings; hooks are unused
+        {
+            int times = opb.read(6) + 1;
+            if (times <= 0) {
+                vi.clear();
+                return -133;
+            }
+            for (i = 0; i < times; i++) {
+                int test = opb.read(16);
+                if (test < 0 || test >= VI_TIMEB) {
+                    vi.clear();
+                    return -133;
+                }
+            }
+        }
+
+        // floor backend settings
+        ci.floors = opb.read(6) + 1;
+        if (ci.floors <= 0) {
+            vi.clear();
+            return -133;
+        }
+        for (i = 0; i < ci.floors; i++) {
+            ci.floorType[i] = opb.read(16);
+            if (ci.floorType[i] < 0 || ci.floorType[i] >= VI_FLOORB) {
+                vi.clear();
+                return -133;
+            }
+            ci.floorParam[i] = (InfoFloor1) FuncFloor.floor_P[ci.floorType[i]].unpack(vi, opb);
+            if (ci.floorParam[i] == null) {
+                vi.clear();
+                return -133;
+            }
+        }
+
+        // residue backend settings
+        ci.residues = opb.read(6) + 1;
+        if (ci.residues <= 0) {
+            vi.clear();
+            return -133;
+        }
+        for (i = 0; i < ci.residues; i++) {
+            ci.residueType[i] = opb.read(16);
+            if (ci.residueType[i] < 0 || ci.residueType[i] >= VI_RESB) {
+                vi.clear();
+                return -133;
+            }
+            ci.residueParam[i] = (InfoResidue0) FuncResidue.residue_P[ci.residueType[i]].unpack(vi, opb);
+            if (ci.residueParam[i] == null) {
+                vi.clear();
+                return -133;
+            }
+        }
+
+        // map backend settings
+        ci.maps = opb.read(6) + 1;
+        if (ci.maps <= 0) {
+            vi.clear();
+            return -133;
+        }
+        for (i = 0; i < ci.maps; i++) {
+            ci.mapType[i] = opb.read(16);
+            if (ci.mapType[i] < 0 || ci.mapType[i] >= VI_MAPB) {
+                vi.clear();
+                return -133;
+            }
+            ci.mapParam[i] = (InfoMapping0) FuncMapping.mapping_P[ci.mapType[i]].unpack(vi, opb);
+            if (ci.mapParam[i] == null) {
+                vi.clear();
+                return -133;
+            }
+        }
+
+        // mode settings
+        ci.modes = opb.read(6) + 1;
+        if (ci.modes <= 0) {
+            vi.clear();
+            return -133;
+        }
+        for (i = 0; i < ci.modes; i++) {
+            ci.modeParam[i] = new InfoMode();
+            ci.modeParam[i].blockflag = opb.read(1);
+            ci.modeParam[i].windowtype = opb.read(16);
+            ci.modeParam[i].transformtype = opb.read(16);
+            ci.modeParam[i].mapping = opb.read(8);
+
+            if (ci.modeParam[i].windowtype >= VI_WINDOWB) {
+                vi.clear();
+                return -133;
+            }
+            if (ci.modeParam[i].transformtype >= VI_WINDOWB) {
+                vi.clear();
+                return -133;
+            }
+            if (ci.modeParam[i].mapping >= ci.maps) {
+                vi.clear();
+                return -133;
+            }
+            if (ci.modeParam[i].mapping < 0) {
+                vi.clear();
+                return -133;
+            }
+        }
+
+        if (opb.read(1) != 1) { // top level EOP check
+            vi.clear();
+            return -133;
+        }
+
+        return 0;
+    }
+
+    /**
+     * The Vorbis header is in three packets; the initial small packet in
+     * the first page that identifies basic parameters, a second packet
+     * with bitstream comments and a third packet that holds the
+     * codebook.
+     */
+    public int headerIn(Comment vc, Packet op) {
+        Buffer opb = new Buffer();
+
+        if (op != null) {
+            opb.readInit(op.packetByte, 0, op.bytes);
+
+            // Which of the three types of header is this?
+            // Also verify header-ness, vorbis
+            {
+                byte[] buffer = new byte[6];
+                int packtype = opb.read(8);
+                Arrays.fill(buffer, 0, 6, (byte) 0);
+                opb.read(buffer, 6);
+                if (!Arrays.equals(buffer, "vorbis".getBytes())) {
+                    // not a vorbis header
+                    return -132;
+                }
+                switch (packtype) {
+                case 0x01: // least significant *bit* is read first
+                    if (!op.b_o_s) {
+                        // Not the initial packet
+                        return -133;
+                    }
+                    if (this.rate != 0) {
+                        // previously initialized info header
+                        return -133;
+                    }
+
+                    return this.unpack_info(opb);
+
+                case 0x03: // least significant *bit* is read first
+                    if (this.rate == 0) {
+                        // um... we didn't get the initial header
+                        return -133;
+                    }
+                    if (vc.vendor != null) {
+                        // previously initialized comment header
+                        return -133;
+                    }
+
+                    return vorbis_unpack_comment(vc, opb);
+
+                case 0x05: // least significant *bit* is read first
+                    if (this.rate == 0 || vc.vendor == null) {
+                        // um... we didn;t get the initial header or comments yet
+                        return -133;
+                    }
+                    if (this.getCodecSetup() == null) {
+                        // improperly initialized vorbis_info
+                        return -129;
+                    }
+                    if (((CodecSetupInfo) this.getCodecSetup()).books > 0) {
+                        // previously initialized setup header
+                        return -133;
+                    }
+
+                    return vorbis_unpack_books(this, opb);
+
+                default:
+                    // Not a valid vorbis header type
+                    return -133;
+                }
+            }
+        }
+        return -133;
     }
 
     public boolean packBooks(Buffer opb) {
