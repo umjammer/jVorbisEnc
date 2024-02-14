@@ -22,9 +22,9 @@ import biniu.ogg.Buffer;
  */
 class CodeBook {
 
-    // codebook dimensions (elements per vector)
+    /** codebook dimensions (elements per vector) */
     int dim;
-    // codebook entries
+    /** codebook entries */
     int entries;
     int used_entries;
     StaticCodeBook c = new StaticCodeBook();
@@ -405,7 +405,7 @@ class CodeBook {
      * for length ordered or unordered, always assigns the lowest valued
      * codewords first.  Extended to handle unused entries (length 0)
      */
-    private int[] makeWords(int[] l, int n, int sparsecount) {
+    private static int[] makeWords(int[] l, int n, int sparsecount) {
         int i, j, count = 0;
         int[] marker = new int[33];
         int[] r = new int[sparsecount != 0 ? sparsecount : n];
@@ -554,7 +554,7 @@ class CodeBook {
      * that's portable and totally safe against roundoff, but I haven't
      * thought of it.  Therefore, we opt on the side of caution
      */
-    private int bookMaptype1Quantvals(StaticCodeBook b) {
+    private static int bookMaptype1Quantvals(StaticCodeBook b) {
         int vals = (int) Math.floor(Math.pow(b.entries, (double) 1.f / b.dim));
 
         // the above *should* be reliable, but we'll not assume that FP is

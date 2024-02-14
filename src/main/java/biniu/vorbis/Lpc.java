@@ -19,7 +19,7 @@ package biniu.vorbis;
 public class Lpc {
 
     // en/decode lookups
-    private Drft fft = new Drft();
+    private final Drft fft = new Drft();
 
     private int ln;
     private int m;
@@ -35,13 +35,14 @@ public class Lpc {
         fft.clear();
     }
 
-    // One can do this the long way by generating the transfer function in
-    // the time domain and taking the forward FFT of the result.  The
-    // results from direct calculation are cleaner and faster.
-    //
-    // This version does a linear curve generation and then later
-    // interpolates the log curve from the linear curve.
-
+    /**
+     * One can do this the long way by generating the transfer function in
+     * the time domain and taking the forward FFT of the result.  The
+     * results from direct calculation are cleaner and faster.
+     * <p>
+     * This version does a linear curve generation and then later
+     * interpolates the log curve from the linear curve.
+     */
     public void lpcToCurve(float[] curve, float[] lpc, float amp) {
 
         for (int i = 0; i < ln * 2; i++) curve[i] = 0.0f;
@@ -69,9 +70,10 @@ public class Lpc {
         }
     }
 
-    // Input : n element envelope spectral curve
-    // Output: m lpc coefficients, excitation energy
-
+    /**
+     * Input : n element envelope spectral curve
+     * Output: m lpc coefficients, excitation energy
+     */
     public float lpcFromCurve(float[] curve, float[] lpc) {
         int n = ln;
         float[] work = new float[n + n];
@@ -101,12 +103,13 @@ public class Lpc {
         return (lpcFromData(work, 0, lpc, n, m));
     }
 
-    // Autocorrelation LPC coeff generation algorithm invented by
-    // N. Levinson in 1947, modified by J. Durbin in 1959.
-
-    // Input : n elements of time doamin data
-    // Output: m lpc coefficients, excitation energy
-
+    /**
+     * Autocorrelation LPC coeff generation algorithm invented by
+     * N. Levinson in 1947, modified by J. Durbin in 1959.
+     *
+     * Input : n elements of time doamin data
+     * Output: m lpc coefficients, excitation energy
+     */
     static float lpcFromData(float[] data, int ndata, float[] lpc, int n, int m) {
         double[] aut = new double[m + 1];
         double error;
@@ -216,12 +219,13 @@ public class Lpc {
         return (float) error;
     }
 
+    /**
+     * in: coeff[0...m-1] LPC coefficients
+     *     prime[0...m-1] initial values (allocated size of n+m-1)
+     * out: data[0...n-1] data samples
+     */
     static void lpcPredict(float[] coeff, float[] prime, int nprime, int m,
                            float[] data, int ndata, int n) {
-
-    /* in: coeff[0...m-1] LPC coefficients
-           prime[0...m-1] initial values (allocated size of n+m-1)
-      out: data[0...n-1] data samples */
 
         int i, j, o, p;
         float y;
@@ -242,12 +246,13 @@ public class Lpc {
         }
     }
 
+    /**
+     * in: coeff[0...m-1] LPC coefficients
+     *     prime[0...m-1] initial values (allocated size of n+m-1)
+     * out: data[0...n-1] data samples
+     */
     static void lpcPredictZ(float[] coeff, float[] prime, int nprime, int m,
                             float[] data, int ndata, int n) {
-
-    /* in: coeff[0...m-1] LPC coefficients
-           prime[0...m-1] initial values (allocated size of n+m-1)
-      out: data[0...n-1] data samples */
 
         int i, j, o, p;
         float y;
@@ -266,8 +271,7 @@ public class Lpc {
         }
     }
 
-    private float fastHypot(float a, float b) {
-        return (float) Math.sqrt((a) * (a) + (b) * (b));
+    private static float fastHypot(float a, float b) {
+        return (float) Math.sqrt(a * a + b * b);
     }
-
 }

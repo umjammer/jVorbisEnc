@@ -242,7 +242,7 @@ class Residue0 extends FuncResidue {
         return 0;
     }
 
-    protected int _2inverse(Block vb, Object vl, float[][] in, int ch) {
+    protected static int _2inverse(Block vb, Object vl, float[][] in, int ch) {
         int i, j, k, l, s;
         LookResidue look = (LookResidue) vl;
         InfoResidue0 info = look.info;
@@ -301,7 +301,7 @@ class Residue0 extends FuncResidue {
             return 0;
     }
 
-    private int iLog(int v) {
+    private static int iLog(int v) {
         int ret = 0;
         while (v != 0) {
             ret++;
@@ -310,7 +310,7 @@ class Residue0 extends FuncResidue {
         return ret;
     }
 
-    private int iCount(int v) {
+    private static int iCount(int v) {
         int ret = 0;
         while (v != 0) {
             ret += (v & 1);
@@ -332,7 +332,7 @@ class Residue0 extends FuncResidue {
 
     }
 
-    protected final int[][] _01class(LookResidue vl, float[][] in, int pin, int ch) {
+    protected static int[][] _01class(LookResidue vl, float[][] in, int pin, int ch) {
         int i, j, k;
         LookResidue look = vl;
         InfoResidue0 info = look.info;
@@ -361,7 +361,7 @@ class Residue0 extends FuncResidue {
                 float ent = 0.f;
                 for (k = 0; k < samples_per_partition; k++) {
                     if (Math.abs(in[j][offset + k]) > max) max = Math.abs(in[j][offset + k]);
-                    ent = (float) (ent + Math.abs(Math.rint((double) (in[j][offset + k]))));
+                    ent = (float) (ent + Math.abs(Math.rint(in[j][offset + k])));
                 }
                 ent *= scale;
 
@@ -476,8 +476,8 @@ class Residue0 extends FuncResidue {
         return 0;
     }
 
-    private int _encodepart(Buffer opb, float[] vec, int pvec, int n,
-                            CodeBook book, int[] acc) {
+    private static int _encodepart(Buffer opb, float[] vec, int pvec, int n,
+                                   CodeBook book, int[] acc) {
         int i, bits = 0;
         int dim = book.dim;
         int step = n / dim;
@@ -491,7 +491,7 @@ class Residue0 extends FuncResidue {
     }
 
     /** break an abstraction and copy some code for performance purposes */
-    private int bookBestError(CodeBook book, float[] a, int pa) {
+    private static int bookBestError(CodeBook book, float[] a, int pa) {
 
         int dim = book.dim, i, k, o;
         int best = 0;

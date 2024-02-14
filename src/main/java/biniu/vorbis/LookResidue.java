@@ -32,7 +32,7 @@ public class LookResidue {
 
     public int postbits;
     public int phrasebits;
-    //  int[][]     frames;
+//    int[][] frames;
     public int frames;
 
     public LookResidue() {

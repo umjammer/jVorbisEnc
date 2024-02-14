@@ -18,23 +18,25 @@ package biniu.vorbis;
  */
 public class PrivateState {
 
-    /* local lookup storage */
-    public EnvelopeLookUp enveLook; /* envelope lookup */
+    // local lookup storage
+    /** envelope lookup */
+    public EnvelopeLookUp enveLook;
     public int[] window = new int[2];
-    public Mdct[][] transform; /* block, type */
+    /** block, type */
+    public Mdct[][] transform;
     public DrftLookup[] fftLook = {new DrftLookup(), new DrftLookup()};
 
     public int modeBits;
-    //    vorbis_look_floor     **flr;
+//vorbis_look_floor** flr;
     Object[] flr;
     LookResidue[] residue;
     PsyLook[] psy;
     public LookPsyGlobal psyGlobLook;
 
-    /* local storage, only used on the encoding side.  This way the
-       application does not need to worry about freeing some packets'
-       memory and not others'; packet storage is always tracked.
-       Cleared next call to a _dsp_ function */
+    // local storage, only used on the encoding side.  This way the
+    // application does not need to worry about freeing some packets'
+    // memory and not others'; packet storage is always tracked.
+    // Cleared next call to a _dsp_ function
     byte[] header;
     byte[] header1;
     byte[] header2;
@@ -49,5 +51,4 @@ public class PrivateState {
         this.psyGlobLook = new LookPsyGlobal();
         this.bms = new BitrateManagerState();
     }
-
 }

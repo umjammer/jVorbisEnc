@@ -45,13 +45,13 @@ public class Lsp {
             }
 
             if ((m & 1) != 0) {
-                /* odd order filter; slightly assymetric */
-                /* the last coefficient */
+                // odd order filter; slightly assymetric
+                // the last coefficient
                 q *= lsp[m - 1] - w;
                 q *= q;
                 p *= p * (1.f - w * w);
             } else {
-                /* even order filter; still symmetric */
+                // even order filter; still symmetric
                 q *= q * (1.f + w);
                 p *= p * (1.f - w);
             }
@@ -64,8 +64,8 @@ public class Lsp {
             if (ix >= 0x7f800000 || (ix == 0)) {
                 // 0,inf,nan
             } else {
-                if (ix < 0x00800000) {            // subnormal
-                    q = (float) (q * 3.3554432000e+07);        // 0x4c000000
+                if (ix < 0x00800000) { // subnormal
+                    q = (float) (q * 3.3554432000e+07); // 0x4c000000
                     hx = Float.floatToIntBits(q);
                     ix = 0x7fffffff & hx;
                     qexp = -25;
@@ -82,7 +82,6 @@ public class Lsp {
             do {
                 curve[i++] *= q;
             } while (i < n && map[i] == k);
-
         }
     }
 }

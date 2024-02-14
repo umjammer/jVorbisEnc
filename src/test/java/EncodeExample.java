@@ -120,7 +120,7 @@ public class EncodeExample {
         // set up our packet.stream encoder
         // pick a random serial number; that way we can more likely build
         // chained streams just by concatenation
-        Random rand = new Random(314159265358979L); // for test
+        Random rand = new Random(314159265358979L); // fixed seed for test
         state.init(rand.nextInt());
 
         // Vorbis streams begin with three headers; the initial header (with
@@ -152,9 +152,8 @@ public class EncodeExample {
         }
 
         while (!eos) {
-            int bytes = 0;
             // stereo hardwired here
-            bytes = in.read(readBuffer, 0, READ * 4);
+            int bytes = in.read(readBuffer, 0, READ * 4);
             if (bytes == 0) {
                 // end of file.  this can be done implicitly in the mainline,
                 // but it's easier to see here in non-clever fashion.
@@ -170,10 +169,8 @@ public class EncodeExample {
 
                 // uninterleave samples
                 for (int i = 0, l = dsp.pcm_current; i < bytes / 4; i++, l++) {
-                    buffer[0][l] = ((readBuffer[i * 4 + 1] << 8) |
-                            (0x00ff & (int) readBuffer[i * 4])) / 32768.f;
-                    buffer[1][l] = ((readBuffer[i * 4 + 3] << 8) |
-                            (0x00ff & (int) readBuffer[i * 4 + 2])) / 32768.f;
+                    buffer[0][l] = ((readBuffer[i * 4 + 1] << 8) | (0x00ff & (int) readBuffer[i * 4])) / 32768.f;
+                    buffer[1][l] = ((readBuffer[i * 4 + 3] << 8) | (0x00ff & (int) readBuffer[i * 4 + 2])) / 32768.f;
                 }
 
                 // tell the library how much we actually submitted

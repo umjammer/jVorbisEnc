@@ -189,18 +189,16 @@ public class StaticCodeBook {
             opb.write(q_sequencep, 1);
 
         {
-            int quantvals = 0;
-            switch (maptype) {
-            case 1:
-                // a single column of (c->entries/c->dim) quantized values for
-                // building a full value list algorithmically (square lattice)
-                quantvals = maptype1_quantvals();
-                break;
-            case 2:
-                // every value (c->entries*c->dim total) specified explicitly
-                quantvals = entries * dim;
-                break;
-            }
+            int quantvals = switch (maptype) {
+                case 1 ->
+                    // a single column of (c->entries/c->dim) quantized values for
+                    // building a full value list algorithmically (square lattice)
+                        maptype1_quantvals();
+                case 2 ->
+                    // every value (c->entries*c->dim total) specified explicitly
+                        entries * dim;
+                default -> 0;
+            };
 
             // quantized values
             for (i = 0; i < quantvals; i++) {
@@ -308,15 +306,11 @@ public class StaticCodeBook {
             q_sequencep = opb.read(1);
 
         {
-            int quantvals = 0;
-            switch (maptype) {
-            case 1:
-                quantvals = maptype1_quantvals();
-                break;
-            case 2:
-                quantvals = entries * dim;
-                break;
-            }
+            int quantvals = switch (maptype) {
+                case 1 -> maptype1_quantvals();
+                case 2 -> entries * dim;
+                default -> 0;
+            };
             // quantized values
             quantlist = new int[quantvals];
             for (i = 0; i < quantvals; i++) {
@@ -406,7 +400,7 @@ public class StaticCodeBook {
     static final int VQ_FEXP_BIAS = 768; // bias toward values smaller than 1.
 
     // doesn't currently guard under/overflow
-    private long float32_pack(float val) {
+    private static long float32_pack(float val) {
         int sign = 0;
         int exp;
         int mant;
@@ -429,7 +423,7 @@ public class StaticCodeBook {
         return (ldexp(mant, ((int) exp) - (VQ_FMAN - 1) - VQ_FEXP_BIAS));
     }
 
-    private float ldexp(float foo, int e) {
+    private static float ldexp(float foo, int e) {
         return (float) (foo * Math.pow(2, e));
     }
 }

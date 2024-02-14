@@ -136,18 +136,21 @@ class LookPsy {
             1.20790F, 1.13419F, 1.06499F, 1.F
     };
 
-    private static int EHMER_MAX = 56;
-    private static int EHMER_OFFSET = 16;
+    private static final int EHMER_MAX = 56;
+    private static final int EHMER_OFFSET = 16;
 
     // psychoacoustic setup
 
-    private static int P_BANDS = 17;      /* 62Hz to 16kHz */
-    private static int P_LEVELS = 8;      /* 30dB to 100dB */
-    private static float P_LEVEL_0 = 30.f;    /* 30 dB */
-    private static int P_NOISECURVES = 3;
+    /** 62Hz to 16kHz */
+    private static final int P_BANDS = 17;
+    /** 30dB to 100dB */
+    private static final int P_LEVELS = 8;
+    /** 30 dB */
+    private static final float P_LEVEL_0 = 30.f;
+    private static final int P_NOISECURVES = 3;
 
-    private static int NOISE_COMPAND_LEVELS = 40;
-    private static float NEGINF = -9999.f;
+    private static final int NOISE_COMPAND_LEVELS = 40;
+    private static final float NEGINF = -9999.f;
 
     int n;
     PsyInfo vi;
@@ -156,23 +159,22 @@ class LookPsy {
     float[][] noiseoffset;
 
     float[] ath;
-    int[] octave;             /* in n.ocshift format */
+    /** in n.ocshift format */
+    int[] octave;
     int[] bark;
 
     int firstoc;
     int shiftoc;
-    int eighth_octave_lines; /* power of two, please */
+    /** power of two, please */
+    int eighth_octave_lines;
     int total_octave_lines;
-    int rate; /* cache it */
+    /** cache it */
+    int rate;
 
-    float m_val; /* Masking compensation value */
+    /** Masking compensation value */
+    float m_val;
 
-    float max(float x, float y) {
-        return ((x) < (y) ? (y) : (x));
-    }
-
-    public void noiseNormalizeSort(float[] magnitudes,
-                                   int[] sortedindex) {
+    public void noiseNormalizeSort(float[] magnitudes, int[] sortedindex) {
         int i, j, n = this.n;
         PsyInfo vi = this.vi;
         int partition = vi.normal_partition;
@@ -191,9 +193,7 @@ class LookPsy {
         }
     }
 
-    public int[][] quantizeCoupleSort(Block vb,
-                                      InfoMapping0 vi,
-                                      float[][] mags) {
+    public int[][] quantizeCoupleSort(Block vb, InfoMapping0 vi, float[][] mags) {
 
         if (this.vi.normal_point_p != 0) {
             int i, j, k, n = this.n;
@@ -219,9 +219,11 @@ class LookPsy {
         return null;
     }
 
-    /* doing the real circular magnitude calculation is audibly superior
-       to (A+B)/sqrt(2) */
-    float dipole_hypot(float a, float b) {
+    /**
+     * doing the real circular magnitude calculation is audibly superior
+     * to (A+B)/sqrt(2)
+     */
+    static float dipole_hypot(float a, float b) {
         if (a > 0.) {
             if (b > 0.) return (float) Math.sqrt(a * a + b * b);
             if (a > -b) return (float) Math.sqrt(a * a - b * b);
@@ -243,7 +245,7 @@ class LookPsy {
         return (float) Math.sqrt(b * b + a * a);
     }
 
-    /* revert to round hypot for now */
+    /** revert to round hypot for now */
     public float[][] quantizeCoupleMemo(Block vb,
                                         InfoPsyGlobal g,
                                         InfoMapping0 vi,
@@ -266,7 +268,7 @@ class LookPsy {
         return ret;
     }
 
-    /* AoTuV */
+    // AoTuV
 
     /**
      * @ M2 **
@@ -283,13 +285,13 @@ class LookPsy {
         int start = this.vi.normal_start;
 
         for (i = 0; i < vi.coupling_steps; i++) {
-            /* for(j=start; j<limit; j++){} // ???*/
+            // for(j=start; j<limit; j++){} // ???
             for (j = limit; j < n; j++)
                 mdct[i][j] = (float) (mdct[i][j] * (1.0 - de * ((float) (j - limit) / (float) (n - limit))));
         }
     }
 
-    float unitnorm(float x) {
+    static float unitnorm(float x) {
         long ix = (long) x;
         ix = (ix & 0x80000000L) | (0x3f800000);
         return x;
@@ -340,7 +342,6 @@ class LookPsy {
 
         for (; j < n; j++)
             out[j + pout] = (float) Math.rint(in[j]);
-
     }
 
     void removeFloor(float[] mdct,
@@ -368,7 +369,7 @@ class LookPsy {
                              float[] mdct,
                              float[] logmdct) {
         int i, n = this.n;
-        float de, coeffi, cx;/* AoTuV */
+        float de, coeffi, cx; // AoTuV
         float toneatt = this.vi.tone_masteratt[offset_select];
 
         cx = this.m_val;
@@ -376,43 +377,41 @@ class LookPsy {
         for (i = 0; i < n; i++) {
             float val = noise[i] + this.noiseoffset[offset_select][i];
             if (val > this.vi.noisemaxsupp) val = this.vi.noisemaxsupp;
-            logmask[i] = max(val, tone[i] + toneatt);
+            logmask[i] = Math.max(val, tone[i] + toneatt);
 
-            /* AoTuV */
-            /** @ M1 **
-             The following codes improve a noise problem.
-             A fundamental idea uses the value of masking and carries out
-             the relative compensation of the MDCT.
-             However, this code is not perfect and all noise problems cannot be solved.
-             by Aoyumi @ 2004/04/18
-             */
+            // AoTuV
+            // @ M1
+            // The following codes improve a noise problem.
+            // A fundamental idea uses the value of masking and carries out
+            // the relative compensation of the MDCT.
+            // However, this code is not perfect and all noise problems cannot be solved.
+            // by Aoyumi @ 2004/04/18
 
             if (offset_select == 1) {
-                coeffi = -17.2f;       /* coeffi is a -17.2dB threshold */
-                val = val - logmdct[i];  /* val == mdct line value relative to floor in dB */
+                coeffi = -17.2f; // coeffi is a -17.2dB threshold
+                val = val - logmdct[i]; // val == mdct line value relative to floor in dB
 
                 if (val > coeffi) {
-                    /* mdct value is > -17.2 dB below floor */
+                    // mdct value is > -17.2 dB below floor
 
                     de = 1.0f - ((val - coeffi) * 0.005f * cx);
-        /* pro-rated attenuation:
-           -0.00 dB boost if mdct value is -17.2dB (relative to floor)
-           -0.77 dB boost if mdct value is 0dB (relative to floor)
-           -1.64 dB boost if mdct value is +17.2dB (relative to floor)
-           etc... */
+                    // pro-rated attenuation:
+                    // -0.00 dB boost if mdct value is -17.2dB (relative to floor)
+                    // -0.77 dB boost if mdct value is 0dB (relative to floor)
+                    // -1.64 dB boost if mdct value is +17.2dB (relative to floor)
+                    // etc...
 
                     if (de < 0) de = 0.0001f;
                 } else
-                    /* mdct value is <= -17.2 dB below floor */
+                    // mdct value is <= -17.2 dB below floor
 
                     de = 1.0f - ((val - coeffi) * 0.0003f * cx);
-      /* pro-rated attenuation:
-         +0.00 dB atten if mdct value is -17.2dB (relative to floor)
-         +0.45 dB atten if mdct value is -34.4dB (relative to floor)
-         etc... */
+                // pro-rated attenuation:
+                // +0.00 dB atten if mdct value is -17.2dB (relative to floor)
+                // +0.45 dB atten if mdct value is -34.4dB (relative to floor)
+                // etc...
 
                 mdct[i] *= de;
-
             }
         }
     }
@@ -438,7 +437,6 @@ class LookPsy {
             if (dB < 0) dB = 0;
             logmask[i] = work[i] + this.vi.noisecompand[dB];
         }
-
     }
 
     public void toneMask(float[] logfft,
@@ -452,20 +450,19 @@ class LookPsy {
         float att = local_specmax + this.vi.ath_adjatt;
         for (i = 0; i < this.total_octave_lines; i++) seed[i] = NEGINF;
 
-  /* set the ATH (floating below localmax, not global max by a
-     specified att) */
+        // set the ATH (floating below localmax, not global max by a
+        // specified att)
         if (att < this.vi.ath_maxatt) att = this.vi.ath_maxatt;
 
         for (i = 0; i < n; i++)
             logmask[i] = this.ath[i] + att;
 
-        /* tone masking */
+        // tone masking
         seed_loop(this.tonecurves, logfft, logmask, seed, global_specmax);
         max_seeds(seed, logmask);
-
     }
 
-    /* bleaugh, this is more complicated than it needs to be */
+    /** bleaugh, this is more complicated than it needs to be */
     void max_seeds(float[] seed,
                    float[] flr) {
         int n = this.total_octave_lines;
@@ -473,7 +470,7 @@ class LookPsy {
         int linpos = 0;
         int pos;
 
-        seed_chase(seed, linesper, n); /* for masking */
+        seed_chase(seed, linesper, n); // for masking
 
         pos = this.octave[0] - this.firstoc - (linesper >> 1);
 
@@ -497,20 +494,19 @@ class LookPsy {
             for (; linpos < this.n; linpos++)
                 if (flr[linpos] < minV) flr[linpos] = minV;
         }
-
     }
 
-    void bark_noise_hybridmp(int n, int[] b,
-                             float[] f,
-                             float[] noise,
-                             float offset,
-                             int fixed) {
+    static void bark_noise_hybridmp(int n, int[] b,
+                                    float[] f,
+                                    float[] noise,
+                                    float offset,
+                                    int fixed) {
 
-//    float[] N=alloca(n*sizeof(*N));
-//    float[] X=alloca(n*sizeof(*N));
-//    float[] XX=alloca(n*sizeof(*N));
-//    float[] Y=alloca(n*sizeof(*N));
-//    float[] XY=alloca(n*sizeof(*N));
+//float[] N=alloca(n*sizeof(*N));
+//float[] X=alloca(n*sizeof(*N));
+//float[] XX=alloca(n*sizeof(*N));
+//float[] Y=alloca(n*sizeof(*N));
+//float[] XY=alloca(n*sizeof(*N));
         float[] N = new float[n];
         float[] X = new float[n];
         float[] XX = new float[n];
@@ -656,24 +652,24 @@ class LookPsy {
         }
     }
 
-    /* octave/(8*eighth_octave_lines) x scale and dB y scale */
-    void seed_curve(float[] seed,
-                    float[][] curves,
-                    float amp,
-                    int oc, int n,
-                    int linesper, float dBoffset) {
+    /** octave/(8*eighth_octave_lines) x scale and dB y scale */
+    static void seed_curve(float[] seed,
+                           float[][] curves,
+                           float amp,
+                           int oc, int n,
+                           int linesper, float dBoffset) {
         int i, post1;
         int seedptr;
         float[] posts;
         float[] curve;
 
         int choice = (int) ((amp + dBoffset - P_LEVEL_0) * .1f);
-//b    choice=max(choice,0);
+//choice = max(choice, 0);
         choice = Math.max(choice, 0);
-//b    choice=min(choice,P_LEVELS-1);
+//choice = min(choice, P_LEVELS-1);
         choice = Math.min(choice, P_LEVELS - 1);
         posts = curves[choice];
-//    curve=posts+2;
+//curve = posts + 2;
         curve = new float[posts.length - 2];
         System.arraycopy(posts, 2, curve, 0, curve.length);
         post1 = (int) posts[1];
@@ -698,7 +694,7 @@ class LookPsy {
         int n = this.n, i;
         float dBoffset = vi.max_curve_dB - specmax;
 
-        /* prime the working vector with peak values */
+        // prime the working vector with peak values
 
         for (i = 0; i < n; i++) {
             float max = f[i];
@@ -725,7 +721,7 @@ class LookPsy {
         }
     }
 
-    private void seed_chase(float[] seeds, int linesper, int n) {
+    private static void seed_chase(float[] seeds, int linesper, int n) {
         int[] posstack = new int[n];
         float[] ampstack = new float[n];
         int stack = 0;
@@ -746,7 +742,7 @@ class LookPsy {
                         if (i < posstack[stack - 1] + linesper) {
                             if (stack > 1 && ampstack[stack - 1] <= ampstack[stack - 2] &&
                                     i < posstack[stack - 2] + linesper) {
-                                /* we completely overlap, making stack-1 irrelevant.  pop it */
+                                // we completely overlap, making stack-1 irrelevant.  pop it
                                 stack--;
                                 continue;
                             }
@@ -760,25 +756,25 @@ class LookPsy {
             }
         }
 
-  /* the stack now contains only the positions that are relevant. Scan
-     'em straight through */
+        // the stack now contains only the positions that are relevant. Scan
+        // 'em straight through
 
         for (i = 0; i < stack; i++) {
             long endpos;
             if (i < stack - 1 && ampstack[i + 1] > ampstack[i]) {
                 endpos = posstack[i + 1];
             } else {
-                endpos = posstack[i] + linesper + 1; /* +1 is important, else bin 0 is
-                                        discarded in short frames */
+                // +1 is important, else bin 0 is
+                // discarded in short frames
+                endpos = posstack[i] + linesper + 1;
             }
             if (endpos > n) endpos = n;
             for (; pos < endpos; pos++)
                 seeds[pos] = ampstack[i];
         }
 
-  /* there.  Linear time.  I now remember this was on a problem set I
-     had in Grad Skool... I didn't solve it at the time ;-) */
-
+        // there.  Linear time.  I now remember this was on a problem set I
+        // had in Grad Skool... I didn't solve it at the time ;-)
     }
 
     static float[] stereo_threshholds = {0.0f, .5f, 1.0f, 1.5f, 2.5f, 4.5f, 8.5f, 16.5f, 9e10f};
@@ -796,20 +792,20 @@ class LookPsy {
 
         int i, j, k, n = this.n;
 
-        /* perform any requested channel coupling */
-  /* point stereo can only be used in a first stage (in this encoder)
-     because of the dependency on floor lookups */
+        // perform any requested channel coupling
+        // point stereo can only be used in a first stage (in this encoder)
+        // because of the dependency on floor lookups
         for (i = 0; i < vi.coupling_steps; i++) {
 
-    /* once we're doing multistage coupling in which a channel goes
-       through more than one coupling step, the floor vector
-       magnitudes will also have to be recalculated a propagated
-       along with PCM.  Right now, we're not (that will wait until 5.1
-       most likely), so the code isn't here yet. The memory management
-       here is all assuming single depth couplings anyway. */
+            // once we're doing multistage coupling in which a channel goes
+            // through more than one coupling step, the floor vector
+            // magnitudes will also have to be recalculated a propagated
+            // along with PCM.  Right now, we're not (that will wait until 5.1
+            // most likely), so the code isn't here yet. The memory management
+            // here is all assuming single depth couplings anyway.
 
-    /* make sure coupling a zero and a nonzero channel results in two
-       nonzero channels. */
+            // make sure coupling a zero and a nonzero channel results in two
+            // nonzero channels.
             if ((nonzero[vi.coupling_mag[i]] != 0) ||
                     (nonzero[vi.coupling_ang[i]] != 0)) {
 
@@ -826,7 +822,7 @@ class LookPsy {
                 nonzero[vi.coupling_mag[i]] = 1;
                 nonzero[vi.coupling_ang[i]] = 1;
 
-                /* The threshold of a stereo is changed with the size of n */
+                // The threshold of a stereo is changed with the size of n
                 if (n > 1000)
                     postpoint = stereo_threshholds_limited[g.coupling_postpointamp[blobno]];
 
@@ -882,9 +878,7 @@ class LookPsy {
             -0.159093f, -0.175146f, -0.192286f, -0.210490f,
             -0.229718f, -0.249913f, -0.271001f, -0.292893f};
 
-    float precomputed_couple_point(float premag,
-                                   int floorA, int floorB,
-                                   float mag) {
+    static float precomputed_couple_point(float premag, int floorA, int floorB, float mag) {
 
         int test = (floorA > floorB) ? -1 : 0;
         int offset = 31 - Math.abs(floorA - floorB);
@@ -896,8 +890,7 @@ class LookPsy {
         return mag;
     }
 
-    private void couple_lossless(float A, float B,
-                                 Parax q) {
+    private static void couple_lossless(float A, float B, Parax q) {
         int test1 = (Math.abs(q.A) > Math.abs(q.B)) ? 1 : 0;
         test1 -= (Math.abs(q.A) < Math.abs(q.B)) ? 1 : 0;
 
@@ -915,7 +908,6 @@ class LookPsy {
             q.A = -q.A;
         }
     }
-
 }
 
 class Parax {

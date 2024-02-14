@@ -18,7 +18,7 @@ package biniu.ogg;
  */
 public class Page {
 
-    private static int[] crc_lookup = new int[256];
+    private static final int[] crc_lookup = new int[256];
 
     static {
         for (int i = 0; i < crc_lookup.length; i++) {

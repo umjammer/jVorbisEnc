@@ -19,10 +19,9 @@ package biniu.vorbis;
  */
 public class Noise3 {
 
-    int[][] data = new int[Psy.P_NOISECURVES][17];
+    int[][] data; // = new int[Psy.P_NOISECURVES][17];
 
     public Noise3(int[][] data) {
         this.data = data;
     }
-
 }

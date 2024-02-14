@@ -18,39 +18,39 @@ package biniu.vorbis;
  */
 class PsyLook {
 
-  /* more detailed ATH; the bass if flat to save stressing the floor
-   overly for only a bin or two of savings. */
+    // more detailed ATH; the bass if flat to save stressing the floor
+    // overly for only a bin or two of savings.
 
     static int MAX_ATH = 88;
     static float[] ATH = {
-            /*15*/  -51, -52, -53, -54, -55, -56, -57, -58,
-            /*31*/  -59, -60, -61, -62, -63, -64, -65, -66,
-            /*63*/  -67, -68, -69, -70, -71, -72, -73, -74,
-            /*125*/ -75, -76, -77, -78, -80, -81, -82, -83,
-            /*250*/ -84, -85, -86, -87, -88, -88, -89, -89,
-            /*500*/ -90, -91, -91, -92, -93, -94, -95, -96,
-            /*1k*/  -96, -97, -98, -98, -99, -99, -100, -100,
-            /*2k*/ -101, -102, -103, -104, -106, -107, -107, -107,
-            /*4k*/ -107, -105, -103, -102, -101, -99, -98, -96,
-            /*8k*/  -95, -95, -96, -97, -96, -95, -93, -90,
-            /*16k*/ -80, -70, -50, -40, -30, -30, -30, -30
+            /* 15 */  -51, -52, -53, -54, -55, -56, -57, -58,
+            /* 31 */  -59, -60, -61, -62, -63, -64, -65, -66,
+            /* 63 */  -67, -68, -69, -70, -71, -72, -73, -74,
+            /* 125 */ -75, -76, -77, -78, -80, -81, -82, -83,
+            /* 250 */ -84, -85, -86, -87, -88, -88, -89, -89,
+            /* 500 */ -90, -91, -91, -92, -93, -94, -95, -96,
+            /* 1k */  -96, -97, -98, -98, -99, -99, -100, -100,
+            /* 2k */ -101, -102, -103, -104, -106, -107, -107, -107,
+            /* 4k */ -107, -105, -103, -102, -101, -99, -98, -96,
+            /* 8k */  -95, -95, -96, -97, -96, -95, -93, -90,
+            /* 16k */ -80, -70, -50, -40, -30, -30, -30, -30
     };
 
-  /* The tone masking curves from Ehmer's and Fielder's papers have been
-     replaced by an empirically collected data set.  The previously
-     published values were, far too often, simply on crack. */
+    // The tone masking curves from Ehmer's and Fielder's papers have been
+    // replaced by an empirically collected data set.  The previously
+    // published values were, far too often, simply on crack. */
 
-    private static int EHMER_MAX = 56;
-    private static int EHMER_OFFSET = 16;
+    private static final int EHMER_MAX = 56;
+    private static final int EHMER_OFFSET = 16;
 
-  /* masking tones from -50 to 0dB, 62.5 through 16kHz at half octaves
-     test tones from -2 octaves to +5 octaves sampled at eighth octaves */
-  /* (Vorbis 0dB, the loudest possible tone, is assumed to be ~100dB SPL
-     for collection of these curves) */
+    // masking tones from -50 to 0dB, 62.5 through 16kHz at half octaves
+    // test tones from -2 octaves to +5 octaves sampled at eighth octaves */
+    // (Vorbis 0dB, the loudest possible tone, is assumed to be ~100dB SPL
+    // for collection of these curves)
 
-    //  static float tonemasks[P_BANDS][6][EHMER_MAX]={
-    private static float[][][] tonemasks = {
-            /* 62.5 Hz */
+//static float tonemasks[P_BANDS][6][EHMER_MAX]={
+    private static final float[][][] tonemasks = {
+            // 62.5 Hz
             {{-60, -60, -60, -60, -60, -60, -60, -60,
                     -60, -60, -60, -60, -62, -62, -65, -73,
                     -69, -68, -68, -67, -70, -70, -72, -74,
@@ -93,7 +93,7 @@ class PsyLook {
                             -59, -54, -55, -55, -58, -62, -63, -66,
                             -72, -73, -76, -75, -78, -80, -80, -81,
                             -84, -88, -90, -94, -98, -101, -106, -110}},
-            /* 88Hz */
+            // 88Hz
             {{-66, -66, -66, -66, -66, -66, -66, -66,
                     -66, -66, -66, -66, -66, -67, -67, -67,
                     -76, -72, -71, -74, -76, -76, -75, -78,
@@ -136,7 +136,7 @@ class PsyLook {
                             -58, -50, -50, -54, -58, -62, -64, -67,
                             -67, -70, -72, -76, -79, -83, -87, -91,
                             -96, -100, -104, -110, -999, -999, -999, -999}},
-            /* 125 Hz */
+            // 125 Hz
             {{-62, -62, -62, -62, -62, -62, -62, -62,
                     -62, -62, -63, -64, -66, -67, -66, -68,
                     -75, -72, -76, -75, -76, -78, -79, -82,
@@ -179,7 +179,7 @@ class PsyLook {
                             -53, -49, -48, -50, -49, -49, -51, -52,
                             -58, -56, -57, -56, -60, -61, -62, -70,
                             -72, -74, -78, -83, -88, -93, -100, -106}},
-            /* 177 Hz */
+            // 177 Hz
             {{-999, -999, -999, -999, -999, -999, -999, -999,
                     -999, -110, -105, -100, -95, -91, -87, -83,
                     -80, -78, -76, -78, -78, -81, -83, -85,
@@ -222,7 +222,7 @@ class PsyLook {
                             -53, -50, -50, -50, -54, -54, -53, -53,
                             -56, -57, -59, -66, -70, -72, -74, -79,
                             -83, -85, -90, -97, -114, -999, -999, -999}},
-            /* 250 Hz */
+            // 250 Hz
             {{-999, -999, -999, -999, -999, -999, -110, -105,
                     -100, -95, -90, -86, -80, -75, -75, -79,
                     -80, -79, -80, -81, -82, -88, -95, -103,
@@ -265,7 +265,7 @@ class PsyLook {
                             -52, -50, -50, -50, -54, -54, -55, -57,
                             -62, -64, -66, -68, -70, -76, -81, -90,
                             -100, -110, -999, -999, -999, -999, -999, -999}},
-            /* 354 hz */
+            // 354 hz
             {{-999, -999, -999, -999, -999, -999, -999, -999,
                     -105, -98, -90, -85, -82, -83, -80, -78,
                     -84, -79, -80, -83, -87, -89, -91, -93,
@@ -308,7 +308,7 @@ class PsyLook {
                             -50, -50, -50, -51, -54, -57, -58, -60,
                             -66, -66, -66, -64, -65, -68, -77, -82,
                             -87, -95, -110, -999, -999, -999, -999, -999}},
-            /* 500 Hz */
+            // 500 Hz
             {{-999, -999, -999, -999, -999, -999, -999, -999,
                     -107, -102, -97, -92, -87, -83, -78, -75,
                     -82, -79, -83, -85, -89, -92, -95, -98,
@@ -351,7 +351,7 @@ class PsyLook {
                             -50, -45, -44, -47, -50, -55, -48, -48,
                             -52, -66, -70, -76, -82, -90, -97, -105,
                             -110, -999, -999, -999, -999, -999, -999, -999}},
-            /* 707 Hz */
+            // 707 Hz
             {{-999, -999, -999, -999, -999, -999, -999, -999,
                     -999, -108, -103, -98, -93, -86, -79, -76,
                     -83, -81, -85, -87, -89, -93, -98, -102,
@@ -394,7 +394,7 @@ class PsyLook {
                             -47, -43, -43, -45, -41, -45, -56, -67,
                             -68, -83, -87, -90, -95, -102, -107, -113,
                             -999, -999, -999, -999, -999, -999, -999, -999}},
-            /* 1000 Hz */
+            // 1000 Hz
             {{-999, -999, -999, -999, -999, -999, -999, -999,
                     -999, -109, -105, -101, -96, -91, -84, -77,
                     -82, -82, -85, -89, -94, -100, -106, -110,
@@ -437,7 +437,7 @@ class PsyLook {
                             -40, -41, -44, -50, -58, -65, -73, -79,
                             -85, -92, -97, -101, -105, -109, -113, -999,
                             -999, -999, -999, -999, -999, -999, -999, -999}},
-            /* 1414 Hz */
+            // 1414 Hz
             {{-999, -999, -999, -999, -999, -999, -999, -999,
                     -999, -999, -999, -107, -100, -95, -87, -81,
                     -85, -83, -88, -93, -100, -107, -114, -999,
@@ -480,7 +480,7 @@ class PsyLook {
                             -54, -60, -57, -60, -70, -75, -84, -92,
                             -103, -112, -999, -999, -999, -999, -999, -999,
                             -999, -999, -999, -999, -999, -999, -999, -999}},
-            /* 2000 Hz */
+            // 2000 Hz
             {{-999, -999, -999, -999, -999, -999, -999, -999,
                     -999, -999, -999, -110, -102, -95, -89, -82,
                     -83, -84, -90, -92, -99, -107, -113, -999,
@@ -523,7 +523,7 @@ class PsyLook {
                             -54, -63, -68, -78, -82, -89, -94, -99,
                             -104, -109, -114, -999, -999, -999, -999, -999,
                             -999, -999, -999, -999, -999, -999, -999, -999}},
-            /* 2828 Hz */
+            // 2828 Hz
             {{-999, -999, -999, -999, -999, -999, -999, -999,
                     -999, -999, -999, -999, -110, -100, -90, -79,
                     -85, -81, -82, -82, -89, -94, -99, -103,
@@ -566,7 +566,7 @@ class PsyLook {
                             -59, -70, -73, -77, -79, -82, -84, -87,
                             -999, -999, -999, -999, -999, -999, -999, -999,
                             -999, -999, -999, -999, -999, -999, -999, -999}},
-            /* 4000 Hz */
+            // 4000 Hz
             {{-999, -999, -999, -999, -999, -999, -999, -999,
                     -999, -999, -999, -999, -999, -110, -91, -76,
                     -75, -85, -93, -98, -104, -110, -999, -999,
@@ -609,7 +609,7 @@ class PsyLook {
                             -105, -110, -999, -999, -999, -999, -999, -999,
                             -999, -999, -999, -999, -999, -999, -999, -999,
                             -999, -999, -999, -999, -999, -999, -999, -999}},
-            /* 5657 Hz */
+            // 5657 Hz
             {{-999, -999, -999, -999, -999, -999, -999, -999,
                     -999, -999, -999, -113, -106, -99, -92, -77,
                     -80, -88, -97, -106, -115, -999, -999, -999,
@@ -652,7 +652,7 @@ class PsyLook {
                             -95, -999, -999, -999, -999, -999, -999, -999,
                             -999, -999, -999, -999, -999, -999, -999, -999,
                             -999, -999, -999, -999, -999, -999, -999, -999}},
-            /* 8000 Hz */
+            // 8000 Hz
             {{-999, -999, -999, -999, -999, -999, -999, -999,
                     -999, -999, -999, -999, -120, -105, -86, -68,
                     -78, -79, -90, -100, -110, -999, -999, -999,
@@ -695,7 +695,7 @@ class PsyLook {
                             -999, -999, -999, -999, -999, -999, -999, -999,
                             -999, -999, -999, -999, -999, -999, -999, -999,
                             -999, -999, -999, -999, -999, -999, -999, -999}},
-            /* 11314 Hz */
+            // 11314 Hz
             {{-999, -999, -999, -999, -999, -999, -999, -999,
                     -999, -999, -999, -999, -999, -110, -88, -74,
                     -77, -82, -82, -85, -90, -94, -99, -104,
@@ -738,7 +738,7 @@ class PsyLook {
                             -999, -999, -999, -999, -999, -999, -999, -999,
                             -999, -999, -999, -999, -999, -999, -999, -999,
                             -999, -999, -999, -999, -999, -999, -999, -999}},
-            /* 16000 Hz */
+            // 16000 Hz
             {{-999, -999, -999, -999, -999, -999, -999, -999,
                     -999, -999, -999, -110, -100, -91, -84, -74,
                     -80, -80, -80, -80, -80, -999, -999, -999,
@@ -795,31 +795,38 @@ class PsyLook {
 
     // psychoacoustic setup
 
-    private static int P_BANDS = 17;      /* 62Hz to 16kHz */
-    private static int P_LEVELS = 8;      /* 30dB to 100dB */
-    private static float P_LEVEL_0 = 30.f;    /* 30 dB */
-    private static int P_NOISECURVES = 3;
+    /** 62Hz to 16kHz */
+    private static final int P_BANDS = 17;
+    /** 30dB to 100dB */
+    private static final int P_LEVELS = 8;
+    /** 30 dB */
+    private static final float P_LEVEL_0 = 30.f;
+    private static final int P_NOISECURVES = 3;
 
-    private static int NOISE_COMPAND_LEVELS = 40;
-    private static float NEGINF = -9999.f;
+    private static final int NOISE_COMPAND_LEVELS = 40;
+    private static final float NEGINF = -9999.f;
     private int[] index;
 
-//  int n;
+//int n;
 
     //  float[][][] tonecurves;
     float[][] noiseoffset;
 
-    //  float[] ath;
-//  int[] octave;             /* in n.ocshift format */
+//float[] ath;
+    /** in n.ocshift format */
+//int[] octave;
     int[] bark;
 
     int firstoc;
     int shiftoc;
-    int eighth_octave_lines; /* power of two, please */
+    /** power of two, please */
+    int eighth_octave_lines;
     int total_octave_lines;
-    long rate; /* cache it */
+    /** cache it */
+    long rate;
 
-    float m_val; /* Masking compensation value */
+    /** Masking compensation value */
+    float m_val;
 
     public void noiseMask(float[] logmdct, int plogmdct, float[] logmask) {
 
@@ -839,7 +846,6 @@ class PsyLook {
             if (dB < 0) dB = 0;
             logmask[i] = work[i] + this.vi.noisecompand[dB];
         }
-
     }
 
     public void toneMask(float[] logfft,
@@ -853,20 +859,20 @@ class PsyLook {
         float att = local_specmax + this.vi.ath_adjatt;
         for (i = 0; i < this.total_octave_lines; i++) seed[i] = NEGINF;
 
-    /* set the ATH (floating below localmax, not global max by a
-       specified att) */
+        // set the ATH (floating below localmax, not global max by a
+        // specified att)
         if (att < this.vi.ath_maxatt) att = this.vi.ath_maxatt;
 
         for (i = 0; i < n; i++)
             logmask[i] = this.ath[i] + att;
 
-        /* tone masking */
+        // tone masking
         seed_loop(this.tonecurves, logfft, logmask, seed, global_specmax);
         maxSeeds(seed, logmask);
 
     }
 
-    /* bleaugh, this is more complicated than it needs to be */
+    /** bleaugh, this is more complicated than it needs to be */
     private void maxSeeds(float[] seed,
                           float[] flr) {
         int n = this.total_octave_lines;
@@ -874,7 +880,7 @@ class PsyLook {
         int linpos = 0;
         int pos;
 
-        seedChase(seed, linesper, n); /* for masking */
+        seedChase(seed, linesper, n); // for masking
 
         pos = this.octave[0] - this.firstoc - (linesper >> 1);
 
@@ -898,7 +904,6 @@ class PsyLook {
             for (; linpos < this.n; linpos++)
                 if (flr[linpos] < minV) flr[linpos] = minV;
         }
-
     }
 
     private void barkNoiseHybridmp(float[] f,
@@ -1052,12 +1057,12 @@ class PsyLook {
         }
     }
 
-    /* octave/(8*eighth_octave_lines) x scale and dB y scale */
-    void seed_curve(float[] seed,
-                    float[][] curves,
-                    float amp,
-                    int oc, int n,
-                    int linesper, float dBoffset) {
+    /** octave/(8*eighth_octave_lines) x scale and dB y scale */
+    static void seed_curve(float[] seed,
+                           float[][] curves,
+                           float amp,
+                           int oc, int n,
+                           int linesper, float dBoffset) {
         int i, post1;
         int seedptr;
         float[] posts;
@@ -1067,9 +1072,9 @@ class PsyLook {
         choice = Math.max(choice, 0);
         choice = Math.min(choice, P_LEVELS - 1);
         posts = curves[choice];
-//    curve=posts+2;
-//    curve=new float[posts.length-2];
-//    System.arraycopy(posts,2,curve,0,curve.length);
+//curve=posts+2;
+//curve=new float[posts.length-2];
+//System.arraycopy(posts,2,curve,0,curve.length);
         post1 = (int) posts[1];
         seedptr = (int) (oc + (posts[0] - EHMER_OFFSET) * linesper - (linesper >> 1));
 
@@ -1092,7 +1097,7 @@ class PsyLook {
         int n = this.n, i;
         float dBoffset = vi.max_curve_dB - specmax;
 
-        /* prime the working vector with peak values */
+        // prime the working vector with peak values
 
         for (i = 0; i < n; i++) {
             float max = f[i];
@@ -1119,7 +1124,7 @@ class PsyLook {
         }
     }
 
-    private void seedChase(float[] seeds, int linesper, int n) {
+    private static void seedChase(float[] seeds, int linesper, int n) {
 
         int[] posstack = new int[n];
         float[] ampstack = new float[n];
@@ -1141,7 +1146,7 @@ class PsyLook {
                         if (i < posstack[stack - 1] + linesper) {
                             if (stack > 1 && ampstack[stack - 1] <= ampstack[stack - 2] &&
                                     i < posstack[stack - 2] + linesper) {
-                                /* we completely overlap, making stack-1 irrelevant.  pop it */
+                                // we completely overlap, making stack-1 irrelevant.  pop it
                                 stack--;
                                 continue;
                             }
@@ -1155,29 +1160,28 @@ class PsyLook {
             }
         }
 
-    /* the stack now contains only the positions that are relevant. Scan
-       'em straight through */
+        // the stack now contains only the positions that are relevant. Scan
+        // 'em straight through
 
         for (i = 0; i < stack; i++) {
             long endpos;
             if (i < stack - 1 && ampstack[i + 1] > ampstack[i]) {
                 endpos = posstack[i + 1];
             } else {
-                endpos = posstack[i] + linesper + 1; /* +1 is important, else bin 0 is
-                                          discarded in short frames */
+                // +1 is important, else bin 0 is
+                // discarded in short frames
+                endpos = posstack[i] + linesper + 1;
             }
             if (endpos > n) endpos = n;
             for (; pos < endpos; pos++)
                 seeds[pos] = ampstack[i];
         }
 
-    /* there.  Linear time.  I now remember this was on a problem set I
-       had in Grad Skool... I didn't solve it at the time ;-) */
-
+        // there.  Linear time.  I now remember this was on a problem set I
+        // had in Grad Skool... I didn't solve it at the time ;-)
     }
 
-    public void psyInit(PsyInfo vi,
-                        InfoPsyGlobal gi, int n, int rate) {
+    public void psyInit(PsyInfo vi, InfoPsyGlobal gi, int n, int rate) {
         int i, j, lo = -99, hi = 1;
         int maxoc;
 
@@ -1187,27 +1191,27 @@ class PsyLook {
         this.firstoc = (int) (toOC(.25f * rate * .5f / n) * (1 << (this.shiftoc + 1)) - gi.eighth_octave_lines);
         maxoc = (int) (toOC((n + .25f) * rate * .5f / n) * (1 << (this.shiftoc + 1)) + .5f);
         this.total_octave_lines = maxoc - this.firstoc + 1;
-        this.ath = new float[n];//ogg_malloc(n*sizeof(*this.ath));
+        this.ath = new float[n]; //ogg_malloc(n*sizeof(*this.ath));
 
-        this.octave = new int[n];//_ogg_malloc(n*sizeof(*this.octave));
-        this.bark = new int[n];//_ogg_malloc(n*sizeof(*this.bark));
+        this.octave = new int[n]; //_ogg_malloc(n*sizeof(*this.octave));
+        this.bark = new int[n]; //_ogg_malloc(n*sizeof(*this.bark));
         this.vi = vi;
         this.n = n;
         this.rate = rate;
 
-        /* AoTuV HF weighting */
+        // AoTuV HF weighting
         this.m_val = 1.f;
         if (rate < 26000) this.m_val = 0;
-        else if (rate < 38000) this.m_val = .94f;   /* 32kHz */
-        else if (rate > 46000) this.m_val = 1.275f; /* 48kHz */
+        else if (rate < 38000) this.m_val = .94f;   // 32kHz
+        else if (rate > 46000) this.m_val = 1.275f; // 48kHz
 
-        //ser up constans table use in sort
+        // ser up constans table use in sort
         if (this.index == null) {
             this.index = new int[1024];
             for (i = 0; i < 1024; i++) this.index[i] = i;
         }
 
-        /* set up the lookups for a given blocksize and sample rate */
+        // set up the lookups for a given blocksize and sample rate
 
         for (i = 0, j = 0; i < MAX_ATH - 1; i++) {
             int endpos = (int) Math.rint(fromOC((i + 1) * .125f - 2.f) * 2 * n / rate);
@@ -1224,7 +1228,8 @@ class PsyLook {
         for (i = 0; i < n; i++) {
             float bark = toBARK(rate / (2f * n) * i);
 
-            for (; lo + vi.noisewindowlomin < i && toBARK(rate / (2f * n) * lo) < (bark - vi.noisewindowlo); lo++) ;
+            for (; lo + vi.noisewindowlomin < i && toBARK(rate / (2f * n) * lo) < (bark - vi.noisewindowlo); lo++)
+                ;
             for (; hi <= n && (hi < i + vi.noisewindowhimin || toBARK(rate / (2f * n) * hi) < (bark + vi.noisewindowhi)); hi++)
                 ;
 
@@ -1237,7 +1242,7 @@ class PsyLook {
         this.tonecurves = setupToneCurves(vi.toneatt, rate * .5f / n, n,
                 vi.tone_centerboost, vi.tone_decay);
 
-        /* set up rolling noise median */
+        // set up rolling noise median
         this.noiseoffset = new float[P_NOISECURVES][];
         for (i = 0; i < P_NOISECURVES; i++) {
             this.noiseoffset[i] = new float[n];
@@ -1245,13 +1250,11 @@ class PsyLook {
 
         for (i = 0; i < n; i++) {
             float halfoc = toOC((i + .5f) * rate / (2.f * n)) * 2.f;
-            int inthalfoc;
-            float del;
 
             if (halfoc < 0) halfoc = 0;
             if (halfoc >= P_BANDS - 1) halfoc = P_BANDS - 1;
-            inthalfoc = (int) halfoc;
-            del = halfoc - inthalfoc;
+            int inthalfoc = (int) halfoc;
+            float del = halfoc - inthalfoc;
 
             for (j = 0; j < P_NOISECURVES; j++) {
                 int inthalfocx = ((inthalfoc + 1) >= this.vi.noiseoff[j].length) ? this.vi.noiseoff[j].length - 1 : inthalfoc + 1;
@@ -1259,29 +1262,24 @@ class PsyLook {
                         this.vi.noiseoff[j][inthalfoc] * (1.f - del) +
                                 this.vi.noiseoff[j][inthalfocx] * del;
             }
-
         }
     }
 
-    private void minCurve(float[] c, float[] c2) {
-        int i;
-        for (i = 0; i < EHMER_MAX; i++) if (c2[i] < c[i]) c[i] = c2[i];
+    private static void minCurve(float[] c, float[] c2) {
+        for (int i = 0; i < EHMER_MAX; i++) if (c2[i] < c[i]) c[i] = c2[i];
     }
 
-    private void maxCurve(float[] c,
-                          float[] c2) {
-        int i;
-        for (i = 0; i < EHMER_MAX; i++) if (c2[i] > c[i]) c[i] = c2[i];
+    private static void maxCurve(float[] c, float[] c2) {
+        for (int i = 0; i < EHMER_MAX; i++) if (c2[i] > c[i]) c[i] = c2[i];
     }
 
-    private void attenuateCurve(float[] c, float att) {
-        int i;
-        for (i = 0; i < EHMER_MAX; i++)
+    private static void attenuateCurve(float[] c, float att) {
+        for (int i = 0; i < EHMER_MAX; i++)
             c[i] += att;
     }
 
-    private float[][][] setupToneCurves(float[] curveatt_dB, float binHz, int n,
-                                        float center_boost, float center_decay_rate) {
+    private static float[][][] setupToneCurves(float[] curveatt_dB, float binHz, int n,
+                                               float center_boost, float center_decay_rate) {
         int i, j, k, m;
         float[] ath = new float[EHMER_MAX];
         float[][][] workc = new float[P_BANDS][P_LEVELS][EHMER_MAX];
@@ -1291,12 +1289,12 @@ class PsyLook {
         float[][][] ret = new float[P_BANDS][][];
 
         for (i = 0; i < P_BANDS; i++) {
-      /* we add back in the ATH to avoid low level curves falling off to
-         -infinity and unnecessarily cutting off high level curves in the
-         curve limiting (last step). */
+            // we add back in the ATH to avoid low level curves falling off to
+            // -infinity and unnecessarily cutting off high level curves in the
+            // curve limiting (last step).
 
-      /* A half-band's settings must be valid over the whole band, and
-         it's better to mask too little than too much */
+            // A half-band's settings must be valid over the whole band, and
+            // it's better to mask too little than too much
             int ath_offset = i * 4;
             for (j = 0; j < EHMER_MAX; j++) {
                 float min = 999.f;
@@ -1309,15 +1307,15 @@ class PsyLook {
                 ath[j] = min;
             }
 
-      /* copy curves into working space, replicate the 50dB curve to 30
-         and 40, replicate the 100dB curve to 110 */
+            // copy curves into working space, replicate the 50dB curve to 30
+            // and 40, replicate the 100dB curve to 110
             for (j = 0; j < 6; j++) {
                 System.arraycopy(tonemasks[i][j], 0, workc[i][j + 2], 0, EHMER_MAX);
             }
             System.arraycopy(tonemasks[i][0], 0, workc[i][0], 0, EHMER_MAX);
             System.arraycopy(tonemasks[i][0], 0, workc[i][1], 0, EHMER_MAX);
 
-            /* apply centered curve boost/decay */
+            // apply centered curve boost/decay
             for (j = 0; j < P_LEVELS; j++) {
                 for (k = 0; k < EHMER_MAX; k++) {
                     float adj = center_boost + Math.abs(EHMER_OFFSET - k) * center_decay_rate;
@@ -1327,8 +1325,8 @@ class PsyLook {
                 }
             }
 
-            /* normalize curves so the driving amplitude is 0dB */
-            /* make temp curves with the ATH overlayed */
+            // normalize curves so the driving amplitude is 0dB
+            // make temp curves with the ATH overlayed
             for (j = 0; j < P_LEVELS; j++) {
                 attenuateCurve(workc[i][j], curveatt_dB[i] + 100.f - (j < 2 ? 2 : j) * 10.f - P_LEVEL_0);
                 System.arraycopy(ath, 0, athc[j], 0, EHMER_MAX);
@@ -1336,15 +1334,15 @@ class PsyLook {
                 maxCurve(athc[j], workc[i][j]);
             }
 
-      /* Now limit the louder curves.
-
-         the idea is this: We don't know what the playback attenuation
-         will be; 0dB SL moves every time the user twiddles the volume
-         knob. So that means we have to use a single 'most pessimal' curve
-         for all masking amplitudes, right?  Wrong.  The *loudest* sound
-         can be in (we assume) a range of ...+100dB] SL.  However, sounds
-         20dB down will be in a range ...+80], 40dB down is from ...+60],
-         etc... */
+            // Now limit the louder curves.
+            //
+            // the idea is this: We don't know what the playback attenuation
+            // will be; 0dB SL moves every time the user twiddles the volume
+            // knob. So that means we have to use a single 'most pessimal' curve
+            // for all masking amplitudes, right?  Wrong.  The *loudest* sound
+            // can be in (we assume) a range of ...+100dB] SL.  However, sounds
+            // 20dB down will be in a range ...+80], 40dB down is from ...+60],
+            // etc...
 
             for (j = 1; j < P_LEVELS; j++) {
                 minCurve(athc[j], athc[j - 1]);
@@ -1356,16 +1354,16 @@ class PsyLook {
             int hi_curve, lo_curve, bin;
             ret[i] = new float[P_LEVELS][];
 
-      /* low frequency curves are measured with greater resolution than
-         the MDCT/FFT will actually give us; we want the curve applied
-         to the tone data to be pessimistic and thus apply the minimum
-         masking possible for a given bin.  That means that a single bin
-         could span more than one octave and that the curve will be a
-         composite of multiple octaves.  It also may mean that a single
-         bin may span > an eighth of an octave and that the eighth
-         octave values may also be composited. */
+            // low frequency curves are measured with greater resolution than
+            // the MDCT/FFT will actually give us; we want the curve applied
+            // to the tone data to be pessimistic and thus apply the minimum
+            // masking possible for a given bin.  That means that a single bin
+            // could span more than one octave and that the curve will be a
+            // composite of multiple octaves.  It also may mean that a single
+            // bin may span > an eighth of an octave and that the eighth
+            // octave values may also be composited.
 
-            /* which octave curves will we be compositing? */
+            // which octave curves will we be compositing?
             bin = (int) Math.floor(fromOC(i * .5f) / binHz);
             lo_curve = (int) Math.ceil((double) toOC(bin * binHz + 1) * 2);
             hi_curve = (int) Math.floor(toOC((bin + 1) * binHz) * 2);
@@ -1378,9 +1376,9 @@ class PsyLook {
 
                 for (j = 0; j < n; j++) brute_buffer[j] = 999.f;
 
-        /* render the curve into bins, then pull values back into curve.
-           The point is that any inherent subsampling aliasing results in
-           a safe minimum */
+                // render the curve into bins, then pull values back into curve.
+                // The point is that any inherent subsampling aliasing results in
+                // a safe minimum
                 for (k = lo_curve; k <= hi_curve; k++) {
                     int l = 0;
 
@@ -1402,10 +1400,9 @@ class PsyLook {
                     for (; l < n; l++)
                         if (brute_buffer[l] > workc[k][m][EHMER_MAX - 1])
                             brute_buffer[l] = workc[k][m][EHMER_MAX - 1];
-
                 }
 
-                /* be equally paranoid about being valid up to next half ocatve */
+                // be equally paranoid about being valid up to next half ocatve
                 if (i + 1 < P_BANDS) {
                     int l = 0;
                     k = i + 1;
@@ -1427,7 +1424,6 @@ class PsyLook {
                     for (; l < n; l++)
                         if (brute_buffer[l] > workc[k][m][EHMER_MAX - 1])
                             brute_buffer[l] = workc[k][m][EHMER_MAX - 1];
-
                 }
 
                 for (j = 0; j < EHMER_MAX; j++) {
@@ -1443,7 +1439,7 @@ class PsyLook {
                     }
                 }
 
-                /* add fenceposts */
+                // add fenceposts
                 for (j = 0; j < EHMER_OFFSET; j++)
                     if (ret[i][m][j + 2] > -200.f) break;
                 ret[i][m][0] = j;
@@ -1452,192 +1448,187 @@ class PsyLook {
                     if (ret[i][m][j + 2] > -200.f)
                         break;
                 ret[i][m][1] = j;
-
             }
         }
 
         return ret;
     }
 
-    private float toBARK(float n) {
+    private static float toBARK(float n) {
         return (float) (13.1f * Math.atan(.00074f * (n)) + 2.24f * Math.atan((n) * (n) * 1.85e-8f) +
                 1e-4f * (n));
     }
 
-    private float fromBARK(float z) {
+    private static float fromBARK(float z) {
         return (float) (102.f * (z) - 2.f * Math.pow(z, 2.f) + .4f * Math.pow(z, 3.f) + Math.pow(1.46f, z) -
                 1.f);
     }
 
-    private float toMEL(float n) {
+    private static float toMEL(float n) {
         return (float) (Math.log(1.f + (n) * .001f) * 1442.695f);
     }
 
-    private float fromMEL(float m) {
+    private static float fromMEL(float m) {
         return (float) (1000.f * Math.exp((m) / 1442.695f) - 1000.f);
     }
 
-  /* Frequency to octave.  We arbitrarily declare 63.5 Hz to be octave
-     0.0 */
-
-    private float toOC(float n) {
+    /**
+     * Frequency to octave.  We arbitrarily declare 63.5 Hz to be octave
+     * 0.0
+     */
+    private static float toOC(float n) {
         return (float) (Math.log(n) * 1.442695f - 5.965784f);
     }
 
-    private float fromOC(float o) {
+    private static float fromOC(float o) {
         return (float) (Math.exp(((o) + 5.965784f) * .693147f));
     }
 
     void init(PsyInfo vi, int n, int rate) {
-    /*
-    float rate2=rate/2.;
-    //memset(p,0,sizeof(vorbis_look_psy));
-    ath=new float[n];
-    octave=new int[n];
-    this.vi=vi;
-    this.n=n;
 
-    // set up the lookups for a given blocksize and sample rate
-    // Vorbis max sample rate is limited by 26 Bark (54kHz)
-    set_curve(ATH_Bark_dB, ath,n,rate);
-    for(int i=0;i<n;i++)
-      ath[i]=fromdB(ath[i]+vi.ath_att);
-
-    for(int i=0;i<n;i++){
-      int oc=rint(toOC((i+.5)*rate2/n)*2.);
-      if(oc<0)oc=0;
-      if(oc>12)oc=12;
-      octave[i]=oc;
-    }
-
-    tonecurves=malloc(13*sizeof(float **));
-    noisecurves=malloc(13*sizeof(float **));
-    peakatt=malloc(7*sizeof(float *));
-    for(int i=0;i<13;i++){
-      tonecurves[i]=malloc(9*sizeof(float *));
-      noisecurves[i]=malloc(9*sizeof(float *));
-    }
-    for(i=0;i<7;i++)
-      peakatt[i]=malloc(5*sizeof(float));
-
-    for(i=0;i<13;i++){
-      for(j=0;j<9;j++){
-	tonecurves[i][j]=malloc(EHMER_MAX*sizeof(float));
-	noisecurves[i][j]=malloc(EHMER_MAX*sizeof(float));
-      }
-    }
-
-    // OK, yeah, this was a silly way to do it
-    memcpy(tonecurves[0][2],tone_125_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[0][4],tone_125_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[0][6],tone_125_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[0][8],tone_125_100dB_SL,sizeof(float)*EHMER_MAX);
-
-    memcpy(tonecurves[2][2],tone_250_40dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[2][4],tone_250_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[2][6],tone_250_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[2][8],tone_250_80dB_SL,sizeof(float)*EHMER_MAX);
-
-    memcpy(tonecurves[4][2],tone_500_40dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[4][4],tone_500_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[4][6],tone_500_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[4][8],tone_500_100dB_SL,sizeof(float)*EHMER_MAX);
-
-    memcpy(tonecurves[6][2],tone_1000_40dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[6][4],tone_1000_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[6][6],tone_1000_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[6][8],tone_1000_100dB_SL,sizeof(float)*EHMER_MAX);
-
-    memcpy(tonecurves[8][2],tone_2000_40dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[8][4],tone_2000_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[8][6],tone_2000_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[8][8],tone_2000_100dB_SL,sizeof(float)*EHMER_MAX);
-
-    memcpy(tonecurves[10][2],tone_4000_40dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[10][4],tone_4000_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[10][6],tone_4000_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[10][8],tone_4000_100dB_SL,sizeof(float)*EHMER_MAX);
-
-    memcpy(tonecurves[12][2],tone_4000_40dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[12][4],tone_4000_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[12][6],tone_8000_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(tonecurves[12][8],tone_8000_100dB_SL,sizeof(float)*EHMER_MAX);
-
-    memcpy(noisecurves[0][2],noise_500_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[0][4],noise_500_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[0][6],noise_500_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[0][8],noise_500_80dB_SL,sizeof(float)*EHMER_MAX);
-
-    memcpy(noisecurves[2][2],noise_500_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[2][4],noise_500_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[2][6],noise_500_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[2][8],noise_500_80dB_SL,sizeof(float)*EHMER_MAX);
-
-    memcpy(noisecurves[4][2],noise_500_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[4][4],noise_500_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[4][6],noise_500_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[4][8],noise_500_80dB_SL,sizeof(float)*EHMER_MAX);
-
-    memcpy(noisecurves[6][2],noise_1000_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[6][4],noise_1000_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[6][6],noise_1000_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[6][8],noise_1000_80dB_SL,sizeof(float)*EHMER_MAX);
-
-    memcpy(noisecurves[8][2],noise_2000_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[8][4],noise_2000_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[8][6],noise_2000_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[8][8],noise_2000_80dB_SL,sizeof(float)*EHMER_MAX);
-
-    memcpy(noisecurves[10][2],noise_4000_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[10][4],noise_4000_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[10][6],noise_4000_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[10][8],noise_4000_80dB_SL,sizeof(float)*EHMER_MAX);
-
-    memcpy(noisecurves[12][2],noise_4000_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[12][4],noise_4000_60dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[12][6],noise_4000_80dB_SL,sizeof(float)*EHMER_MAX);
-    memcpy(noisecurves[12][8],noise_4000_80dB_SL,sizeof(float)*EHMER_MAX);
-
-    setup_curve(tonecurves[0],0,vi.toneatt_125Hz);
-    setup_curve(tonecurves[2],2,vi.toneatt_250Hz);
-    setup_curve(tonecurves[4],4,vi.toneatt_500Hz);
-    setup_curve(tonecurves[6],6,vi.toneatt_1000Hz);
-    setup_curve(tonecurves[8],8,vi.toneatt_2000Hz);
-    setup_curve(tonecurves[10],10,vi.toneatt_4000Hz);
-    setup_curve(tonecurves[12],12,vi.toneatt_8000Hz);
-
-    setup_curve(noisecurves[0],0,vi.noiseatt_125Hz);
-    setup_curve(noisecurves[2],2,vi.noiseatt_250Hz);
-    setup_curve(noisecurves[4],4,vi.noiseatt_500Hz);
-    setup_curve(noisecurves[6],6,vi.noiseatt_1000Hz);
-    setup_curve(noisecurves[8],8,vi.noiseatt_2000Hz);
-    setup_curve(noisecurves[10],10,vi.noiseatt_4000Hz);
-    setup_curve(noisecurves[12],12,vi.noiseatt_8000Hz);
-
-    for(i=1;i<13;i+=2){
-      for(j=0;j<9;j++){
-	interp_curve_dB(tonecurves[i][j],
-			tonecurves[i-1][j],
-			tonecurves[i+1][j],.5);
-	interp_curve_dB(noisecurves[i][j],
-			noisecurves[i-1][j],
-			noisecurves[i+1][j],.5);
-      }
-    }
-    for(i=0;i<5;i++){
-      peakatt[0][i]=fromdB(vi.peakatt_125Hz[i]);
-      peakatt[1][i]=fromdB(vi.peakatt_250Hz[i]);
-      peakatt[2][i]=fromdB(vi.peakatt_500Hz[i]);
-      peakatt[3][i]=fromdB(vi.peakatt_1000Hz[i]);
-      peakatt[4][i]=fromdB(vi.peakatt_2000Hz[i]);
-      peakatt[5][i]=fromdB(vi.peakatt_4000Hz[i]);
-      peakatt[6][i]=fromdB(vi.peakatt_8000Hz[i]);
-    }
-  */
-    }
-
-    private float max(float x, float y) {
-        return ((x) < (y) ? (y) : (x));
+//        float rate2 = rate / 2.;
+//        //memset(p,0,sizeof(vorbis_look_psy));
+//        ath = new float[n];
+//        octave = new int[n];
+//        this.vi = vi;
+//        this.n = n;
+//
+//        // set up the lookups for a given blocksize and sample rate
+//        // Vorbis max sample rate is limited by 26 Bark (54kHz)
+//        set_curve(ATH_Bark_dB, ath, n, rate);
+//        for (int i = 0; i < n; i++)
+//            ath[i] = fromdB(ath[i] + vi.ath_att);
+//
+//        for (int i = 0; i < n; i++) {
+//            int oc = rint(toOC((i + .5) * rate2 / n) * 2.);
+//            if (oc < 0) oc = 0;
+//            if (oc > 12) oc = 12;
+//            octave[i] = oc;
+//        }
+//
+//        tonecurves = malloc(13 * sizeof( float **));
+//        noisecurves = malloc(13 * sizeof( float **));
+//        peakatt = malloc(7 * sizeof( float *));
+//        for (int i = 0; i < 13; i++) {
+//            tonecurves[i] = malloc(9 * sizeof( float *));
+//            noisecurves[i] = malloc(9 * sizeof( float *));
+//        }
+//        for (i = 0; i < 7; i++)
+//            peakatt[i] = malloc(5 * sizeof( float));
+//
+//        for (i = 0; i < 13; i++) {
+//            for (j = 0; j < 9; j++) {
+//                tonecurves[i][j] = malloc(EHMER_MAX * sizeof( float));
+//                noisecurves[i][j] = malloc(EHMER_MAX * sizeof( float));
+//            }
+//        }
+//
+//        // OK, yeah, this was a silly way to do it
+//        memcpy(tonecurves[0][2], tone_125_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[0][4], tone_125_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[0][6], tone_125_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[0][8], tone_125_100dB_SL, sizeof( float)*EHMER_MAX);
+//
+//        memcpy(tonecurves[2][2], tone_250_40dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[2][4], tone_250_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[2][6], tone_250_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[2][8], tone_250_80dB_SL, sizeof( float)*EHMER_MAX);
+//
+//        memcpy(tonecurves[4][2], tone_500_40dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[4][4], tone_500_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[4][6], tone_500_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[4][8], tone_500_100dB_SL, sizeof( float)*EHMER_MAX);
+//
+//        memcpy(tonecurves[6][2], tone_1000_40dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[6][4], tone_1000_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[6][6], tone_1000_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[6][8], tone_1000_100dB_SL, sizeof( float)*EHMER_MAX);
+//
+//        memcpy(tonecurves[8][2], tone_2000_40dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[8][4], tone_2000_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[8][6], tone_2000_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[8][8], tone_2000_100dB_SL, sizeof( float)*EHMER_MAX);
+//
+//        memcpy(tonecurves[10][2], tone_4000_40dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[10][4], tone_4000_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[10][6], tone_4000_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[10][8], tone_4000_100dB_SL, sizeof( float)*EHMER_MAX);
+//
+//        memcpy(tonecurves[12][2], tone_4000_40dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[12][4], tone_4000_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[12][6], tone_8000_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(tonecurves[12][8], tone_8000_100dB_SL, sizeof( float)*EHMER_MAX);
+//
+//        memcpy(noisecurves[0][2], noise_500_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[0][4], noise_500_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[0][6], noise_500_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[0][8], noise_500_80dB_SL, sizeof( float)*EHMER_MAX);
+//
+//        memcpy(noisecurves[2][2], noise_500_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[2][4], noise_500_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[2][6], noise_500_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[2][8], noise_500_80dB_SL, sizeof( float)*EHMER_MAX);
+//
+//        memcpy(noisecurves[4][2], noise_500_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[4][4], noise_500_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[4][6], noise_500_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[4][8], noise_500_80dB_SL, sizeof( float)*EHMER_MAX);
+//
+//        memcpy(noisecurves[6][2], noise_1000_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[6][4], noise_1000_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[6][6], noise_1000_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[6][8], noise_1000_80dB_SL, sizeof( float)*EHMER_MAX);
+//
+//        memcpy(noisecurves[8][2], noise_2000_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[8][4], noise_2000_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[8][6], noise_2000_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[8][8], noise_2000_80dB_SL, sizeof( float)*EHMER_MAX);
+//
+//        memcpy(noisecurves[10][2], noise_4000_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[10][4], noise_4000_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[10][6], noise_4000_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[10][8], noise_4000_80dB_SL, sizeof( float)*EHMER_MAX);
+//
+//        memcpy(noisecurves[12][2], noise_4000_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[12][4], noise_4000_60dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[12][6], noise_4000_80dB_SL, sizeof( float)*EHMER_MAX);
+//        memcpy(noisecurves[12][8], noise_4000_80dB_SL, sizeof( float)*EHMER_MAX);
+//
+//        setup_curve(tonecurves[0], 0, vi.toneatt_125Hz);
+//        setup_curve(tonecurves[2], 2, vi.toneatt_250Hz);
+//        setup_curve(tonecurves[4], 4, vi.toneatt_500Hz);
+//        setup_curve(tonecurves[6], 6, vi.toneatt_1000Hz);
+//        setup_curve(tonecurves[8], 8, vi.toneatt_2000Hz);
+//        setup_curve(tonecurves[10], 10, vi.toneatt_4000Hz);
+//        setup_curve(tonecurves[12], 12, vi.toneatt_8000Hz);
+//
+//        setup_curve(noisecurves[0], 0, vi.noiseatt_125Hz);
+//        setup_curve(noisecurves[2], 2, vi.noiseatt_250Hz);
+//        setup_curve(noisecurves[4], 4, vi.noiseatt_500Hz);
+//        setup_curve(noisecurves[6], 6, vi.noiseatt_1000Hz);
+//        setup_curve(noisecurves[8], 8, vi.noiseatt_2000Hz);
+//        setup_curve(noisecurves[10], 10, vi.noiseatt_4000Hz);
+//        setup_curve(noisecurves[12], 12, vi.noiseatt_8000Hz);
+//
+//        for (i = 1; i < 13; i += 2) {
+//            for (j = 0; j < 9; j++) {
+//                interp_curve_dB(tonecurves[i][j],
+//                        tonecurves[i - 1][j],
+//                        tonecurves[i + 1][j], .5);
+//                interp_curve_dB(noisecurves[i][j],
+//                        noisecurves[i - 1][j],
+//                        noisecurves[i + 1][j], .5);
+//            }
+//        }
+//        for (i = 0; i < 5; i++) {
+//            peakatt[0][i] = fromdB(vi.peakatt_125Hz[i]);
+//            peakatt[1][i] = fromdB(vi.peakatt_250Hz[i]);
+//            peakatt[2][i] = fromdB(vi.peakatt_500Hz[i]);
+//            peakatt[3][i] = fromdB(vi.peakatt_1000Hz[i]);
+//            peakatt[4][i] = fromdB(vi.peakatt_2000Hz[i]);
+//            peakatt[5][i] = fromdB(vi.peakatt_4000Hz[i]);
+//            peakatt[6][i] = fromdB(vi.peakatt_8000Hz[i]);
+//        }
     }
 
     static float[] FLOOR1_fromdB_INV_LOOKUP = {
@@ -1755,7 +1746,7 @@ class PsyLook {
         return wyn;
     }
 
-    private void quicksort(float[] tablica, int x, int y, int[] index) {
+    private static void quicksort(float[] tablica, int x, int y, int[] index) {
         int i, j, n, m, ntemp;
         float v, temp;
         i = x;
@@ -1785,9 +1776,11 @@ class PsyLook {
             quicksort(tablica, i, y, index);
     }
 
-    /* doing the real circular magnitude calculation is audibly superior
-     to (A+B)/sqrt(2) */
-    private float dipoleHypot(float a, float b) {
+    /**
+     * doing the real circular magnitude calculation is audibly superior
+     * to (A+B)/sqrt(2)
+     */
+    private static float dipoleHypot(float a, float b) {
         if (a > 0.) {
             if (b > 0.) return (float) Math.sqrt(a * a + b * b);
             if (a > -b) return (float) Math.sqrt(a * a - b * b);
@@ -1798,7 +1791,7 @@ class PsyLook {
         return (float) Math.sqrt(b * b - a * a);
     }
 
-    private float roundHypot(float a, float b) {
+    private static float roundHypot(float a, float b) {
         if (a > 0.) {
             if (b > 0.) return (float) Math.sqrt(a * a + b * b);
             if (a > -b) return (float) Math.sqrt(a * a + b * b);
@@ -1809,7 +1802,7 @@ class PsyLook {
         return (float) Math.sqrt(b * b + a * a);
     }
 
-    /* revert to round hypot for now */
+    /** revert to round hypot for now */
     public float[][] quantizeCoupleMemo(InfoPsyGlobal g,
                                         InfoMapping0 vi,
                                         float[][] mdct) {
@@ -1831,7 +1824,7 @@ class PsyLook {
         return ret;
     }
 
-    /* AoTuV */
+    // AoTuV
 
     /**
      * @ M2 **
@@ -1839,7 +1832,6 @@ class PsyLook {
      * However, this is a temporary patch.
      * by Aoyumi @ 2004/04/18
      */
-
     public void hfReduction(InfoPsyGlobal g,
                             InfoMapping0 vi,
                             float[][] mdct) {
@@ -1849,13 +1841,13 @@ class PsyLook {
         int start = this.vi.normal_start;
 
         for (i = 0; i < vi.coupling_steps; i++) {
-            /* for(j=start; j<limit; j++){} // ???*/
+// for(j=start; j<limit; j++){} // ???
             for (j = limit; j < n; j++)
                 mdct[i][j] = (float) (mdct[i][j] * (1.0 - de * ((float) (j - limit) / (float) (n - limit))));
         }
     }
 
-    private float unitNorm(float x) {
+    private static float unitNorm(float x) {
         int ix = Float.floatToIntBits(x);
         ix = (ix & 0x80000000) | (0x3f800000);
         return Float.intBitsToFloat(ix);
@@ -1935,7 +1927,7 @@ class PsyLook {
                       float[] logmdct,
                       int plogmdct) {
         int i, n = this.n;
-        float de, coeffi, cx;/* AoTuV */
+        float de, coeffi, cx; // AoTuV
         float toneatt = this.vi.tone_masteratt[offset_select];
 
         cx = this.m_val;
@@ -1943,43 +1935,41 @@ class PsyLook {
         for (i = 0; i < n; i++) {
             float val = noise[i] + this.noiseoffset[offset_select][i];
             if (val > this.vi.noisemaxsupp) val = this.vi.noisemaxsupp;
-            logmask[i] = max(val, tone[i] + toneatt);
+            logmask[i] = Math.max(val, tone[i] + toneatt);
 
-            /* AoTuV */
-            /** @ M1 **
-             The following codes improve a noise problem.
-             A fundamental idea uses the value of masking and carries out
-             the relative compensation of the MDCT.
-             However, this code is not perfect and all noise problems cannot be solved.
-             by Aoyumi @ 2004/04/18
-             */
+            // AoTuV
+            // @ M1
+            // The following codes improve a noise problem.
+            // A fundamental idea uses the value of masking and carries out
+            // the relative compensation of the MDCT.
+            // However, this code is not perfect and all noise problems cannot be solved.
+            // by Aoyumi @ 2004/04/18
 
             if (offset_select == 1) {
-                coeffi = -17.2f;       /* coeffi is a -17.2dB threshold */
-                val = val - logmdct[i + plogmdct];  /* val == mdct line value relative to floor in dB */
+                coeffi = -17.2f; // coeffi is a -17.2dB threshold
+                val = val - logmdct[i + plogmdct]; // val == mdct line value relative to floor in dB
 
                 if (val > coeffi) {
-                    /* mdct value is > -17.2 dB below floor */
+                    // mdct value is > -17.2 dB below floor
 
                     de = 1.0f - ((val - coeffi) * 0.005f * cx);
-        /* pro-rated attenuation:
-           -0.00 dB boost if mdct value is -17.2dB (relative to floor)
-           -0.77 dB boost if mdct value is 0dB (relative to floor)
-           -1.64 dB boost if mdct value is +17.2dB (relative to floor)
-           etc... */
+                    // pro-rated attenuation:
+                    // -0.00 dB boost if mdct value is -17.2dB (relative to floor)
+                    // -0.77 dB boost if mdct value is 0dB (relative to floor)
+                    // -1.64 dB boost if mdct value is +17.2dB (relative to floor)
+                    // etc...
 
                     if (de < 0) de = 0.0001f;
                 } else
-                    /* mdct value is <= -17.2 dB below floor */
-
+                    // mdct value is <= -17.2 dB below floor
                     de = 1.0f - ((val - coeffi) * 0.0003f * cx);
-      /* pro-rated attenuation:
-         +0.00 dB atten if mdct value is -17.2dB (relative to floor)
-         +0.45 dB atten if mdct value is -34.4dB (relative to floor)
-         etc... */
+
+                // pro-rated attenuation:
+                // +0.00 dB atten if mdct value is -17.2dB (relative to floor)
+                // +0.45 dB atten if mdct value is -34.4dB (relative to floor)
+                // etc...
 
                 mdct[i] *= de;
-
             }
         }
     }
@@ -2000,20 +1990,20 @@ class PsyLook {
         int i, j, k, n = this.n;
         Parax para = new Parax();
 
-        /* perform any requested channel coupling */
-  /* point stereo can only be used in a first stage (in this encoder)
-     because of the dependency on floor lookups */
+        // perform any requested channel coupling
+        // point stereo can only be used in a first stage (in this encoder)
+        // because of the dependency on floor lookups
         for (i = 0; i < vi.coupling_steps; i++) {
 
-    /* once we're doing multistage coupling in which a channel goes
-       through more than one coupling step, the floor vector
-       magnitudes will also have to be recalculated a propagated
-       along with PCM.  Right now, we're not (that will wait until 5.1
-       most likely), so the code isn't here yet. The memory management
-       here is all assuming single depth couplings anyway. */
+            // once we're doing multistage coupling in which a channel goes
+            // through more than one coupling step, the floor vector
+            // magnitudes will also have to be recalculated a propagated
+            // along with PCM.  Right now, we're not (that will wait until 5.1
+            // most likely), so the code isn't here yet. The memory management
+            // here is all assuming single depth couplings anyway.
 
-    /* make sure coupling a zero and a nonzero channel results in two
-       nonzero channels. */
+            // make sure coupling a zero and a nonzero channel results in two
+            // nonzero channels.
             if ((nonzero[vi.coupling_mag[i]] != 0) ||
                     (nonzero[vi.coupling_ang[i]] != 0)) {
 
@@ -2030,7 +2020,7 @@ class PsyLook {
                 nonzero[vi.coupling_mag[i]] = 1;
                 nonzero[vi.coupling_ang[i]] = 1;
 
-                /* The threshold of a stereo is changed with the size of n */
+                // The threshold of a stereo is changed with the size of n
                 if (n > 1000)
                     postpoint = STEREO_THRESHHOLDS_LIMITED[g.coupling_postpointamp[blobno]];
 
@@ -2086,9 +2076,9 @@ class PsyLook {
             -0.159093f, -0.175146f, -0.192286f, -0.210490f,
             -0.229718f, -0.249913f, -0.271001f, -0.292893f};
 
-    private float precomputedCouplePoint(float premag,
-                                         int floorA, int floorB,
-                                         float mag) {
+    private static float precomputedCouplePoint(float premag,
+                                                int floorA, int floorB,
+                                                float mag) {
 
         int test = (floorA > floorB) ? 0 : -1;
         int offset = 31 - Math.abs(floorA - floorB);
@@ -2100,7 +2090,7 @@ class PsyLook {
         return mag;
     }
 
-    private void coupleLossless(float A, float B, Parax q) {
+    private static void coupleLossless(float A, float B, Parax q) {
         int test1 = (Math.abs(q.A) > Math.abs(q.B)) ? 1 : 0;
         test1 -= (Math.abs(q.A) < Math.abs(q.B)) ? 1 : 0;
         if (test1 == 0) test1 = ((Math.abs(A) > Math.abs(B)) ? (1 << 1) - 1 : 0);
@@ -2117,6 +2107,4 @@ class PsyLook {
             q.A = -q.A;
         }
     }
-
 }
-

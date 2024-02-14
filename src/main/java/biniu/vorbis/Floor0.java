@@ -11,7 +11,6 @@
 package biniu.vorbis;
 
 import java.util.Arrays;
-import java.util.Deque;
 import java.util.logging.Level;
 
 import biniu.ogg.Buffer;
@@ -95,7 +94,7 @@ Debug.println(Level.WARNING, "not implemented yet");
         return (float) (13.1 * Math.atan(.00074 * (f)) + 2.24 * Math.atan((f) * (f) * 1.85e-8) + 1e-4 * (f));
     }
 
-    public Object state(Object i) {
+    public static Object state(Object i) {
         EchstateFloor0 state = new EchstateFloor0();
         InfoFloor0 info = (InfoFloor0) i;
 
@@ -246,7 +245,7 @@ Debug.println(Level.WARNING, "not implemented yet");
         return ret;
     }
 
-    private void lsp_to_lpc(float[] lsp, float[] lpc, int m) {
+    private static void lsp_to_lpc(float[] lsp, float[] lpc, int m) {
         int i, j, m2 = m / 2;
         float[] O = new float[m2];
         float[] E = new float[m2];
@@ -294,8 +293,8 @@ Debug.println(Level.WARNING, "not implemented yet");
         }
     }
 
-    private void lpc_to_curve(float[] curve, float[] lpc, float amp,
-                              LookFloor0 l, String name, int frameno) {
+    private static void lpc_to_curve(float[] curve, float[] lpc, float amp,
+                                     LookFloor0 l, String name, int frameno) {
         // l->m+1 must be less than l->ln, but guard in case we get a bad stream
         float[] lcurve = new float[Math.max(l.ln * 2, l.m * 2 + 2)];
 

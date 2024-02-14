@@ -21,7 +21,7 @@ public class InfoPsyGlobal {
 
     int eighth_octave_lines;
 
-    /* for block long/short tuning; encode only */
+    // for block long/short tuning; encode only
     float[] preecho_thresh = new float[EnvelopeInt.VE_BANDS];
     float[] postecho_thresh = new float[EnvelopeInt.VE_BANDS];
     float stretch_penalty;
@@ -29,7 +29,7 @@ public class InfoPsyGlobal {
 
     float ampmax_att_per_sec;
 
-    /* channel coupling config */
+    // channel coupling config
     int[] coupling_pkHz = new int[Const.PACKETBLOBS];
     int[][] coupling_pointlimit = new int[2][Const.PACKETBLOBS];
     int[] coupling_prepointamp = new int[Const.PACKETBLOBS];
@@ -90,5 +90,4 @@ public class InfoPsyGlobal {
         }
         return true;
     }
-
 }

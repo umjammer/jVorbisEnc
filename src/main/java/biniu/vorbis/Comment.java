@@ -25,7 +25,7 @@ import biniu.ogg.Buffer;
  */
 public class Comment {
 
-    private static byte[] VORBIS = "vorbis".getBytes();
+    private static final byte[] VORBIS = "vorbis".getBytes();
 
     public static final int OV_EFAULT = -129;
     public static final int OV_EIMPL = -130;
@@ -77,7 +77,7 @@ public class Comment {
      * This is more or less the same as strncasecmp - but that doesn't exist
      * everywhere, and this is a fairly trivial function, so we include it
      */
-    private boolean tagCompare(byte[] s1, byte[] s2, int n) {
+    private static boolean tagCompare(byte[] s1, byte[] s2, int n) {
         int c = 0;
         byte u1, u2;
         while (c < n) {

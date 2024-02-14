@@ -113,7 +113,7 @@ public class Mdct {
         }
     }
 
-    /* 8 point butterfly (in place, 4 register) */
+    /** 8 point butterfly (in place, 4 register) */
     static void mdct_butterfly_8(float[] x, int px) {
         float r0 = x[6 + px] + x[2 + px];
         float r1 = x[6 + px] - x[2 + px];
@@ -137,7 +137,7 @@ public class Mdct {
 
     }
 
-    /* 16 point butterfly (in place, 4 register) */
+    /** 16 point butterfly (in place, 4 register) */
     static void mdct_butterfly_16(float[] x, int px) {
         float r0 = x[1 + px] - x[9 + px];
         float r1 = x[0 + px] - x[8 + px];
@@ -172,7 +172,7 @@ public class Mdct {
         mdct_butterfly_8(x, px + 8);
     }
 
-    /* 32 point butterfly (in place, 4 register) */
+    /** 32 point butterfly (in place, 4 register) */
     static void mdct_butterfly_32(float[] x, int px) {
         float r0 = x[30 + px] - x[14 + px];
         float r1 = x[31 + px] - x[15 + px];
@@ -236,14 +236,14 @@ public class Mdct {
 
     }
 
-    /* N point first stage butterfly (in place, 2 register) */
+    /** N point first stage butterfly (in place, 2 register) */
     static void mdct_butterfly_first(float[] T,
                                      float[] x,
                                      int px, //pointer in x
                                      int points) {
 
-//  float[] x1        = x          + points      - 8;
-//  float[] x2        = x          + (points>>1) - 8;
+//float[] x1 = x + points - 8;
+//float[] x2 = x + (points>>1) - 8;
         int px1 = points - 8 + px;
         int px2 = (points >> 1) - 8 + px;
         int pT = 0;
@@ -251,7 +251,6 @@ public class Mdct {
         float r1;
 
         do {
-
             r0 = x[6 + px1] - x[6 + px2];
             r1 = x[7 + px1] - x[7 + px2];
             x[6 + px1] += x[6 + px2];
@@ -287,15 +286,15 @@ public class Mdct {
         } while (px2 >= (x.length - px));
     }
 
-    /* N/stage point generic N stage butterfly (in place, 2 register) */
+    /** N/stage point generic N stage butterfly (in place, 2 register) */
     static void mdct_butterfly_generic(float[] T,
                                        float[] x,
                                        int px,
                                        int points,
                                        int trigint) {
 
-//  float[] x1        = x          + points      - 8;
-//  float[] x2        = x          + (points>>1) - 8;
+//float[] x1 = x + points - 8;
+//float[] x2 = x + (points>>1) - 8;
         int px1 = points - 8 + px;
         int px2 = (points >> 1) - 8 + px;
         int pT = 0;
@@ -303,7 +302,6 @@ public class Mdct {
         float r1;
 
         do {
-
             r0 = x[6 + px1] - x[6 + px2];
             r1 = x[7 + px1] - x[7 + px2];
             x[6 + px1] += x[6 + px2];
@@ -343,25 +341,25 @@ public class Mdct {
             px2 -= 8;
 
         } while (px2 >= px);
-//}while(px2>=(x.length-px));
+//} while (px2 >= (x.length - px));
     }
 
     private void mdct_bitreverse(float[] x) {
         int n = this.n;
         int[] bit = this.bitrev;
         int pbit = 0;
-//  float[] w0      = x;
+//float[] w0 = x;
         int pw0 = 0;
-//  float[] w1      = x = w0+(n>>1);
+//float[] w1 = x = w0+(n>>1);
         int pw1 = (n >> 1);
-//  float[] T       = init.trig+n;
+//float[] T = init.trig+n;
         float[] T = this.trig;
         int pT = n;
 
         do {
-//    float[] x0    = x+bit[0];
+//float[] x0 = x + bit[0];
             int px0 = bit[0 + pbit] + (n >> 1);
-//    float[] x1    = x+bit[1];
+//float[] x1 = x + bit[1];
             int px1 = bit[1 + pbit] + (n >> 1);
 
             float r0 = x[1 + px0] - x[1 + px1];
@@ -379,9 +377,9 @@ public class Mdct {
             x[1 + pw0] = r1 + r3;
             x[3 + pw1] = r3 - r1;
 
-//              x0     = x+bit[2];
+//x0 = x + bit[2];
             px0 = bit[2 + pbit] + (n >> 1);
-//              x1     = x+bit[3];
+//x1 = x + bit[3];
             px1 = bit[3 + pbit] + (n >> 1);
 
             r0 = x[1 + px0] - x[1 + px1];
@@ -409,20 +407,20 @@ public class Mdct {
         int n2 = n >> 1;
         int n4 = n >> 2;
         int n8 = n >> 3;
-        float[] w = new float[n];//alloca(n*sizeof(*w)); /* forward needs working space */
-//float[] w2=w+n2;
+        float[] w = new float[n]; // alloca(n * sizeof(*w)); // forward needs working space
+//float[] w2 = w + n2;
         int pw2 = n2;
-        /* rotate */
+        // rotate
 
-        /* window + rotate + step 1 */
+        // window + rotate + step 1
 
         float r0;
         float r1;
-//float[] x0=in+n2+n4;
+//float[] x0 = in + n2 + n4;
         int px0 = n2 + n4;
-//float[] x1=x0+1;
+//float[] x1 = x0 + 1;
         int px1 = px0 + 1;
-//float[] T=init->trig+n2;
+//float[] T = init->trig + n2;
         float[] T = this.trig;
         int pT = n2;
 
@@ -438,7 +436,7 @@ public class Mdct {
             px1 += 4;
         }
 
-//x1=in+1;
+//x1 = in + 1;
         px1 = 1;
 
         for (; i < n2 - n8; i += 2) {
@@ -467,7 +465,7 @@ public class Mdct {
         mdct_butterflies(w, n2, n2);
         mdct_bitreverse(w);
 
-        /* roatate + window */
+        // roatate + window
 
 //T=init->trig+n2;
         pT = n2;
@@ -658,5 +656,4 @@ class mdct_lookup {
     int[] bitrev;
 
     float scale;
-
 }

@@ -33,7 +33,7 @@ public class VorbisEnc {
     private Info vi;
     private HighlevelEncodeSetup hi;
 
-    /* a few static coder conventions */
+    /** a few static coder conventions */
     static InfoMode[] _mode_template = {
             new InfoMode(0, 0, 0, 0),
             new InfoMode(1, 0, 0, 1)
@@ -326,12 +326,12 @@ public class VorbisEnc {
         }
         ci.residueType[number] = res.res_type;
 
-        /* to be adjusted by lowpass/pointlimit later */
+        // to be adjusted by lowpass/pointlimit later
         int n = r.end = ci.blocksizes[block] >> 1;
         if (res.res_type == 2)
             n = r.end *= vi.channels;
 
-        /* fill in all the books */
+        // fill in all the books
         {
             int booklist = 0, k;
 
@@ -740,8 +740,8 @@ public class VorbisEnc {
         return setupSetting(channels, rate);
     }
 
-    public int initVBR(Info vi, int channels, int rate,
-                       float base_quality /* 0. to 1. */) {
+    /** @param base_quality 0. to 1. */
+    public int initVBR(Info vi, int channels, int rate, float base_quality) {
         this.vi = vi;
         this.ci = vi.getCodecSetup();
         this.hi = ci.hiEncSet;
@@ -830,151 +830,171 @@ public class VorbisEnc {
 
             if ((setp & hi.set_in_stone) == 0) return Const.OV_EINVAL;
 
-            switch (number) {
+            return switch (number) {
 
-            // now deprecated
-            case OvectlRatemanageArg.OV_ECTL_RATEMANAGE_GET: {
+                // now deprecated
+                case OvectlRatemanageArg.OV_ECTL_RATEMANAGE_GET -> {
+                    {
 
-                OvectlRatemanageArg ai = (OvectlRatemanageArg) arg;
+                        OvectlRatemanageArg ai = (OvectlRatemanageArg) arg;
 
-                ai.management_active = hi.managed;
-                ai.bitrate_hard_window = ai.bitrate_av_window =
-                        hi.bitrate_reservoir / vi.rate;
-                ai.bitrate_av_window_center = 1.;
-                ai.bitrate_hard_min = hi.bitrate_min;
-                ai.bitrate_hard_max = hi.bitrate_max;
-                ai.bitrate_av_lo = hi.bitrate_av;
-                ai.bitrate_av_hi = hi.bitrate_av;
+                        ai.management_active = hi.managed;
+                        ai.bitrate_hard_window = ai.bitrate_av_window =
+                                hi.bitrate_reservoir / vi.rate;
+                        ai.bitrate_av_window_center = 1.;
+                        ai.bitrate_hard_min = hi.bitrate_min;
+                        ai.bitrate_hard_max = hi.bitrate_max;
+                        ai.bitrate_av_lo = hi.bitrate_av;
+                        ai.bitrate_av_hi = hi.bitrate_av;
 
-            }
-            return 0;
-
-            // now deprecated
-            case OvectlRatemanageArg.OV_ECTL_RATEMANAGE_SET: {
-                OvectlRatemanageArg ai = (OvectlRatemanageArg) arg;
-                if (ai == null) {
-                    hi.managed = 0;
-                } else {
-                    hi.managed = ai.management_active;
-                    setCtl(OvectlRatemanageArg.OV_ECTL_RATEMANAGE_AVG, arg);
-                    setCtl(OvectlRatemanageArg.OV_ECTL_RATEMANAGE_HARD, arg);
+                    }
+                    yield 0;
                 }
-            }
-            return 0;
 
-            // now deprecated
-            case OvectlRatemanageArg.OV_ECTL_RATEMANAGE_AVG: {
-                OvectlRatemanageArg ai = (OvectlRatemanageArg) arg;
-                if (ai == null) {
-                    hi.bitrate_av = 0;
-                } else {
-                    hi.bitrate_av = (int) ((ai.bitrate_av_lo + ai.bitrate_av_hi) * .5);
+                // now deprecated
+                case OvectlRatemanageArg.OV_ECTL_RATEMANAGE_SET -> {
+                    {
+                        OvectlRatemanageArg ai = (OvectlRatemanageArg) arg;
+                        if (ai == null) {
+                            hi.managed = 0;
+                        } else {
+                            hi.managed = ai.management_active;
+                            setCtl(OvectlRatemanageArg.OV_ECTL_RATEMANAGE_AVG, arg);
+                            setCtl(OvectlRatemanageArg.OV_ECTL_RATEMANAGE_HARD, arg);
+                        }
+                    }
+                    yield 0;
                 }
-            }
-            return 0;
-            // now deprecated
-            case OvectlRatemanageArg.OV_ECTL_RATEMANAGE_HARD: {
-                OvectlRatemanageArg ai = (OvectlRatemanageArg) arg;
-                if (ai == null) {
-                    hi.bitrate_min = 0;
-                    hi.bitrate_max = 0;
-                } else {
-                    hi.bitrate_min = ai.bitrate_hard_min;
-                    hi.bitrate_max = ai.bitrate_hard_max;
-                    hi.bitrate_reservoir = (int) (ai.bitrate_hard_window * (hi.bitrate_max + hi.bitrate_min) * .5);
+
+                // now deprecated
+                case OvectlRatemanageArg.OV_ECTL_RATEMANAGE_AVG -> {
+                    {
+                        OvectlRatemanageArg ai = (OvectlRatemanageArg) arg;
+                        if (ai == null) {
+                            hi.bitrate_av = 0;
+                        } else {
+                            hi.bitrate_av = (int) ((ai.bitrate_av_lo + ai.bitrate_av_hi) * .5);
+                        }
+                    }
+                    yield 0;
                 }
-                if (hi.bitrate_reservoir < 128.)
-                    hi.bitrate_reservoir = (int) 128.;
-            }
-            return 0;
+                // now deprecated
+                case OvectlRatemanageArg.OV_ECTL_RATEMANAGE_HARD -> {
+                    {
+                        OvectlRatemanageArg ai = (OvectlRatemanageArg) arg;
+                        if (ai == null) {
+                            hi.bitrate_min = 0;
+                            hi.bitrate_max = 0;
+                        } else {
+                            hi.bitrate_min = ai.bitrate_hard_min;
+                            hi.bitrate_max = ai.bitrate_hard_max;
+                            hi.bitrate_reservoir = (int) (ai.bitrate_hard_window * (hi.bitrate_max + hi.bitrate_min) * .5);
+                        }
+                        if (hi.bitrate_reservoir < 128.)
+                            hi.bitrate_reservoir = (int) 128.;
+                    }
+                    yield 0;
+                }
 
-            // replacement ratemanage interface
-            case OvectlRatemanageArg.OV_ECTL_RATEMANAGE2_GET: {
-                OvectlRatemanageArg2 ai = (OvectlRatemanageArg2) arg;
-                if (ai == null) return Const.OV_EINVAL;
+                // replacement ratemanage interface
+                case OvectlRatemanageArg.OV_ECTL_RATEMANAGE2_GET -> {
+                    {
+                        OvectlRatemanageArg2 ai = (OvectlRatemanageArg2) arg;
+                        if (ai == null) yield Const.OV_EINVAL;
 
-                ai.management_active = hi.managed;
-                ai.bitrate_limit_min_kbps = hi.bitrate_min;
-                ai.bitrate_limit_max_kbps = hi.bitrate_max;
-                ai.bitrate_average_kbps = hi.bitrate_av;
-                ai.bitrate_average_damping = hi.bitrate_av_damp;
-                ai.bitrate_limit_reservoir_bits = hi.bitrate_reservoir;
-                ai.bitrate_limit_reservoir_bias = hi.bitrate_reservoir_bias;
-            }
-            return 0;
-            case OvectlRatemanageArg.OV_ECTL_RATEMANAGE2_SET: {
-                OvectlRatemanageArg2 ai = (OvectlRatemanageArg2) arg;
-                if (ai == null) {
-                    hi.managed = 0;
-                } else {
+                        ai.management_active = hi.managed;
+                        ai.bitrate_limit_min_kbps = hi.bitrate_min;
+                        ai.bitrate_limit_max_kbps = hi.bitrate_max;
+                        ai.bitrate_average_kbps = hi.bitrate_av;
+                        ai.bitrate_average_damping = hi.bitrate_av_damp;
+                        ai.bitrate_limit_reservoir_bits = hi.bitrate_reservoir;
+                        ai.bitrate_limit_reservoir_bias = hi.bitrate_reservoir_bias;
+                    }
+                    yield 0;
+                }
+                case OvectlRatemanageArg.OV_ECTL_RATEMANAGE2_SET -> {
+                    {
+                        OvectlRatemanageArg2 ai = (OvectlRatemanageArg2) arg;
+                        if (ai == null) {
+                            hi.managed = 0;
+                        } else {
+                            // sanity check; only catch invariant violations
+                            if (ai.bitrate_limit_min_kbps > 0 &&
+                                    ai.bitrate_average_kbps > 0 &&
+                                    ai.bitrate_limit_min_kbps > ai.bitrate_average_kbps)
+                                yield Const.OV_EINVAL;
+
+                            if (ai.bitrate_limit_max_kbps > 0 &&
+                                    ai.bitrate_average_kbps > 0 &&
+                                    ai.bitrate_limit_max_kbps < ai.bitrate_average_kbps)
+                                yield Const.OV_EINVAL;
+
+                            if (ai.bitrate_limit_min_kbps > 0 &&
+                                    ai.bitrate_limit_max_kbps > 0 &&
+                                    ai.bitrate_limit_min_kbps > ai.bitrate_limit_max_kbps)
+                                yield Const.OV_EINVAL;
+
+                            if (ai.bitrate_average_damping <= 0.)
+                                yield Const.OV_EINVAL;
+
+                            if (ai.bitrate_limit_reservoir_bits < 0)
+                                yield Const.OV_EINVAL;
+
+                            if (ai.bitrate_limit_reservoir_bias < 0.)
+                                yield Const.OV_EINVAL;
+
+                            if (ai.bitrate_limit_reservoir_bias > 1.)
+                                yield Const.OV_EINVAL;
+
+                            hi.managed = ai.management_active;
+                            hi.bitrate_min = ai.bitrate_limit_min_kbps;
+                            hi.bitrate_max = ai.bitrate_limit_max_kbps;
+                            hi.bitrate_av = ai.bitrate_average_kbps;
+                            hi.bitrate_av_damp = ai.bitrate_average_damping;
+                            hi.bitrate_reservoir = ai.bitrate_limit_reservoir_bits;
+                            hi.bitrate_reservoir_bias = ai.bitrate_limit_reservoir_bias;
+                        }
+                    }
+                    yield 0;
                     // sanity check; only catch invariant violations
-                    if (ai.bitrate_limit_min_kbps > 0 &&
-                            ai.bitrate_average_kbps > 0 &&
-                            ai.bitrate_limit_min_kbps > ai.bitrate_average_kbps)
-                        return Const.OV_EINVAL;
-
-                    if (ai.bitrate_limit_max_kbps > 0 &&
-                            ai.bitrate_average_kbps > 0 &&
-                            ai.bitrate_limit_max_kbps < ai.bitrate_average_kbps)
-                        return Const.OV_EINVAL;
-
-                    if (ai.bitrate_limit_min_kbps > 0 &&
-                            ai.bitrate_limit_max_kbps > 0 &&
-                            ai.bitrate_limit_min_kbps > ai.bitrate_limit_max_kbps)
-                        return Const.OV_EINVAL;
-
-                    if (ai.bitrate_average_damping <= 0.)
-                        return Const.OV_EINVAL;
-
-                    if (ai.bitrate_limit_reservoir_bits < 0)
-                        return Const.OV_EINVAL;
-
-                    if (ai.bitrate_limit_reservoir_bias < 0.)
-                        return Const.OV_EINVAL;
-
-                    if (ai.bitrate_limit_reservoir_bias > 1.)
-                        return Const.OV_EINVAL;
-
-                    hi.managed = ai.management_active;
-                    hi.bitrate_min = ai.bitrate_limit_min_kbps;
-                    hi.bitrate_max = ai.bitrate_limit_max_kbps;
-                    hi.bitrate_av = ai.bitrate_average_kbps;
-                    hi.bitrate_av_damp = ai.bitrate_average_damping;
-                    hi.bitrate_reservoir = ai.bitrate_limit_reservoir_bits;
-                    hi.bitrate_reservoir_bias = ai.bitrate_limit_reservoir_bias;
                 }
-            }
-            return 0;
+                case OvectlRatemanageArg.OV_ECTL_LOWPASS_GET -> {
+                    {
+                        Double farg = (Double) arg;
+                        farg = hi.lowpass_kHz;
+                    }
+                    yield 0;
+                }
+                case OvectlRatemanageArg.OV_ECTL_LOWPASS_SET -> {
+                    {
+                        Double farg = (Double) arg;
+                        hi.lowpass_kHz = farg;
 
-            case OvectlRatemanageArg.OV_ECTL_LOWPASS_GET: {
-                Double farg = (Double) arg;
-                farg = hi.lowpass_kHz;
-            }
-            return 0;
-            case OvectlRatemanageArg.OV_ECTL_LOWPASS_SET: {
-                Double farg = (Double) arg;
-                hi.lowpass_kHz = farg;
+                        if (hi.lowpass_kHz < 2.) hi.lowpass_kHz = 2.;
+                        if (hi.lowpass_kHz > 99.) hi.lowpass_kHz = 99.;
+                    }
+                    yield 0;
+                }
+                case OvectlRatemanageArg.OV_ECTL_IBLOCK_GET -> {
+                    {
+                        Double farg = (Double) arg;
+                        farg = hi.impulse_noisetune;
+                    }
+                    yield 0;
+                }
+                case OvectlRatemanageArg.OV_ECTL_IBLOCK_SET -> {
+                    {
+                        Double farg = (Double) arg;
+                        hi.impulse_noisetune = farg;
 
-                if (hi.lowpass_kHz < 2.) hi.lowpass_kHz = 2.;
-                if (hi.lowpass_kHz > 99.) hi.lowpass_kHz = 99.;
-            }
-            return 0;
-            case OvectlRatemanageArg.OV_ECTL_IBLOCK_GET: {
-                Double farg = (Double) arg;
-                farg = hi.impulse_noisetune;
-            }
-            return 0;
-            case OvectlRatemanageArg.OV_ECTL_IBLOCK_SET: {
-                Double farg = (Double) arg;
-                hi.impulse_noisetune = farg;
+                        if (hi.impulse_noisetune > 0.) hi.impulse_noisetune = 0.;
+                        if (hi.impulse_noisetune < -15.) hi.impulse_noisetune = -15.;
+                    }
+                    yield 0;
+                }
+                default -> Const.OV_EIMPL;
+            };
 
-                if (hi.impulse_noisetune > 0.) hi.impulse_noisetune = 0.;
-                if (hi.impulse_noisetune < -15.) hi.impulse_noisetune = -15.;
-            }
-            return 0;
-            }
-
-            return Const.OV_EIMPL;
         }
 
         return Const.OV_EINVAL;

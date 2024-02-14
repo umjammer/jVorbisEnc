@@ -21,7 +21,7 @@ import biniu.vorbis.StaticCodeBook;
  */
 public class ResBooksStereo44cn1s {
 
-    private static int[] _huff_lengthlist__44cn1_s_long = {
+    private static final int[] _huff_lengthlist__44cn1_s_long = {
             4, 4, 7, 8, 7, 8, 10, 12, 17, 3, 1, 6, 6, 7, 8, 10,
             12, 15, 7, 6, 9, 9, 9, 11, 12, 14, 17, 8, 6, 9, 6, 7,
             9, 11, 13, 17, 7, 6, 9, 7, 7, 8, 9, 12, 15, 8, 8, 10,
@@ -41,13 +41,13 @@ public class ResBooksStereo44cn1s {
             0
     );
 
-    private static int[] _vq_quantlist__44cn1_s_p1_0 = {
+    private static final int[] _vq_quantlist__44cn1_s_p1_0 = {
             1,
             0,
             2,
     };
 
-    private static int[] _vq_lengthlist__44cn1_s_p1_0 = {
+    private static final int[] _vq_lengthlist__44cn1_s_p1_0 = {
             1, 4, 4, 0, 0, 0, 0, 0, 0, 5, 7, 7, 0, 0, 0, 0,
             0, 0, 5, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -461,11 +461,11 @@ public class ResBooksStereo44cn1s {
             0,
     };
 
-    private static float[] _vq_quantthresh__44cn1_s_p1_0 = {
+    private static final float[] _vq_quantthresh__44cn1_s_p1_0 = {
             -0.5f, 0.5f,
     };
 
-    private static int[] _vq_quantmap__44cn1_s_p1_0 = {
+    private static final int[] _vq_quantmap__44cn1_s_p1_0 = {
             1, 0, 2,
     };
 
@@ -487,7 +487,7 @@ public class ResBooksStereo44cn1s {
             0
     );
 
-    private static int[] _vq_quantlist__44cn1_s_p2_0 = {
+    private static final int[] _vq_quantlist__44cn1_s_p2_0 = {
             2,
             1,
             3,
@@ -495,7 +495,7 @@ public class ResBooksStereo44cn1s {
             4,
     };
 
-    private static int[] _vq_lengthlist__44cn1_s_p2_0 = {
+    private static final int[] _vq_lengthlist__44cn1_s_p2_0 = {
             1, 4, 4, 7, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 5, 5, 7, 7, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -538,11 +538,11 @@ public class ResBooksStereo44cn1s {
             0,
     };
 
-    private static float[] _vq_quantthresh__44cn1_s_p2_0 = {
+    private static final float[] _vq_quantthresh__44cn1_s_p2_0 = {
             -1.5f, -0.5f, 0.5f, 1.5f,
     };
 
-    private static int[] _vq_quantmap__44cn1_s_p2_0 = {
+    private static final int[] _vq_quantmap__44cn1_s_p2_0 = {
             3, 1, 0, 2, 4,
     };
 
@@ -564,7 +564,7 @@ public class ResBooksStereo44cn1s {
             0
     );
 
-    private static int[] _vq_quantlist__44cn1_s_p3_0 = {
+    private static final int[] _vq_quantlist__44cn1_s_p3_0 = {
             4,
             3,
             5,
@@ -576,7 +576,7 @@ public class ResBooksStereo44cn1s {
             8,
     };
 
-    private static int[] _vq_lengthlist__44cn1_s_p3_0 = {
+    private static final int[] _vq_lengthlist__44cn1_s_p3_0 = {
             1, 2, 3, 7, 7, 0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 0,
             0, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 0, 0, 0, 7, 7,
             0, 0, 0, 0, 0, 0, 0, 7, 7, 0, 0, 0, 0, 0, 0, 0,
@@ -585,11 +585,11 @@ public class ResBooksStereo44cn1s {
             0,
     };
 
-    private static float[] _vq_quantthresh__44cn1_s_p3_0 = {
+    private static final float[] _vq_quantthresh__44cn1_s_p3_0 = {
             -3.5f, -2.5f, -1.5f, -0.5f, 0.5f, 1.5f, 2.5f, 3.5f,
     };
 
-    private static int[] _vq_quantmap__44cn1_s_p3_0 = {
+    private static final int[] _vq_quantmap__44cn1_s_p3_0 = {
             7, 5, 3, 1, 0, 2, 4, 6,
             8,
     };
@@ -612,7 +612,7 @@ public class ResBooksStereo44cn1s {
             0
     );
 
-    private static int[] _vq_quantlist__44cn1_s_p4_0 = {
+    private static final int[] _vq_quantlist__44cn1_s_p4_0 = {
             4,
             3,
             5,
@@ -624,7 +624,7 @@ public class ResBooksStereo44cn1s {
             8,
     };
 
-    private static int[] _vq_lengthlist__44cn1_s_p4_0 = {
+    private static final int[] _vq_lengthlist__44cn1_s_p4_0 = {
             1, 3, 3, 6, 6, 6, 6, 8, 8, 0, 0, 0, 6, 6, 7, 7,
             9, 9, 0, 0, 0, 6, 6, 7, 7, 9, 9, 0, 0, 0, 7, 7,
             8, 8, 10, 10, 0, 0, 0, 7, 7, 8, 8, 10, 10, 0, 0, 0,
@@ -633,11 +633,11 @@ public class ResBooksStereo44cn1s {
             11,
     };
 
-    private static float[] _vq_quantthresh__44cn1_s_p4_0 = {
+    private static final float[] _vq_quantthresh__44cn1_s_p4_0 = {
             -3.5f, -2.5f, -1.5f, -0.5f, 0.5f, 1.5f, 2.5f, 3.5f,
     };
 
-    private static int[] _vq_quantmap__44cn1_s_p4_0 = {
+    private static final int[] _vq_quantmap__44cn1_s_p4_0 = {
             7, 5, 3, 1, 0, 2, 4, 6,
             8,
     };
@@ -660,7 +660,7 @@ public class ResBooksStereo44cn1s {
             0
     );
 
-    private static int[] _vq_quantlist__44cn1_s_p5_0 = {
+    private static final int[] _vq_quantlist__44cn1_s_p5_0 = {
             8,
             7,
             9,
@@ -680,7 +680,7 @@ public class ResBooksStereo44cn1s {
             16,
     };
 
-    private static int[] _vq_lengthlist__44cn1_s_p5_0 = {
+    private static final int[] _vq_lengthlist__44cn1_s_p5_0 = {
             1, 4, 3, 6, 6, 7, 7, 8, 8, 8, 8, 9, 9, 10, 10, 10,
             10, 0, 0, 0, 7, 7, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10,
             11, 11, 0, 0, 0, 7, 7, 8, 8, 9, 9, 9, 9, 10, 10, 10,
@@ -702,12 +702,12 @@ public class ResBooksStereo44cn1s {
             14,
     };
 
-    private static float[] _vq_quantthresh__44cn1_s_p5_0 = {
+    private static final float[] _vq_quantthresh__44cn1_s_p5_0 = {
             -7.5f, -6.5f, -5.5f, -4.5f, -3.5f, -2.5f, -1.5f, -0.5f,
             0.5f, 1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f,
     };
 
-    private static int[] _vq_quantmap__44cn1_s_p5_0 = {
+    private static final int[] _vq_quantmap__44cn1_s_p5_0 = {
             15, 13, 11, 9, 7, 5, 3, 1,
             0, 2, 4, 6, 8, 10, 12, 14,
             16,
@@ -731,13 +731,13 @@ public class ResBooksStereo44cn1s {
             0
     );
 
-    private static int[] _vq_quantlist__44cn1_s_p6_0 = {
+    private static final int[] _vq_quantlist__44cn1_s_p6_0 = {
             1,
             0,
             2,
     };
 
-    private static int[] _vq_lengthlist__44cn1_s_p6_0 = {
+    private static final int[] _vq_lengthlist__44cn1_s_p6_0 = {
             1, 4, 4, 7, 6, 6, 7, 6, 6, 4, 6, 6, 10, 9, 9, 11,
             9, 9, 4, 6, 6, 10, 9, 9, 10, 9, 9, 7, 10, 10, 11, 11,
             11, 12, 11, 11, 7, 9, 9, 11, 11, 10, 11, 10, 10, 7, 9, 9,
@@ -746,11 +746,11 @@ public class ResBooksStereo44cn1s {
             10,
     };
 
-    private static float[] _vq_quantthresh__44cn1_s_p6_0 = {
+    private static final float[] _vq_quantthresh__44cn1_s_p6_0 = {
             -5.5f, 5.5f,
     };
 
-    private static int[] _vq_quantmap__44cn1_s_p6_0 = {
+    private static final int[] _vq_quantmap__44cn1_s_p6_0 = {
             1, 0, 2,
     };
 
@@ -772,7 +772,7 @@ public class ResBooksStereo44cn1s {
             0
     );
 
-    private static int[] _vq_quantlist__44cn1_s_p6_1 = {
+    private static final int[] _vq_quantlist__44cn1_s_p6_1 = {
             5,
             4,
             6,
@@ -786,7 +786,7 @@ public class ResBooksStereo44cn1s {
             10,
     };
 
-    private static int[] _vq_lengthlist__44cn1_s_p6_1 = {
+    private static final int[] _vq_lengthlist__44cn1_s_p6_1 = {
             1, 4, 4, 6, 6, 7, 7, 8, 8, 8, 8, 10, 10, 10, 7, 6,
             8, 8, 8, 8, 8, 8, 10, 10, 10, 7, 6, 7, 7, 8, 8, 8,
             8, 10, 10, 10, 7, 7, 8, 8, 8, 8, 8, 8, 10, 10, 10, 7,
@@ -797,12 +797,12 @@ public class ResBooksStereo44cn1s {
             10, 10, 10, 9, 9, 9, 9, 9, 9,
     };
 
-    private static float[] _vq_quantthresh__44cn1_s_p6_1 = {
+    private static final float[] _vq_quantthresh__44cn1_s_p6_1 = {
             -4.5f, -3.5f, -2.5f, -1.5f, -0.5f, 0.5f, 1.5f, 2.5f,
             3.5f, 4.5f,
     };
 
-    private static int[] _vq_quantmap__44cn1_s_p6_1 = {
+    private static final int[] _vq_quantmap__44cn1_s_p6_1 = {
             9, 7, 5, 3, 1, 0, 2, 4,
             6, 8, 10,
     };
@@ -825,7 +825,7 @@ public class ResBooksStereo44cn1s {
             0
     );
 
-    private static int[] _vq_quantlist__44cn1_s_p7_0 = {
+    private static final int[] _vq_quantlist__44cn1_s_p7_0 = {
             6,
             5,
             7,
@@ -841,7 +841,7 @@ public class ResBooksStereo44cn1s {
             12,
     };
 
-    private static int[] _vq_lengthlist__44cn1_s_p7_0 = {
+    private static final int[] _vq_lengthlist__44cn1_s_p7_0 = {
             1, 4, 4, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 6, 5, 5,
             7, 7, 8, 8, 8, 8, 9, 9, 11, 11, 7, 5, 5, 7, 7, 8,
             8, 8, 8, 9, 10, 11, 11, 0, 8, 8, 8, 8, 9, 9, 9, 9,
@@ -855,12 +855,12 @@ public class ResBooksStereo44cn1s {
             0, 13, 13, 12, 12, 13, 13, 13, 14,
     };
 
-    private static float[] _vq_quantthresh__44cn1_s_p7_0 = {
+    private static final float[] _vq_quantthresh__44cn1_s_p7_0 = {
             -27.5f, -22.5f, -17.5f, -12.5f, -7.5f, -2.5f, 2.5f, 7.5f,
             12.5f, 17.5f, 22.5f, 27.5f,
     };
 
-    private static int[] _vq_quantmap__44cn1_s_p7_0 = {
+    private static final int[] _vq_quantmap__44cn1_s_p7_0 = {
             11, 9, 7, 5, 3, 1, 0, 2,
             4, 6, 8, 10, 12,
     };
@@ -883,7 +883,7 @@ public class ResBooksStereo44cn1s {
             0
     );
 
-    private static int[] _vq_quantlist__44cn1_s_p7_1 = {
+    private static final int[] _vq_quantlist__44cn1_s_p7_1 = {
             2,
             1,
             3,
@@ -891,16 +891,16 @@ public class ResBooksStereo44cn1s {
             4,
     };
 
-    private static int[] _vq_lengthlist__44cn1_s_p7_1 = {
+    private static final int[] _vq_lengthlist__44cn1_s_p7_1 = {
             2, 3, 3, 5, 5, 6, 6, 6, 5, 5, 6, 6, 6, 5, 5, 6,
             6, 6, 5, 5, 6, 6, 6, 5, 5,
     };
 
-    private static float[] _vq_quantthresh__44cn1_s_p7_1 = {
+    private static final float[] _vq_quantthresh__44cn1_s_p7_1 = {
             -1.5f, -0.5f, 0.5f, 1.5f,
     };
 
-    private static int[] _vq_quantmap__44cn1_s_p7_1 = {
+    private static final int[] _vq_quantmap__44cn1_s_p7_1 = {
             3, 1, 0, 2, 4,
     };
 
@@ -922,7 +922,7 @@ public class ResBooksStereo44cn1s {
             0
     );
 
-    private static int[] _vq_quantlist__44cn1_s_p8_0 = {
+    private static final int[] _vq_quantlist__44cn1_s_p8_0 = {
             2,
             1,
             3,
@@ -930,7 +930,7 @@ public class ResBooksStereo44cn1s {
             4,
     };
 
-    private static int[] _vq_lengthlist__44cn1_s_p8_0 = {
+    private static final int[] _vq_lengthlist__44cn1_s_p8_0 = {
             1, 7, 7, 11, 11, 8, 11, 11, 11, 11, 4, 11, 3, 11, 11, 11,
             11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 10, 11, 11, 11, 11,
             11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
@@ -973,11 +973,11 @@ public class ResBooksStereo44cn1s {
             12,
     };
 
-    private static float[] _vq_quantthresh__44cn1_s_p8_0 = {
+    private static final float[] _vq_quantthresh__44cn1_s_p8_0 = {
             -331.5f, -110.5f, 110.5f, 331.5f,
     };
 
-    private static int[] _vq_quantmap__44cn1_s_p8_0 = {
+    private static final int[] _vq_quantmap__44cn1_s_p8_0 = {
             3, 1, 0, 2, 4,
     };
 
@@ -999,7 +999,7 @@ public class ResBooksStereo44cn1s {
             0
     );
 
-    private static int[] _vq_quantlist__44cn1_s_p8_1 = {
+    private static final int[] _vq_quantlist__44cn1_s_p8_1 = {
             6,
             5,
             7,
@@ -1015,7 +1015,7 @@ public class ResBooksStereo44cn1s {
             12,
     };
 
-    private static int[] _vq_lengthlist__44cn1_s_p8_1 = {
+    private static final int[] _vq_lengthlist__44cn1_s_p8_1 = {
             1, 4, 4, 6, 6, 8, 8, 9, 10, 10, 11, 11, 11, 6, 5, 5,
             7, 7, 8, 8, 9, 10, 9, 11, 11, 12, 5, 5, 5, 7, 7, 8,
             9, 10, 10, 12, 12, 14, 13, 15, 7, 7, 8, 8, 9, 10, 11, 11,
@@ -1029,12 +1029,12 @@ public class ResBooksStereo44cn1s {
             15, 12, 12, 11, 11, 14, 12, 13, 14,
     };
 
-    private static float[] _vq_quantthresh__44cn1_s_p8_1 = {
+    private static final float[] _vq_quantthresh__44cn1_s_p8_1 = {
             -93.5f, -76.5f, -59.5f, -42.5f, -25.5f, -8.5f, 8.5f, 25.5f,
             42.5f, 59.5f, 76.5f, 93.5f,
     };
 
-    private static int[] _vq_quantmap__44cn1_s_p8_1 = {
+    private static final int[] _vq_quantmap__44cn1_s_p8_1 = {
             11, 9, 7, 5, 3, 1, 0, 2,
             4, 6, 8, 10, 12,
     };
@@ -1057,7 +1057,7 @@ public class ResBooksStereo44cn1s {
             0
     );
 
-    private static int[] _vq_quantlist__44cn1_s_p8_2 = {
+    private static final int[] _vq_quantlist__44cn1_s_p8_2 = {
             8,
             7,
             9,
@@ -1077,7 +1077,7 @@ public class ResBooksStereo44cn1s {
             16,
     };
 
-    private static int[] _vq_lengthlist__44cn1_s_p8_2 = {
+    private static final int[] _vq_lengthlist__44cn1_s_p8_2 = {
             3, 4, 3, 6, 6, 7, 7, 8, 8, 9, 9, 9, 9, 9, 9, 9,
             9, 10, 11, 11, 6, 6, 7, 7, 8, 8, 9, 9, 9, 9, 9, 9,
             9, 9, 10, 10, 10, 6, 6, 7, 7, 8, 8, 9, 9, 9, 9, 9,
@@ -1099,12 +1099,12 @@ public class ResBooksStereo44cn1s {
             9,
     };
 
-    private static float[] _vq_quantthresh__44cn1_s_p8_2 = {
+    private static final float[] _vq_quantthresh__44cn1_s_p8_2 = {
             -7.5f, -6.5f, -5.5f, -4.5f, -3.5f, -2.5f, -1.5f, -0.5f,
             0.5f, 1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f,
     };
 
-    private static int[] _vq_quantmap__44cn1_s_p8_2 = {
+    private static final int[] _vq_quantmap__44cn1_s_p8_2 = {
             15, 13, 11, 9, 7, 5, 3, 1,
             0, 2, 4, 6, 8, 10, 12, 14,
             16,
@@ -1128,7 +1128,7 @@ public class ResBooksStereo44cn1s {
             0
     );
 
-    private static int[] _huff_lengthlist__44cn1_s_short = {
+    private static final int[] _huff_lengthlist__44cn1_s_short = {
             10, 9, 12, 15, 12, 13, 16, 14, 16, 7, 1, 5, 14, 7, 10, 13,
             16, 16, 9, 4, 6, 16, 8, 11, 16, 16, 16, 14, 4, 7, 16, 9,
             12, 14, 16, 16, 10, 5, 7, 14, 9, 12, 14, 15, 15, 13, 8, 9,

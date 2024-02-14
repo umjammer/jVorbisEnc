@@ -53,7 +53,6 @@ public class HighlevelEncodeSetup {
             new HighlevelByBlockType(),
             new HighlevelByBlockType()
     };
-
 }
 
 class HighlevelByBlockType {

@@ -21,7 +21,7 @@ import biniu.vorbis.StaticCodeBook;
  */
 public class ResBooksUncoupled44u7 {
 
-    private static int[] _huff_lengthlist__44u7__long = {
+    private static final int[] _huff_lengthlist__44u7__long = {
             3, 9, 14, 13, 15, 14, 16, 13, 13, 14, 5, 5, 7, 7, 8, 9,
             11, 10, 12, 15, 10, 6, 5, 6, 6, 9, 10, 10, 13, 16, 10, 6,
             6, 6, 6, 8, 9, 9, 12, 15, 14, 7, 6, 6, 5, 6, 6, 8,
@@ -42,13 +42,13 @@ public class ResBooksUncoupled44u7 {
             0
     );
 
-    private static int[] _vq_quantlist__44u7__p1_0 = {
+    private static final int[] _vq_quantlist__44u7__p1_0 = {
             1,
             0,
             2,
     };
 
-    private static int[] _vq_lengthlist__44u7__p1_0 = {
+    private static final int[] _vq_lengthlist__44u7__p1_0 = {
             1, 4, 4, 4, 7, 7, 5, 7, 7, 5, 8, 8, 8, 10, 10, 7,
             10, 10, 5, 8, 8, 7, 10, 10, 8, 10, 10, 5, 8, 8, 8, 11,
             10, 8, 10, 10, 8, 10, 10, 10, 12, 13, 10, 13, 13, 7, 10, 10,
@@ -57,11 +57,11 @@ public class ResBooksUncoupled44u7 {
             12,
     };
 
-    private static float[] _vq_quantthresh__44u7__p1_0 = {
+    private static final float[] _vq_quantthresh__44u7__p1_0 = {
             -0.5f, 0.5f,
     };
 
-    private static int[] _vq_quantmap__44u7__p1_0 = {
+    private static final int[] _vq_quantmap__44u7__p1_0 = {
             1, 0, 2,
     };
 
@@ -83,13 +83,13 @@ public class ResBooksUncoupled44u7 {
             0
     );
 
-    private static int[] _vq_quantlist__44u7__p2_0 = {
+    private static final int[] _vq_quantlist__44u7__p2_0 = {
             1,
             0,
             2,
     };
 
-    private static int[] _vq_lengthlist__44u7__p2_0 = {
+    private static final int[] _vq_lengthlist__44u7__p2_0 = {
             3, 4, 4, 5, 6, 6, 5, 6, 6, 5, 6, 6, 6, 8, 8, 6,
             7, 8, 5, 6, 6, 6, 8, 7, 6, 8, 8, 5, 6, 6, 6, 8,
             7, 6, 8, 8, 6, 8, 8, 8, 9, 9, 8, 9, 9, 6, 8, 7,
@@ -98,11 +98,11 @@ public class ResBooksUncoupled44u7 {
             9,
     };
 
-    private static float[] _vq_quantthresh__44u7__p2_0 = {
+    private static final float[] _vq_quantthresh__44u7__p2_0 = {
             -0.5f, 0.5f,
     };
 
-    private static int[] _vq_quantmap__44u7__p2_0 = {
+    private static final int[] _vq_quantmap__44u7__p2_0 = {
             1, 0, 2,
     };
 
@@ -124,7 +124,7 @@ public class ResBooksUncoupled44u7 {
             0
     );
 
-    private static int[] _vq_quantlist__44u7__p3_0 = {
+    private static final int[] _vq_quantlist__44u7__p3_0 = {
             2,
             1,
             3,
@@ -132,7 +132,7 @@ public class ResBooksUncoupled44u7 {
             4,
     };
 
-    private static int[] _vq_lengthlist__44u7__p3_0 = {
+    private static final int[] _vq_lengthlist__44u7__p3_0 = {
             2, 5, 4, 8, 8, 5, 7, 6, 9, 9, 5, 6, 7, 9, 9, 8,
             9, 9, 13, 12, 8, 9, 10, 12, 13, 5, 7, 7, 10, 9, 7, 9,
             9, 11, 11, 6, 8, 9, 11, 11, 10, 11, 11, 14, 14, 9, 10, 11,
@@ -175,11 +175,11 @@ public class ResBooksUncoupled44u7 {
             0,
     };
 
-    private static float[] _vq_quantthresh__44u7__p3_0 = {
+    private static final float[] _vq_quantthresh__44u7__p3_0 = {
             -1.5f, -0.5f, 0.5f, 1.5f,
     };
 
-    private static int[] _vq_quantmap__44u7__p3_0 = {
+    private static final int[] _vq_quantmap__44u7__p3_0 = {
             3, 1, 0, 2, 4,
     };
 
@@ -201,7 +201,7 @@ public class ResBooksUncoupled44u7 {
             0
     );
 
-    private static int[] _vq_quantlist__44u7__p4_0 = {
+    private static final int[] _vq_quantlist__44u7__p4_0 = {
             2,
             1,
             3,
@@ -209,7 +209,7 @@ public class ResBooksUncoupled44u7 {
             4,
     };
 
-    private static int[] _vq_lengthlist__44u7__p4_0 = {
+    private static final int[] _vq_lengthlist__44u7__p4_0 = {
             4, 5, 5, 8, 8, 6, 7, 6, 9, 9, 6, 6, 7, 9, 9, 8,
             9, 9, 11, 11, 8, 9, 9, 10, 11, 6, 7, 7, 9, 9, 7, 8,
             8, 10, 10, 6, 7, 8, 9, 10, 9, 10, 10, 12, 12, 9, 9, 10,
@@ -252,11 +252,11 @@ public class ResBooksUncoupled44u7 {
             14,
     };
 
-    private static float[] _vq_quantthresh__44u7__p4_0 = {
+    private static final float[] _vq_quantthresh__44u7__p4_0 = {
             -1.5f, -0.5f, 0.5f, 1.5f,
     };
 
-    private static int[] _vq_quantmap__44u7__p4_0 = {
+    private static final int[] _vq_quantmap__44u7__p4_0 = {
             3, 1, 0, 2, 4,
     };
 
@@ -278,7 +278,7 @@ public class ResBooksUncoupled44u7 {
             0
     );
 
-    private static int[] _vq_quantlist__44u7__p5_0 = {
+    private static final int[] _vq_quantlist__44u7__p5_0 = {
             4,
             3,
             5,
@@ -290,7 +290,7 @@ public class ResBooksUncoupled44u7 {
             8,
     };
 
-    private static int[] _vq_lengthlist__44u7__p5_0 = {
+    private static final int[] _vq_lengthlist__44u7__p5_0 = {
             2, 3, 3, 6, 6, 7, 8, 10, 10, 4, 5, 5, 8, 7, 8, 8,
             11, 11, 3, 5, 5, 7, 7, 8, 9, 11, 11, 6, 8, 7, 9, 9,
             10, 10, 12, 12, 6, 7, 8, 9, 10, 10, 10, 12, 12, 8, 8, 8,
@@ -299,11 +299,11 @@ public class ResBooksUncoupled44u7 {
             14,
     };
 
-    private static float[] _vq_quantthresh__44u7__p5_0 = {
+    private static final float[] _vq_quantthresh__44u7__p5_0 = {
             -3.5f, -2.5f, -1.5f, -0.5f, 0.5f, 1.5f, 2.5f, 3.5f,
     };
 
-    private static int[] _vq_quantmap__44u7__p5_0 = {
+    private static final int[] _vq_quantmap__44u7__p5_0 = {
             7, 5, 3, 1, 0, 2, 4, 6,
             8,
     };
@@ -326,7 +326,7 @@ public class ResBooksUncoupled44u7 {
             0
     );
 
-    private static int[] _vq_quantlist__44u7__p6_0 = {
+    private static final int[] _vq_quantlist__44u7__p6_0 = {
             4,
             3,
             5,
@@ -338,7 +338,7 @@ public class ResBooksUncoupled44u7 {
             8,
     };
 
-    private static int[] _vq_lengthlist__44u7__p6_0 = {
+    private static final int[] _vq_lengthlist__44u7__p6_0 = {
             3, 4, 4, 5, 5, 7, 7, 9, 9, 4, 5, 4, 6, 6, 8, 7,
             9, 9, 4, 4, 5, 6, 6, 7, 7, 9, 9, 5, 6, 6, 7, 7,
             8, 8, 10, 10, 5, 6, 6, 7, 7, 8, 8, 10, 10, 7, 8, 7,
@@ -347,11 +347,11 @@ public class ResBooksUncoupled44u7 {
             12,
     };
 
-    private static float[] _vq_quantthresh__44u7__p6_0 = {
+    private static final float[] _vq_quantthresh__44u7__p6_0 = {
             -3.5f, -2.5f, -1.5f, -0.5f, 0.5f, 1.5f, 2.5f, 3.5f,
     };
 
-    private static int[] _vq_quantmap__44u7__p6_0 = {
+    private static final int[] _vq_quantmap__44u7__p6_0 = {
             7, 5, 3, 1, 0, 2, 4, 6,
             8,
     };
@@ -374,13 +374,13 @@ public class ResBooksUncoupled44u7 {
             0
     );
 
-    private static int[] _vq_quantlist__44u7__p7_0 = {
+    private static final int[] _vq_quantlist__44u7__p7_0 = {
             1,
             0,
             2,
     };
 
-    private static int[] _vq_lengthlist__44u7__p7_0 = {
+    private static final int[] _vq_lengthlist__44u7__p7_0 = {
             1, 4, 4, 5, 7, 7, 5, 7, 7, 5, 9, 8, 8, 9, 9, 7,
             10, 10, 5, 8, 9, 7, 9, 10, 8, 9, 9, 4, 9, 9, 9, 11,
             10, 8, 10, 10, 7, 11, 10, 10, 10, 12, 10, 12, 12, 7, 10, 10,
@@ -389,11 +389,11 @@ public class ResBooksUncoupled44u7 {
             10,
     };
 
-    private static float[] _vq_quantthresh__44u7__p7_0 = {
+    private static final float[] _vq_quantthresh__44u7__p7_0 = {
             -5.5f, 5.5f,
     };
 
-    private static int[] _vq_quantmap__44u7__p7_0 = {
+    private static final int[] _vq_quantmap__44u7__p7_0 = {
             1, 0, 2,
     };
 
@@ -415,7 +415,7 @@ public class ResBooksUncoupled44u7 {
             0
     );
 
-    private static int[] _vq_quantlist__44u7__p7_1 = {
+    private static final int[] _vq_quantlist__44u7__p7_1 = {
             5,
             4,
             6,
@@ -429,7 +429,7 @@ public class ResBooksUncoupled44u7 {
             10,
     };
 
-    private static int[] _vq_lengthlist__44u7__p7_1 = {
+    private static final int[] _vq_lengthlist__44u7__p7_1 = {
             3, 4, 4, 6, 6, 7, 7, 8, 8, 8, 8, 4, 5, 5, 6, 6,
             8, 7, 8, 8, 8, 8, 4, 5, 5, 6, 6, 7, 8, 8, 8, 8,
             8, 6, 7, 6, 7, 7, 8, 8, 9, 9, 9, 9, 6, 6, 7, 7,
@@ -440,12 +440,12 @@ public class ResBooksUncoupled44u7 {
             8, 9, 9, 9, 9, 9, 10, 10, 10,
     };
 
-    private static float[] _vq_quantthresh__44u7__p7_1 = {
+    private static final float[] _vq_quantthresh__44u7__p7_1 = {
             -4.5f, -3.5f, -2.5f, -1.5f, -0.5f, 0.5f, 1.5f, 2.5f,
             3.5f, 4.5f,
     };
 
-    private static int[] _vq_quantmap__44u7__p7_1 = {
+    private static final int[] _vq_quantmap__44u7__p7_1 = {
             9, 7, 5, 3, 1, 0, 2, 4,
             6, 8, 10,
     };
@@ -468,7 +468,7 @@ public class ResBooksUncoupled44u7 {
             0
     );
 
-    private static int[] _vq_quantlist__44u7__p8_0 = {
+    private static final int[] _vq_quantlist__44u7__p8_0 = {
             5,
             4,
             6,
@@ -482,7 +482,7 @@ public class ResBooksUncoupled44u7 {
             10,
     };
 
-    private static int[] _vq_lengthlist__44u7__p8_0 = {
+    private static final int[] _vq_lengthlist__44u7__p8_0 = {
             1, 4, 4, 6, 6, 8, 8, 10, 10, 11, 11, 4, 6, 6, 7, 7,
             9, 9, 11, 10, 12, 12, 5, 6, 5, 7, 7, 9, 9, 10, 11, 12,
             12, 6, 7, 7, 8, 8, 10, 10, 11, 11, 13, 13, 6, 7, 7, 8,
@@ -493,12 +493,12 @@ public class ResBooksUncoupled44u7 {
             12, 13, 13, 14, 14, 15, 15, 15, 16,
     };
 
-    private static float[] _vq_quantthresh__44u7__p8_0 = {
+    private static final float[] _vq_quantthresh__44u7__p8_0 = {
             -49.5f, -38.5f, -27.5f, -16.5f, -5.5f, 5.5f, 16.5f, 27.5f,
             38.5f, 49.5f,
     };
 
-    private static int[] _vq_quantmap__44u7__p8_0 = {
+    private static final int[] _vq_quantmap__44u7__p8_0 = {
             9, 7, 5, 3, 1, 0, 2, 4,
             6, 8, 10,
     };
@@ -521,7 +521,7 @@ public class ResBooksUncoupled44u7 {
             0
     );
 
-    private static int[] _vq_quantlist__44u7__p8_1 = {
+    private static final int[] _vq_quantlist__44u7__p8_1 = {
             5,
             4,
             6,
@@ -535,7 +535,7 @@ public class ResBooksUncoupled44u7 {
             10,
     };
 
-    private static int[] _vq_lengthlist__44u7__p8_1 = {
+    private static final int[] _vq_lengthlist__44u7__p8_1 = {
             4, 5, 5, 6, 6, 7, 7, 7, 7, 7, 7, 5, 6, 6, 7, 7,
             7, 7, 7, 7, 7, 7, 5, 6, 6, 6, 7, 7, 7, 7, 7, 7,
             7, 6, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 6, 7, 7, 7,
@@ -546,12 +546,12 @@ public class ResBooksUncoupled44u7 {
             7, 8, 8, 8, 8, 8, 8, 8, 8,
     };
 
-    private static float[] _vq_quantthresh__44u7__p8_1 = {
+    private static final float[] _vq_quantthresh__44u7__p8_1 = {
             -4.5f, -3.5f, -2.5f, -1.5f, -0.5f, 0.5f, 1.5f, 2.5f,
             3.5f, 4.5f,
     };
 
-    private static int[] _vq_quantmap__44u7__p8_1 = {
+    private static final int[] _vq_quantmap__44u7__p8_1 = {
             9, 7, 5, 3, 1, 0, 2, 4,
             6, 8, 10,
     };
@@ -574,7 +574,7 @@ public class ResBooksUncoupled44u7 {
             0
     );
 
-    private static int[] _vq_quantlist__44u7__p9_0 = {
+    private static final int[] _vq_quantlist__44u7__p9_0 = {
             5,
             4,
             6,
@@ -588,7 +588,7 @@ public class ResBooksUncoupled44u7 {
             10,
     };
 
-    private static int[] _vq_lengthlist__44u7__p9_0 = {
+    private static final int[] _vq_lengthlist__44u7__p9_0 = {
             1, 3, 3, 10, 10, 10, 10, 10, 10, 10, 10, 4, 10, 10, 10, 10,
             10, 10, 10, 10, 10, 10, 4, 10, 10, 10, 10, 10, 10, 10, 10, 10,
             10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
@@ -599,12 +599,12 @@ public class ResBooksUncoupled44u7 {
             9, 9, 9, 9, 9, 9, 9, 9, 9,
     };
 
-    private static float[] _vq_quantthresh__44u7__p9_0 = {
+    private static final float[] _vq_quantthresh__44u7__p9_0 = {
             -2866.5f, -2229.5f, -1592.5f, -955.5f, -318.5f, 318.5f, 955.5f, 1592.5f,
             2229.5f, 2866.5f,
     };
 
-    private static int[] _vq_quantmap__44u7__p9_0 = {
+    private static final int[] _vq_quantmap__44u7__p9_0 = {
             9, 7, 5, 3, 1, 0, 2, 4,
             6, 8, 10,
     };
@@ -627,7 +627,7 @@ public class ResBooksUncoupled44u7 {
             0
     );
 
-    private static int[] _vq_quantlist__44u7__p9_1 = {
+    private static final int[] _vq_quantlist__44u7__p9_1 = {
             6,
             5,
             7,
@@ -643,7 +643,7 @@ public class ResBooksUncoupled44u7 {
             12,
     };
 
-    private static int[] _vq_lengthlist__44u7__p9_1 = {
+    private static final int[] _vq_lengthlist__44u7__p9_1 = {
             1, 4, 4, 6, 5, 8, 6, 9, 8, 10, 9, 11, 10, 4, 6, 6,
             8, 8, 9, 9, 11, 10, 11, 11, 11, 11, 4, 6, 6, 8, 8, 10,
             9, 11, 11, 11, 11, 11, 12, 6, 8, 8, 10, 10, 11, 11, 12, 12,
@@ -657,12 +657,12 @@ public class ResBooksUncoupled44u7 {
             15, 15, 15, 15, 17, 17, 16, 17, 16,
     };
 
-    private static float[] _vq_quantthresh__44u7__p9_1 = {
+    private static final float[] _vq_quantthresh__44u7__p9_1 = {
             -269.5f, -220.5f, -171.5f, -122.5f, -73.5f, -24.5f, 24.5f, 73.5f,
             122.5f, 171.5f, 220.5f, 269.5f,
     };
 
-    private static int[] _vq_quantmap__44u7__p9_1 = {
+    private static final int[] _vq_quantmap__44u7__p9_1 = {
             11, 9, 7, 5, 3, 1, 0, 2,
             4, 6, 8, 10, 12,
     };
@@ -685,7 +685,7 @@ public class ResBooksUncoupled44u7 {
             0
     );
 
-    private static int[] _vq_quantlist__44u7__p9_2 = {
+    private static final int[] _vq_quantlist__44u7__p9_2 = {
             24,
             23,
             25,
@@ -737,14 +737,14 @@ public class ResBooksUncoupled44u7 {
             48,
     };
 
-    private static int[] _vq_lengthlist__44u7__p9_2 = {
+    private static final int[] _vq_lengthlist__44u7__p9_2 = {
             2, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6,
             6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
             7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8,
             8,
     };
 
-    private static float[] _vq_quantthresh__44u7__p9_2 = {
+    private static final float[] _vq_quantthresh__44u7__p9_2 = {
             -23.5f, -22.5f, -21.5f, -20.5f, -19.5f, -18.5f, -17.5f, -16.5f,
             -15.5f, -14.5f, -13.5f, -12.5f, -11.5f, -10.5f, -9.5f, -8.5f,
             -7.5f, -6.5f, -5.5f, -4.5f, -3.5f, -2.5f, -1.5f, -0.5f,
@@ -753,7 +753,7 @@ public class ResBooksUncoupled44u7 {
             16.5f, 17.5f, 18.5f, 19.5f, 20.5f, 21.5f, 22.5f, 23.5f,
     };
 
-    private static int[] _vq_quantmap__44u7__p9_2 = {
+    private static final int[] _vq_quantmap__44u7__p9_2 = {
             47, 45, 43, 41, 39, 37, 35, 33,
             31, 29, 27, 25, 23, 21, 19, 17,
             15, 13, 11, 9, 7, 5, 3, 1,
@@ -781,7 +781,7 @@ public class ResBooksUncoupled44u7 {
             0
     );
 
-    private static int[] _huff_lengthlist__44u7__short = {
+    private static final int[] _huff_lengthlist__44u7__short = {
             5, 12, 17, 16, 16, 17, 17, 17, 17, 17, 4, 7, 11, 11, 12, 9,
             17, 10, 17, 17, 7, 7, 8, 9, 7, 9, 11, 10, 15, 17, 7, 9,
             10, 11, 10, 12, 14, 12, 16, 17, 7, 8, 5, 7, 4, 7, 7, 8,

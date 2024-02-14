@@ -75,7 +75,7 @@ public class Lookup {
             1.000000000000f,
     };
 
-    /* interpolated 1./sqrt(p) where .5 <= p < 1. */
+    /** interpolated 1./sqrt(p) where .5 <= p < 1. */
     static float invsqlook(float a) {
 // System.out.println(a);
         double d = a * (2.f * (float) INVSQ_LOOKUP_SZ) - (float) INVSQ_LOOKUP_SZ;
@@ -105,7 +105,7 @@ public class Lookup {
             1.525878906e-05f,
     };
 
-    /* interpolated 1./sqrt(p) where .5 <= p < 1. */
+    /** interpolated 1./sqrt(p) where .5 <= p < 1. */
     static float invsq2explook(int a) {
         return INVSQ2EXP_LOOKUP[a - INVSQ2EXP_LOOKUP_MIN];
     }
@@ -137,13 +137,12 @@ public class Lookup {
             0.6635520573f, 0.6540711597f, 0.6447257262f, 0.6355138211f,
     };
 
-    /* interpolated lookup based fromdB function, domain -140dB to 0dB only */
+    /** interpolated lookup based fromdB function, domain -140dB to 0dB only */
     static float fromdBlook(float a) {
         int i = (int) (a * ((float) (-(1 << FROMdB2_SHIFT))));
         return (i < 0) ? 1.f :
                 ((i >= (FROMdB_LOOKUP_SZ << FROMdB_SHIFT)) ? 0.f :
                         FROMdB_LOOKUP[i >>> FROMdB_SHIFT] * FROMdB2_LOOKUP[i & FROMdB2_MASK]);
     }
-
 }
 

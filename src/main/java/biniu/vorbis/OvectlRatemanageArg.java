@@ -44,5 +44,4 @@ public class OvectlRatemanageArg {
     int bitrate_av_hi;
     double bitrate_av_window;
     double bitrate_av_window_center;
-
 }

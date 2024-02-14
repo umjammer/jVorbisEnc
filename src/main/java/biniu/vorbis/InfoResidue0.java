@@ -20,21 +20,32 @@ package biniu.vorbis;
 public class InfoResidue0 {
 
     // block-partitioned VQ coded straight residue
+
     int begin;
     int end;
 
     // first stage (lossless partitioning)
-    int grouping;                   // group n vectors per partition
-    int partitions;                 // possible codebooks for a partition
-    int groupbook;                  // huffbook for partitioning
-    int[] secondstages = new int[64]; // expanded out to pointers in lookup
-    int[] booklist = new int[256];    // list of second stage books
+
+    /** group n vectors per partition */
+    int grouping;
+    /** possible codebooks for a partition */
+    int partitions;
+    /** huffbook for partitioning */
+    int groupbook;
+    /** expanded out to pointers in lookup */
+    int[] secondstages = new int[64];
+    /** list of second stage books */
+    int[] booklist = new int[256];
 
     // encode-only heuristic settings
-    float[] entmax = new float[64];       // book entropy threshholds
-    float[] ampmax = new float[64];       // book amp threshholds
-    int[] subgrp = new int[64];       // book heuristic subgroup size
-    int[] blimit = new int[64];       // subgroup position limits
+    /** book entropy threshholds */
+    float[] entmax = new float[64];
+    /** book amp threshholds */
+    float[] ampmax = new float[64];
+    /** book heuristic subgroup size */
+    int[] subgrp = new int[64];
+    /** subgroup position limits */
+    int[] blimit = new int[64];
 
     float[] classmetric1 = new float[64];
     float[] classmetric2 = new float[64];
@@ -78,5 +89,4 @@ public class InfoResidue0 {
         System.arraycopy(info.classmetric2, 0, this.classmetric2, 0, info.classmetric2.length);
         return true;
     }
-
 }

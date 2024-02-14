@@ -28,7 +28,7 @@ public class VorbisResidueTemplate {
     StaticCodeBook[][] books_base;
     StaticCodeBook[][] books_base_managed;
 
-    //(int,int,InfoResidue0,StaticCodeBook,StaticCodeBook,StaticBookBlock,StaticBookBlock)
+//(int,int,InfoResidue0,StaticCodeBook,StaticCodeBook,StaticBookBlock,StaticBookBlock)
     public VorbisResidueTemplate(
             int res_type,
             int limit_type,

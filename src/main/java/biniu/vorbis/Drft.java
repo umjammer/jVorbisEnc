@@ -49,7 +49,7 @@ public class Drft {
     static float taur = -.5f;
     static float sqrt2 = 1.4142135623730950488016887242097f;
 
-    private void drfti1(int n, float[] wa, int index, int[] ifac) {
+    private static void drfti1(int n, float[] wa, int index, int[] ifac) {
         float arg, argh, argld, fi;
         int ntry = 0, i, j = -1;
         int k1, l1, l2, ib;
@@ -139,7 +139,7 @@ loop:
         drfti1(n, wsave, n, ifac);
     }
 
-    private void dradb2(int ido, int l1, float[] cc, float[] ch, float[] wa1, int index) {
+    private static void dradb2(int ido, int l1, float[] cc, float[] ch, float[] wa1, int index) {
         int i, k, t0, t1, t2, t3, t4, t5, t6;
         float ti2, tr2;
 
@@ -189,9 +189,9 @@ loop:
         }
     }
 
-    private void dradb3(int ido, int l1, float[] cc, float[] ch,
-                        float[] wa1, int index1,
-                        float[] wa2, int index2) {
+    private static void dradb3(int ido, int l1, float[] cc, float[] ch,
+                               float[] wa1, int index1,
+                               float[] wa2, int index2) {
         int i, k, t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10;
         float ci2, ci3, di2, di3, cr2, cr3, dr2, dr3, ti2, tr2;
         t0 = l1 * ido;
@@ -251,10 +251,10 @@ loop:
         }
     }
 
-    private void dradb4(int ido, int l1, float[] cc, float[] ch,
-                        float[] wa1, int index1,
-                        float[] wa2, int index2,
-                        float[] wa3, int index3) {
+    private static void dradb4(int ido, int l1, float[] cc, float[] ch,
+                               float[] wa1, int index1,
+                               float[] wa2, int index2,
+                               float[] wa3, int index3) {
         int i, k, t0, t1, t2, t3, t4, t5, t6, t7, t8;
         float ci2, ci3, ci4, cr2, cr3, cr4, ti1, ti2, ti3, ti4, tr1, tr2, tr3, tr4;
         t0 = l1 * ido;
@@ -340,8 +340,8 @@ loop:
         }
     }
 
-    private void dradbg(int ido, int ip, int l1, int idl1, float[] cc, float[] c1,
-                        float[] c2, float[] ch, float[] ch2, float[] wa, int index) {
+    private static void dradbg(int ido, int ip, int l1, int idl1, float[] cc, float[] c1,
+                               float[] c2, float[] ch, float[] ch2, float[] wa, int index) {
 
         int idij, ipph = 0, i, j, k, l, ik, is, t0 = 0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10 = 0,
                 t11, t12;

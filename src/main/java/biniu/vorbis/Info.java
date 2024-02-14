@@ -14,7 +14,6 @@ import java.util.Arrays;
 
 import biniu.ogg.Buffer;
 import biniu.ogg.Packet;
-import biniu.vorbis.modes.FloorAll;
 
 
 /**
@@ -28,7 +27,7 @@ public class Info {
     private static final int OV_EBADPACKET = -136;
     private static final int OV_ENOTAUDIO = -135;
 
-    private static byte[] _vorbis = "vorbis".getBytes();
+    private static final byte[] _vorbis = "vorbis".getBytes();
     private static final int VI_TIMEB = 1;
     private static final int VI_FLOORB = 2;
     private static final int VI_RESB = 3;
@@ -204,7 +203,7 @@ public class Info {
         return 0;
     }
 
-    private int vorbis_unpack_comment(Comment vc, Buffer opb) {
+    private static int vorbis_unpack_comment(Comment vc, Buffer opb) {
         int vendorlen = opb.read(32);
         if (vendorlen < 0) {
             vc.clear();
@@ -255,7 +254,7 @@ public class Info {
      * all of the real encoding details are here.  The modes, books,
      * everything
      */
-    private int vorbis_unpack_books(Info vi, Buffer opb) {
+    private static int vorbis_unpack_books(Info vi, Buffer opb) {
         CodecSetupInfo ci = vi.getCodecSetup();
         int i;
 
@@ -444,7 +443,7 @@ public class Info {
                         // improperly initialized vorbis_info
                         return -129;
                     }
-                    if (((CodecSetupInfo) this.getCodecSetup()).books > 0) {
+                    if (this.getCodecSetup().books > 0) {
                         // previously initialized setup header
                         return -133;
                     }

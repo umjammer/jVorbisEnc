@@ -148,21 +148,19 @@ public class Block {
         centerNext = dspState.centerW + (ci.blocksizes[dspState.W] / 4) + (ci.blocksizes[dspState.nW] / 4);
 
         {
-            /* center of next block + next block maximum right side. */
+            // center of next block + next block maximum right side.
 
             long blockbound = centerNext + ci.blocksizes[dspState.nW] / 2;
-            if (dspState.pcm_current < blockbound) return false; /* not enough data yet;
-                                                 although this check is
-                                                 less strict that the
-                                                 _ve_envelope_search,
-                                                 the search is not run
-                                                 if we only use one
-                                                 block size */
+            if (dspState.pcm_current < blockbound)
+                // not enough data yet;
+                // although this check is less strict that the _ve_envelope_search,
+                // the search is not run if we only use one block size
+                return false;
 
         }
 
-    /* fill in the block.  Note that for a short window, lW and nW are *short*
-       regardless of actual settings in the stream */
+        // fill in the block.  Note that for a short window, lW and nW are *short*
+        // regardless of actual settings in the stream
 
         blockRipcord();
         this.lW = dspState.lW;
@@ -281,7 +279,7 @@ public class Block {
         return 0;
     }
 
-    /* decides between modes, dispatches to the appropriate mapping. */
+    /** decides between modes, dispatches to the appropriate mapping. */
     public int analysis(Packet op) {
         int ret, i;
 
@@ -290,32 +288,32 @@ public class Block {
         this.floor_bits = 0;
         this.res_bits = 0;
 
-        /* first things first.  Make sure encode is ready */
+        // first things first.  Make sure encode is ready
         for (i = 0; i < Const.PACKETBLOBS; i++)
             blockInternal.packetblob[i].reset();
 
-  /* we only have one mapping type (0), and we let the mapping code
-     itself figure out what soft mode to use.  This allows easier
-     bitrate management */
+        // we only have one mapping type (0), and we let the mapping code
+        // itself figure out what soft mode to use.  This allows easier
+        // bitrate management
         if ((ret = FuncMapping.mapping_P[0].mapping0Forward(this)) != 0)
             return ret;
 
         if (op != null) {
             if (bitrateManaged()) {
-      /* The app is using a bitmanaged mode... but not using the
-         bitrate management interface. */
+                // The app is using a bitmanaged mode... but not using the
+                // bitrate management interface.
                 return Const.OV_EINVAL;
             }
 
             op.b_o_s = false;
             op.e_o_s = this.eofFlag != 0;
             op.granulePos = this.granulePos;
-            op.packetNo = this.sequence; /* for sake of completeness */
+            op.packetNo = this.sequence; // for sake of completeness
         }
         return 0;
     }
 
-    /* finish taking in the block we just processed */
+    /** finish taking in the block we just processed */
     public int bitrateAddBlock() {
         BitrateManagerState bm = dspState.backEndState.bms;
         BitrateManagerInfo bi = ci.biManInfo;
@@ -327,33 +325,35 @@ public class Block {
         int samples = ci.blocksizes[this.W] >> 1;
         int desired_fill = (int) (bi.reservoir_bits * bi.reservoir_bias);
         if (bm.managed == null) {
-    /* not a bitrate managed stream, but for API simplicity, we'll
-       buffer the packet to keep the code path clean */
+            // not a bitrate managed stream, but for API simplicity, we'll
+            // buffer the packet to keep the code path clean
 
-            if (bm.vb != null) return -1; /* one has been submitted without
-                             being claimed */
+            if (bm.vb != null)
+                // one has been submitted without
+                // being claimed
+                return -1;
             bm.vb = this;
             return 0;
         }
 
         bm.vb = this;
 
-        /* look ahead for avg floater */
+        // look ahead for avg floater
         if (bm.avg_bitsper > 0) {
             double slew = 0.;
             long avg_target_bits = (this.W != 0 ? (long) bm.avg_bitsper * bm.short_per_long : bm.avg_bitsper);
             double slewlimit = 15. / bi.slew_damp;
 
-    /* choosing a new floater:
-       if we're over target, we slew down
-       if we're under target, we slew up
-
-       choose slew as follows: look through packetblobs of this frame
-       and set slew as the first in the appropriate direction that
-       gives us the slew we want.  This may mean no slew if delta is
-       already favorable.
-
-       Then limit slew to slew max */
+            // choosing a new floater:
+            // if we're over target, we slew down
+            // if we're under target, we slew up
+            //
+            // choose slew as follows: look through packetblobs of this frame
+            // and set slew as the first in the appropriate direction that
+            // gives us the slew we want.  This may mean no slew if delta is
+            // already favorable.
+            //
+            // Then limit slew to slew max
 
             if (bm.avg_reservoir + (this_bits - avg_target_bits) > desired_fill) {
                 while (choice > 0 && this_bits > avg_target_bits &&
@@ -377,9 +377,9 @@ public class Block {
         }
 
 
-        /* enforce min(if used) on the current floater (if used) */
+        // enforce min(if used) on the current floater (if used)
         if (bm.min_bitsper > 0) {
-            /* do we need to force the bitrate up? */
+            // do we need to force the bitrate up?
             if (this_bits < min_target_bits) {
                 while (bm.minmax_reservoir - (min_target_bits - this_bits) < 0) {
                     choice++;
@@ -389,9 +389,9 @@ public class Block {
             }
         }
 
-        /* enforce max (if used) on the current floater (if used) */
+        // enforce max (if used) on the current floater (if used)
         if (bm.max_bitsper > 0) {
-            /* do we need to force the bitrate down? */
+            // do we need to force the bitrate down?
             if (this_bits > max_target_bits) {
                 while (bm.minmax_reservoir + (this_bits - max_target_bits) > bi.reservoir_bits) {
                     choice--;
@@ -401,12 +401,12 @@ public class Block {
             }
         }
 
-  /* Choice of packetblobs now made based on floater, and min/max
-     requirements. Now boundary check extreme choices */
+        // Choice of packetblobs now made based on floater, and min/max
+        // requirements. Now boundary check extreme choices
 
         if (choice < 0) {
-    /* choosing a smaller packetblob is insufficient to trim bitrate.
-       frame will need to be truncated */
+            // choosing a smaller packetblob is insufficient to trim bitrate.
+            // frame will need to be truncated
             int maxsize = (max_target_bits + (bi.reservoir_bits - bm.minmax_reservoir)) / 8;
             bm.choice = choice = 0;
 
@@ -421,15 +421,15 @@ public class Block {
 
             bm.choice = choice;
 
-            /* prop up bitrate according to demand. pad this frame out with zeroes */
+            // prop up bitrate according to demand. pad this frame out with zeroes
             minsize -= blockInternal.packetblob[choice].getBytes();
             while ((minsize - .0) != 0) blockInternal.packetblob[choice].write(0, 8);
             this_bits = blockInternal.packetblob[choice].getBytes() * 8L;
 
         }
 
-        /* now we have the final packet and the final packet size.  Update statistics */
-        /* min and max reservoir */
+        // now we have the final packet and the final packet size.  Update statistics
+        // min and max reservoir
         if (bm.min_bitsper > 0 || bm.max_bitsper > 0) {
 
             if (max_target_bits > 0 && this_bits > max_target_bits) {
@@ -437,16 +437,16 @@ public class Block {
             } else if (min_target_bits > 0 && this_bits < min_target_bits) {
                 bm.minmax_reservoir = (int) (bm.minmax_reservoir + (this_bits - min_target_bits));
             } else {
-                /* inbetween; we want to take reservoir toward but not past desired_fill */
+                // inbetween; we want to take reservoir toward but not past desired_fill
                 if (bm.minmax_reservoir > desired_fill) {
-                    if (max_target_bits > 0) { /* logical bulletproofing against initialization state */
+                    if (max_target_bits > 0) { // logical bulletproofing against initialization state
                         bm.minmax_reservoir = (int) (bm.minmax_reservoir + (this_bits - max_target_bits));
                         if (bm.minmax_reservoir < desired_fill) bm.minmax_reservoir = desired_fill;
                     } else {
                         bm.minmax_reservoir = desired_fill;
                     }
                 } else {
-                    if (min_target_bits > 0) { /* logical bulletproofing against initialization state */
+                    if (min_target_bits > 0) { // logical bulletproofing against initialization state
                         bm.minmax_reservoir = (int) (bm.minmax_reservoir + (this_bits - min_target_bits));
                         if (bm.minmax_reservoir > desired_fill) bm.minmax_reservoir = desired_fill;
                     } else {
@@ -456,7 +456,7 @@ public class Block {
             }
         }
 
-        /* avg reservoir */
+        // avg reservoir
         if (bm.avg_bitsper > 0) {
             long avg_target_bits = (this.W != 0 ? (long) bm.avg_bitsper * bm.short_per_long : bm.avg_bitsper);
             bm.avg_reservoir = (int) (bm.avg_reservoir + this_bits - avg_target_bits);
@@ -465,21 +465,21 @@ public class Block {
         return 0;
     }
 
-    // reap the chain, pull the ripcord
+    /** reap the chain, pull the ripcord */
     private void blockRipcord() {
-        /* reap the chain */
+        // reap the chain
         while (this.reap != null) {
             AllocChain next = reap.next;
             reap.ptr = null;
             reap = next;
         }
-        /* consolidate storage */
+        // consolidate storage
         if (this.totalUse != 0) {
             this.localAlloc += this.totalUse;
             this.totalUse = 0;
         }
 
-        /* pull the ripcord */
+        // pull the ripcord
         this.localTop = 0;
         this.reap = null;
     }

@@ -22,14 +22,14 @@ import biniu.ogg.Buffer;
  */
 class Residue2 extends Residue0 {
 
-    public int forward(Block vb, Object vl, float[][] in, int ch) {
+    public static int forward(Block vb, Object vl, float[][] in, int ch) {
         return 0;
     }
 
     public int inverse(Block vb, Object vl, float[][] in, int[] nonzero, int ch) {
         int i = 0;
         for (i = 0; i < ch; i++) if (nonzero[i] != 0) break;
-        if (i == ch) return 0; /* no nonzero vectors */
+        if (i == ch) return 0; // no nonzero vectors
 
         return (_2inverse(vb, vl, in, ch));
     }
@@ -50,7 +50,7 @@ class Residue2 extends Residue0 {
      * integer multiple of the number of channels encoded in the current
      * submap
      */
-    private int[][] _2class(LookResidue vl, float[][] in, int pin, int ch) {
+    private static int[][] _2class(LookResidue vl, float[][] in, int pin, int ch) {
         int i, j, k, l;
         LookResidue look = vl;
         InfoResidue0 info = look.info;

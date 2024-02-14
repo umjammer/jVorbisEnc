@@ -73,7 +73,7 @@ public class DspState {
     byte[] header1;
     byte[] header2;
 
-    private Window _w = new Window();
+    private final Window _w = new Window();
 
     public DspState() {
         transform = new Object[2][];
@@ -94,7 +94,7 @@ public class DspState {
         window[1][1][1] = new float[2][];
     }
 
-    private int ilog2(int v) {
+    private static int ilog2(int v) {
         int ret = 0;
         while (v > 1) {
             ret++;
@@ -236,7 +236,7 @@ public class DspState {
         return 0;
     }
 
-    private void drftInit(DrftLookup l, int n) {
+    private static void drftInit(DrftLookup l, int n) {
         l.n = n;
         l.trigcache = new float[3 * n];
         l.splitcache = new int[32];
@@ -653,14 +653,14 @@ public class DspState {
                 if (this.lW != 0) {
                     if (this.W != 0) {
                         // large/large
-                        float[] w = this._w.getWindow(b.window[1] - hs);
+                        float[] w = Window.getWindow(b.window[1] - hs);
                         int pcm = prevCenter; // this.pcm[j]
                         float[] p = vb.pcm[j];
                         for (i = 0; i < n1; i++)
                             this.pcm[j][pcm + i] = this.pcm[j][pcm + i] * w[n1 - i - 1] + p[i] * w[i];
                     } else {
                         // large/small
-                        float[] w = this._w.getWindow(b.window[0] - hs);
+                        float[] w = Window.getWindow(b.window[0] - hs);
                         int pcm = prevCenter + n1 / 2 - n0 / 2; // this.pcm[j]
                         float[] p = vb.pcm[j];
                         for (i = 0; i < n0; i++)
@@ -669,7 +669,7 @@ public class DspState {
                 } else {
                     if (this.W != 0) {
                         // small/large
-                        float[] w = this._w.getWindow(b.window[0] - hs);
+                        float[] w = Window.getWindow(b.window[0] - hs);
                         int pcm = prevCenter; // this.pcm[j]
                         int p = n1 / 2 - n0 / 2; // vb.pcm[j]
                         for (i = 0; i < n0; i++)
@@ -678,7 +678,7 @@ public class DspState {
                             this.pcm[j][pcm + i] = vb.pcm[j][p + i];
                     } else {
                         // small/small
-                        float[] w = this._w.getWindow(b.window[0] - hs);
+                        float[] w = Window.getWindow(b.window[0] - hs);
                         int pcm = prevCenter; // this.pcm[j]
                         float[] p = vb.pcm[j];
                         for (i = 0; i < n0; i++)
@@ -760,13 +760,13 @@ public class DspState {
                         // Guard against corrupt/malicious frames that set EOP and
                         // a backdated granpos; don't rewind more samples than we
                         // actually have
-                        if (extra > (this.pcm_current - this.pcm_returned) << hs)
-                            extra = (this.pcm_current - this.pcm_returned) << hs;
+                        if (extra > (long) (this.pcm_current - this.pcm_returned) << hs)
+                            extra = (long) (this.pcm_current - this.pcm_returned) << hs;
 
-                        this.pcm_current -= extra >> hs;
+                        this.pcm_current = (int) (this.pcm_current - extra >> hs);
                     } else {
                         // trim the beginning
-                        this.pcm_returned += extra >> hs;
+                        this.pcm_returned = (int) (this.pcm_returned + extra >> hs);
                         if (this.pcm_returned > this.pcm_current)
                             this.pcm_returned = this.pcm_current;
                     }
@@ -786,8 +786,8 @@ public class DspState {
                             // Guard against corrupt/malicious frames that set EOP and
                             // a backdated granpos; don't rewind more samples than we
                             // actually have
-                            if (extra > (this.pcm_current - this.pcm_returned) << hs)
-                                extra = (this.pcm_current - this.pcm_returned) << hs;
+                            if (extra > (long) (this.pcm_current - this.pcm_returned) << hs)
+                                extra = (long) (this.pcm_current - this.pcm_returned) << hs;
 
                             // we use ogg_int64_t for granule positions because a
                             // uint64 isn't universally available.  Unfortunately,
@@ -796,7 +796,7 @@ public class DspState {
                             if (extra < 0)
                                 extra = 0;
 
-                            this.pcm_current -= extra >> hs;
+                            this.pcm_current -= (int) (extra >> hs);
                         }
                     // else {Shouldn't happen *unless* the bitstream is out of
                     // spec.  Either way, believe the bitstream }

@@ -148,7 +148,8 @@ public class Mapping0 extends FuncMapping {
         }
     }
 
-    // also responsible for range checking
+    /** also responsible for range checking */
+    @Override
     public Object unpack(Info vi, Buffer opb) {
         InfoMapping0 info = new InfoMapping0();
 
@@ -342,7 +343,7 @@ public class Mapping0 extends FuncMapping {
         return 0;
     }
 
-    private int ilog2(int v) {
+    private static int ilog2(int v) {
         int ret = 0;
         while (v > 1) {
             ret++;
@@ -356,12 +357,12 @@ public class Mapping0 extends FuncMapping {
                 764.6161886f);
     }
 
-    private float todB345(float x) {
+    private static float todB345(float x) {
         return (((Float.floatToIntBits(x) & 0x7fffffff) * 7.17711438e-7f) -
                 764.2711886f); //764.6161886f);
     }
 
-    private float todB05(float x) {
+    private static float todB05(float x) {
         return (((Float.floatToIntBits(x) & 0x7fffffff) * 3.58855719e-7f) -
                 381.9630943f); //764.6161886f);
     }
@@ -416,7 +417,7 @@ public class Mapping0 extends FuncMapping {
             scale_dB = todB345(scale);
 
             // window the PCM data
-            window.applyWindow(pcm, vb.dspState.backEndState.window,
+            Window.applyWindow(pcm, vb.dspState.backEndState.window,
                     ci.blocksizes, vb.lW, vb.W, vb.nW);
 
             // transform the PCM data
@@ -579,14 +580,14 @@ public class Mapping0 extends FuncMapping {
                     // intermediate rates
                     for (k = 1; k < Const.PACKETBLOBS / 2; k++)
                         floor_posts[i][k] =
-                                floor1.interpolate(vb, info.floorsubmap[submap],
+                                Floor1.interpolate(vb, info.floorsubmap[submap],
                                         floor_posts[i][0],
                                         floor_posts[i][Const.PACKETBLOBS / 2],
                                         k * 65536 / (Const.PACKETBLOBS / 2));
 
                     for (k = Const.PACKETBLOBS / 2 + 1; k < Const.PACKETBLOBS - 1; k++)
                         floor_posts[i][k] =
-                                floor1.interpolate(vb, info.floorsubmap[submap],
+                                Floor1.interpolate(vb, info.floorsubmap[submap],
                                         floor_posts[i][Const.PACKETBLOBS / 2],
                                         floor_posts[i][Const.PACKETBLOBS - 1],
                                         (k - Const.PACKETBLOBS / 2) * 65536 / (Const.PACKETBLOBS / 2));

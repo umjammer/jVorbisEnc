@@ -40,18 +40,18 @@ class Floor1 extends FuncFloor {
         int maxposit = info.postlist[1];
         int maxclass = -1;
 
-        /* save out partitions */
-        opb.write(info.partitions, 5);          /* only 0 to 31 legal */
+        // save out partitions
+        opb.write(info.partitions, 5);          // only 0 to 31 legal
         for (int j = 0; j < info.partitions; j++) {
-            opb.write(info.partitionclass[j], 4); /* only 0 to 15 legal */
+            opb.write(info.partitionclass[j], 4); // only 0 to 15 legal
             if (maxclass < info.partitionclass[j])
                 maxclass = info.partitionclass[j];
         }
 
-        /* save out partition classes */
+        // save out partition classes
         for (int j = 0; j < maxclass + 1; j++) {
-            opb.write(info.class_dim[j] - 1, 3); /* 1 to 8 */
-            opb.write(info.class_subs[j], 2); /* 0 to 3 */
+            opb.write(info.class_dim[j] - 1, 3); // 1 to 8
+            opb.write(info.class_subs[j], 2); // 0 to 3
             if (info.class_subs[j] != 0) {
                 opb.write(info.class_book[j], 8);
             }
@@ -60,8 +60,8 @@ class Floor1 extends FuncFloor {
             }
         }
 
-        /* save out the post list */
-        opb.write(info.mult - 1, 2);     /* only 1,2,3,4 legal now */
+        // save out the post list
+        opb.write(info.mult - 1, 2);     // only 1,2,3,4 legal now
         opb.write(ilog2(maxposit), 4);
         rangebits = ilog2(maxposit);
 
@@ -108,7 +108,7 @@ Debug.println(Level.WARNING, "not implemented yet");
         n += 2;
         look.posts = n;
 
-        /* also store a sorted position index */
+        // also store a sorted position index
         for (int j = 0; j < n; j++) {
             sortpointer[j] = j;
         }
@@ -124,31 +124,31 @@ Debug.println(Level.WARNING, "not implemented yet");
             }
         }
 
-        /* points from sort order back to range number */
+        // points from sort order back to range number
         for (int j = 0; j < n; j++) {
             look.forwardIndex[j] = sortpointer[j];
         }
-        /* points from range order to sorted position */
+        // points from range order to sorted position
         for (int j = 0; j < n; j++) {
             look.reverseIndex[look.forwardIndex[j]] = j;
         }
-        /* we actually need the post values too */
+        // we actually need the post values too
         for (int j = 0; j < n; j++) {
             look.sortedIndex[j] = info.postlist[look.forwardIndex[j]];
         }
 
-        /* quantize values to multiplier spec */
+        // quantize values to multiplier spec
         switch (info.mult) {
-        case 1: /* 1024 -> 256 */
+        case 1: // 1024 -> 256
             look.quant_q = 256;
             break;
-        case 2: /* 1024 -> 128 */
+        case 2: // 1024 -> 128
             look.quant_q = 128;
             break;
-        case 3: /* 1024 -> 86 */
+        case 3: // 1024 -> 86
             look.quant_q = 86;
             break;
-        case 4: /* 1024 -> 64 */
+        case 4: // 1024 -> 64
             look.quant_q = 64;
             break;
         default:
@@ -197,7 +197,7 @@ Debug.println(Level.WARNING, "not implemented yet");
         InfoFloor1 info = look.vi;
         CodeBook[] books = vb.dspState.fullbooks;
 
-        /* unpack wrapped/predicted values from stream */
+        // unpack wrapped/predicted values from stream
         if (vb.opb.read(1) == 1) {
             int[] fit_value = null;
             if (memo instanceof int[]) {
@@ -212,7 +212,7 @@ Debug.println(Level.WARNING, "not implemented yet");
             fit_value[0] = vb.opb.read(ilog(look.quant_q - 1));
             fit_value[1] = vb.opb.read(ilog(look.quant_q - 1));
 
-            /* partition by partition */
+            // partition by partition
             for (int i = 0, j = 2; i < info.partitions; i++) {
                 int clss = info.partitionclass[i];
                 int cdim = info.class_dim[clss];
@@ -220,7 +220,7 @@ Debug.println(Level.WARNING, "not implemented yet");
                 int csub = 1 << csubbits;
                 int cval = 0;
 
-                /* decode the partition's first stage cascade value */
+                // decode the partition's first stage cascade value
                 if (csubbits != 0) {
                     cval = books[info.class_book[clss]].decode(vb.opb);
 
@@ -243,7 +243,7 @@ Debug.println(Level.WARNING, "not implemented yet");
                 j += cdim;
             }
 
-            /* unwrap positive values and reconsitute via linear interpolation */
+            // unwrap positive values and reconsitute via linear interpolation
             for (int i = 2; i < look.posts; i++) {
                 int predicted = renderPoint(info.postlist[look.loneighBor[i - 2]],
                         info.postlist[look.hineighBor[i - 2]],
@@ -283,8 +283,8 @@ Debug.println(Level.WARNING, "not implemented yet");
         return null;
     }
 
-    private int renderPoint(int x0, int x1, int y0, int y1, int x) {
-        y0 &= 0x7fff; /* mask off flag */
+    private static int renderPoint(int x0, int x1, int y0, int y1, int x) {
+        y0 &= 0x7fff; // mask off flag
         y1 &= 0x7fff;
 
         {
@@ -306,7 +306,7 @@ Debug.println(Level.WARNING, "not implemented yet");
         int n = vb.dspState.vi.blocksizes[vb.mode] / 2;
 
         if (memo != null) {
-            /* render the lines */
+            // render the lines
             int[] fit_value = (int[]) memo;
             int hx = 0;
             int lx = 0;
@@ -325,7 +325,7 @@ Debug.println(Level.WARNING, "not implemented yet");
                 }
             }
             for (int j = hx; j < n; j++) {
-                out[j] *= out[j - 1]; /* be certain */
+                out[j] *= out[j - 1]; // be certain
             }
             return 1;
         }
@@ -335,7 +335,7 @@ Debug.println(Level.WARNING, "not implemented yet");
         return 0;
     }
 
-    private static float[] FLOOR_fromdB_LOOKUP = {
+    private static final float[] FLOOR_fromdB_LOOKUP = {
             1.0649863e-07F, 1.1341951e-07F, 1.2079015e-07F, 1.2863978e-07F,
             1.3699951e-07F, 1.4590251e-07F, 1.5538408e-07F, 1.6548181e-07F,
             1.7623575e-07F, 1.8768855e-07F, 1.9988561e-07F, 2.128753e-07F,
@@ -402,7 +402,7 @@ Debug.println(Level.WARNING, "not implemented yet");
             0.82788260F, 0.88168307F, 0.9389798F, 1.F
     };
 
-    private void renderLine(int x0, int x1, int y0, int y1, float[] d) {
+    private static void renderLine(int x0, int x1, int y0, int y1, float[] d) {
         int dy = y1 - y0;
         int adx = x1 - x0;
         int ady = Math.abs(dy);
@@ -427,9 +427,9 @@ Debug.println(Level.WARNING, "not implemented yet");
         }
     }
 
-    private int inspectError(int x0, int x1, int y0, int y1, float[] mask,
-                             float[] mdct, int pmdct,
-                             InfoFloor1 info) {
+    private static int inspectError(int x0, int x1, int y0, int y1, float[] mask,
+                                    float[] mdct, int pmdct,
+                                    InfoFloor1 info) {
         int dy = y1 - y0;
         int adx = x1 - x0;
         int ady = Math.abs(dy);
@@ -478,17 +478,17 @@ Debug.println(Level.WARNING, "not implemented yet");
         return 0;
     }
 
-    int dBquant(float[] x, int px) {
+    static int dBquant(float[] x, int px) {
         int i = (int) (x[px] * 7.3142857f + 1023.5f);
         if (i > 1023) return 1023;
         if (i < 0) return 0;
         return i;
     }
 
-    /* the floor has already been filtered to only include relevant sections */
-    private int accumulateFit(float[] flr, float[] mdct, int pmdct,
-                              int x0, int x1, LsfitAcc a,
-                              int n, InfoFloor1 info) {
+    // the floor has already been filtered to only include relevant sections
+    private static int accumulateFit(float[] flr, float[] mdct, int pmdct,
+                                     int x0, int x1, LsfitAcc a,
+                                     int n, InfoFloor1 info) {
         int i;
         int quantized = dBquant(flr, x0);
 
@@ -526,7 +526,7 @@ Debug.println(Level.WARNING, "not implemented yet");
         xyb += xya;
         nb += na;
 
-        /* weight toward the actually used frequencies if we meet the threshhold */
+        // weight toward the actually used frequencies if we meet the threshhold
         {
             int weight = (int) (nb * info.twofitweight / (na + 1));
 
@@ -541,7 +541,7 @@ Debug.println(Level.WARNING, "not implemented yet");
         return na;
     }
 
-    private void fitLine(LsfitAcc[] ac, int pfits, int fits, para yy) {
+    private static void fitLine(LsfitAcc[] ac, int pfits, int fits, para yy) {
         int x = 0, y = 0, x2 = 0, y2 = 0, xy = 0, an = 0, i;
         int x0 = ac[pfits].x0;
         int x1 = ac[fits - 1 + pfits].x1;
@@ -574,7 +574,7 @@ Debug.println(Level.WARNING, "not implemented yet");
         }
 
         if (an != 0) {
-            /* need 64 bit multiplies, which C doesn't give portably as int */
+            // need 64 bit multiplies, which C doesn't give portably as int
             double fx = x;
             double fy = y;
             double fx2 = x2;
@@ -585,7 +585,7 @@ Debug.println(Level.WARNING, "not implemented yet");
             yy.y0 = (int) Math.rint(a + b * x0);
             yy.y1 = (int) Math.rint(a + b * x1);
 
-            /* limit to our range! */
+            // limit to our range!
             if (yy.y0 > 1023) yy.y0 = 1023;
             if (yy.y1 > 1023) yy.y1 = 1023;
             if (yy.y0 < 0) yy.y0 = 0;
@@ -597,7 +597,7 @@ Debug.println(Level.WARNING, "not implemented yet");
         }
     }
 
-    int post_Y(int[] A, int[] B, int pos) {
+    static int post_Y(int[] A, int[] B, int pos) {
         if (A[pos] < 0)
             return B[pos];
         if (B[pos] < 0)
@@ -608,7 +608,7 @@ Debug.println(Level.WARNING, "not implemented yet");
 
     boolean TRAIN_FLOOR1 = false;
 
-    private void renderLine0(int x0, int x1, int y0, int y1, int[] d) {
+    private static void renderLine0(int x0, int x1, int y0, int y1, int[] d) {
         int dy = y1 - y0;
         int adx = x1 - x0;
         int ady = Math.abs(dy);
@@ -633,7 +633,7 @@ Debug.println(Level.WARNING, "not implemented yet");
         }
     }
 
-    public int encode(Block vb, Buffer opb, int inlook, int[] post, int[] ilogmask) {
+    public static int encode(Block vb, Buffer opb, int inlook, int[] post, int[] ilogmask) {
 
         int i, j;
         CodecSetupInfo ci = vb.dspState.vi.getCodecSetup();
@@ -647,21 +647,21 @@ Debug.println(Level.WARNING, "not implemented yet");
         int[] out = new int[InfoFloor1.VIF_POSIT + 2];
         int seq = 0;
 
-        /* quantize values to multiplier spec */
+        // quantize values to multiplier spec
         if (post != null) {
             for (i = 0; i < posts; i++) {
                 int val = post[i] & 0x7fff;
                 switch (info.mult) {
-                case 1: /* 1024 -> 256 */
+                case 1: // 1024 -> 256
                     val >>= 2;
                     break;
-                case 2: /* 1024 -> 128 */
+                case 2: // 1024 -> 128
                     val >>= 3;
                     break;
-                case 3: /* 1024 -> 86 */
+                case 3: // 1024 -> 86
                     val /= 12;
                     break;
-                case 4: /* 1024 -> 64 */
+                case 4: // 1024 -> 64
                     val >>= 4;
                     break;
                 }
@@ -671,7 +671,7 @@ Debug.println(Level.WARNING, "not implemented yet");
             out[0] = post[0];
             out[1] = post[1];
 
-            /* find prediction values for each post and subtract them */
+            // find prediction values for each post and subtract them
             for (i = 2; i < posts; i++) {
                 int ln = lookFloor1.loneighBor[i - 2];
                 int hn = lookFloor1.hineighBor[i - 2];
@@ -714,17 +714,17 @@ Debug.println(Level.WARNING, "not implemented yet");
                 }
             }
 
-            /* we have everything we need. pack it out */
-            /* mark nontrivial floor */
+            // we have everything we need. pack it out
+            // mark nontrivial floor
             opb.write(1, 1);
 
-            /* beginning/end post */
+            // beginning/end post
             lookFloor1.frames++;
             lookFloor1.postbits += ilog(lookFloor1.quant_q - 1) * 2;
             opb.write(out[0], ilog(lookFloor1.quant_q - 1));
             opb.write(out[1], ilog(lookFloor1.quant_q - 1));
 
-            /* partition by partition */
+            // partition by partition
             for (i = 0, j = 2; i < info.partitions; i++) {
                 int clas = info.partitionclass[i];
                 int cdim = info.class_dim[clas];
@@ -735,7 +735,7 @@ Debug.println(Level.WARNING, "not implemented yet");
                 int cshift = 0;
                 int k, l;
 
-                /* generate the partition's first stage cascade value */
+                // generate the partition's first stage cascade value
                 if (csubbits != 0) {
                     int[] maxval = new int[8];
                     for (k = 0; k < csub; k++) {
@@ -757,16 +757,16 @@ Debug.println(Level.WARNING, "not implemented yet");
                         cval |= bookas[k] << cshift;
                         cshift += csubbits;
                     }
-                    /* write it */
+                    // write it
                     lookFloor1.phrasebits += books[info.class_book[clas]].bookEncode(cval, opb);
 
                 }
 
-                /* write post values */
+                // write post values
                 for (k = 0; k < cdim; k++) {
                     int book = info.class_subbook[clas][bookas[k]];
                     if (book >= 0) {
-                        /* hack to allow training with 'bad' books */
+                        // hack to allow training with 'bad' books
                         if (out[j + k] < (books[book]).entries)
                             lookFloor1.postbits += books[book].bookEncode(out[j + k], opb);
                     }
@@ -775,8 +775,8 @@ Debug.println(Level.WARNING, "not implemented yet");
             }
 
             {
-                /* generate quantized floor equivalent to what we'd unpack in decode */
-                /* render the lines */
+                // generate quantized floor equivalent to what we'd unpack in decode
+                // render the lines
                 int hx = 0;
                 int lx = 0;
                 int ly = post[0] * info.mult;
@@ -794,7 +794,7 @@ Debug.println(Level.WARNING, "not implemented yet");
                         ly = hy;
                     }
                 }
-                for (j = hx; j < vb.pcmEnd / 2; j++) ilogmask[j] = ly; /* be certain */
+                for (j = hx; j < vb.pcmEnd / 2; j++) ilogmask[j] = ly; // be certain
                 seq++;
                 return 1;
             }
@@ -810,10 +810,10 @@ Debug.println(Level.WARNING, "not implemented yet");
     private static int[] val1 = {1};
     private static int[] val1n = {-1};
 
-    public int[] fit(Block vb, int inlook,
-                     float[] logmdct,   /* in */
-                     int plogmdct,
-                     float[] logmask) {
+    public static int[] fit(Block vb, int inlook,
+                            float[] logmdct,   // in
+                            int plogmdct,
+                            float[] logmask) {
         int i, j;
         int y0, y1;
         LookFloor1 _look = (LookFloor1) vb.dspState.backEndState.flr[inlook];
@@ -822,10 +822,10 @@ Debug.println(Level.WARNING, "not implemented yet");
         int posts = _look.posts;
         int nonzero = 0;
         LsfitAcc[] fits = new LsfitAcc[InfoFloor1.VIF_POSIT + 1];
-        int[] fit_valueA = new int[InfoFloor1.VIF_POSIT + 2]; /* index by range list position */
-        int[] fit_valueB = new int[InfoFloor1.VIF_POSIT + 2]; /* index by range list position */
+        int[] fit_valueA = new int[InfoFloor1.VIF_POSIT + 2]; // index by range list position
+        int[] fit_valueB = new int[InfoFloor1.VIF_POSIT + 2]; // index by range list position
 
-        int[] loneighbor = new int[InfoFloor1.VIF_POSIT + 2]; /* sorted index of range list position (+2) */
+        int[] loneighbor = new int[InfoFloor1.VIF_POSIT + 2]; // sorted index of range list position (+2)
         int[] hineighbor = new int[InfoFloor1.VIF_POSIT + 2];
         int[] output = null;
         int[] memo = new int[InfoFloor1.VIF_POSIT + 2];
@@ -845,8 +845,8 @@ Debug.println(Level.WARNING, "not implemented yet");
         System.arraycopy(val1, 0, hineighbor, 0, posts);
         System.arraycopy(val1n, 0, memo, 0, posts);
 
-    /* quantize the relevant floor points and collect them into line fit
-       structures (one per minimal division) at the same time */
+        // quantize the relevant floor points and collect them into line fit
+        // structures (one per minimal division) at the same time
         if (posts == 0) {
             fits[0] = new LsfitAcc();
             nonzero += accumulateFit(logmask, logmdct, plogmdct, 0, n, fits[0], n, info);
@@ -859,7 +859,7 @@ Debug.println(Level.WARNING, "not implemented yet");
         }
 
         if (nonzero != 0) {
-            /* start by fitting the implicit base case.... */
+            // start by fitting the implicit base case....
             y0 = -200;
             y1 = -200;
             para yy = new para(y0, y1);
@@ -870,24 +870,24 @@ Debug.println(Level.WARNING, "not implemented yet");
             fit_valueB[1] = yy.y1;
             fit_valueA[1] = yy.y1;
 
-            /* Non degenerate case */
-      /* start progressive splitting.  This is a greedy, non-optimal
-         algorithm, but simple and close enough to the best
-         answer. */
+            // Non degenerate case
+            // start progressive splitting.  This is a greedy, non-optimal
+            // algorithm, but simple and close enough to the best
+            // answer.
             for (i = 2; i < posts; i++) {
                 int sortpos = _look.reverseIndex[i];
                 int ln = loneighbor[sortpos];
                 int hn = hineighbor[sortpos];
 
-                /* eliminate repeat searches of a particular range with a memo */
+                // eliminate repeat searches of a particular range with a memo
                 if (memo[ln] != hn) {
-                    /* haven't performed this error search yet */
+                    // haven't performed this error search yet
                     int lsortpos = _look.reverseIndex[ln];
                     int hsortpos = _look.reverseIndex[hn];
                     memo[ln] = hn;
 
                     {
-                        /* A note: we want to bound/minimize *local*, not global, error */
+                        // A note: we want to bound/minimize *local*, not global, error
                         int lx = info.postlist[ln];
                         int hx = info.postlist[hn];
                         int ly = post_Y(fit_valueA, fit_valueB, ln);
@@ -898,7 +898,7 @@ Debug.println(Level.WARNING, "not implemented yet");
                         }
 
                         if (inspectError(lx, hx, ly, hy, logmask, logmdct, plogmdct, info) != 0) {
-                            /* outside error bounds/begin search area.  Split it. */
+                            // outside error bounds/begin search area.  Split it.
                             int ly0 = -200;
                             int ly1 = -200;
                             int hy0 = -200;
@@ -908,7 +908,7 @@ Debug.println(Level.WARNING, "not implemented yet");
                             para hyy = new para(hy0, hy1);
                             fitLine(fits, sortpos, hsortpos - sortpos, hyy);
 
-                            /* store new edge values */
+                            // store new edge values
                             fit_valueB[ln] = lyy.y0;
                             if (ln == 0) fit_valueA[ln] = lyy.y0;
                             fit_valueA[i] = lyy.y1;
@@ -917,7 +917,7 @@ Debug.println(Level.WARNING, "not implemented yet");
                             if (hn == 1) fit_valueB[hn] = hyy.y1;
 
                             if (lyy.y1 >= 0 || hyy.y0 >= 0) {
-                                /* store new neighbor values */
+                                // store new neighbor values
                                 for (j = sortpos - 1; j >= 0; j--)
                                     if (hineighbor[j] == hn)
                                         hineighbor[j] = i;
@@ -944,9 +944,9 @@ Debug.println(Level.WARNING, "not implemented yet");
             output[0] = post_Y(fit_valueA, fit_valueB, 0);
             output[1] = post_Y(fit_valueA, fit_valueB, 1);
 
-      /* fill in posts marked as not using a fit; we will zero
-         back out to 'unused' when encoding them so long as curve
-         interpolation doesn't force them into use */
+            // fill in posts marked as not using a fit; we will zero
+            // back out to 'unused' when encoding them so long as curve
+            // interpolation doesn't force them into use
             for (i = 2; i < posts; i++) {
                 int ln = _look.loneighBor[i - 2];
                 int hn = _look.hineighBor[i - 2];
@@ -970,9 +970,9 @@ Debug.println(Level.WARNING, "not implemented yet");
 
     }
 
-    public int[] interpolate(Block vb, int inlook,
-                             int[] A, int[] B,
-                             int del) {
+    public static int[] interpolate(Block vb, int inlook,
+                                    int[] A, int[] B,
+                                    int del) {
 
         int i;
         LookFloor1 _look = (LookFloor1) vb.dspState.backEndState.flr[inlook];
@@ -991,7 +991,7 @@ Debug.println(Level.WARNING, "not implemented yet");
         return output;
     }
 
-    private int ilog(int v) {
+    private static int ilog(int v) {
         int ret = 0;
         while (v != 0) {
             ret++;
@@ -1000,7 +1000,7 @@ Debug.println(Level.WARNING, "not implemented yet");
         return ret;
     }
 
-    private int ilog2(int v) {
+    private static int ilog2(int v) {
         int ret = 0;
         while (v > 1) {
             ret++;

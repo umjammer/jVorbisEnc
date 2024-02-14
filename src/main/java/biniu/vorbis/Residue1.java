@@ -36,46 +36,4 @@ public class Residue1 extends Residue0 {
         }
     }
 
-    @Override
-    public int[][] clas(LookResidue vl,
-                        float[][] in, int pin, int[] nonzero, int ch) {
-        int i, used = 0;
-        for (i = 0; i < ch; i++)
-            if (nonzero[i] != 0)
-                in[used++] = in[i];
-        if (used != 0)
-            return (_01class(vl, in, pin, used));
-        else
-            return null;
-    }
-
-    @Override
-    public int forward(Buffer opb, Block vb, LookResidue vl,
-                       float[][] in, float[][] out, int[] nonzero, int ch,
-                       int[][] partword) {
-        int i, j, used = 0, n = vb.pcmEnd / 2;
-        for (i = 0; i < ch; i++)
-            if (nonzero[i] != 0) {
-                if (out != null)
-                    for (j = 0; j < n; j++)
-                        out[i][j] += in[i][j];
-                in[used++] = in[i];
-            }
-
-        if (used != 0) {
-            int ret = _01forward(opb, vb, vl, in, used, partword);
-            if (out != null) {
-                used = 0;
-                for (i = 0; i < ch; i++)
-                    if (nonzero[i] != 0) {
-                        for (j = 0; j < n; j++)
-                            out[i][j] -= in[used][j];
-                        used++;
-                    }
-            }
-            return ret;
-        } else {
-            return 0;
-        }
-    }
 }

@@ -19,13 +19,19 @@ package biniu.vorbis;
  */
 public class InfoMapping0 {
 
-    int submaps; // <= 16
-    int[] chmuxlist = new int[256]; // up to 256 channels in a Vorbis stream
+    /** <= 16 */
+    int submaps;
+    /** up to 256 channels in a Vorbis stream */
+    int[] chmuxlist = new int[256];
 
-    int[] timesubmap = new int[16]; // [mux]
-    int[] floorsubmap = new int[16]; // [mux] submap to floors
-    int[] residuesubmap = new int[16]; // [mux] submap to residue
-    int[] psysubmap = new int[16]; // [mux]; encode only
+    /** [mux] */
+    int[] timesubmap = new int[16];
+    /** [mux] submap to floors */
+    int[] floorsubmap = new int[16];
+    /** [mux] submap to residue */
+    int[] residuesubmap = new int[16];
+    /** [mux]; encode only */
+    int[] psysubmap = new int[16];
 
     int coupling_steps;
     int[] coupling_mag = new int[256];
@@ -81,5 +87,4 @@ public class InfoMapping0 {
                 info.coupling_ang.length);
         return true;
     }
-
 }

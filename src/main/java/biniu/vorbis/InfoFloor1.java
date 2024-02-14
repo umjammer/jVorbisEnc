@@ -22,18 +22,26 @@ public class InfoFloor1 {
     static final int VIF_CLASS = 16;
     static final int VIF_PARTS = 31;
 
-    int partitions;                        /* 0 to 31 */
-    int[] partitionclass = new int[VIF_PARTS]; /* 0 to 15 */
+    /** 0 to 31 */
+    int partitions;
+    /** 0 to 15 */
+    int[] partitionclass = new int[VIF_PARTS];
 
-    int[] class_dim = new int[VIF_CLASS];        /* 1 to 8 */
-    int[] class_subs = new int[VIF_CLASS];       /* 0,1,2,3 (bits: 1<<n poss) */
-    int[] class_book = new int[VIF_CLASS];       /* subs ^ dim entries */
-    int[][] class_subbook = new int[VIF_CLASS][8]; /* [VIF_CLASS][subs] */
+    /** 1 to 8 */
+    int[] class_dim = new int[VIF_CLASS];
+    /** 0,1,2,3 (bits: 1<<n poss) */
+    int[] class_subs = new int[VIF_CLASS];
+    /** subs ^ dim entries */
+    int[] class_book = new int[VIF_CLASS];
+    /** [VIF_CLASS][subs] */
+    int[][] class_subbook = new int[VIF_CLASS][8];
 
-    int mult;                               /* 1 2 3 or 4 */
-    int[] postlist = new int[VIF_POSIT + 2];    /* first two implicit */
+    /** 1 2 3 or 4 */
+    int mult;
+    /** first two implicit */
+    int[] postlist = new int[VIF_POSIT + 2];
 
-    /* encode side analysis parameters */
+    // encode side analysis parameters
     float maxover;
     float maxunder;
     float maxerr;
@@ -195,5 +203,4 @@ public class InfoFloor1 {
         this.n = info.n;
         return true;
     }
-
 }

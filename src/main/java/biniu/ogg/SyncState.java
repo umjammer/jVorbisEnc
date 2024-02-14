@@ -94,8 +94,8 @@ public class SyncState {
     //  0) page not ready; more data (no bytes skipped)
     //  n) page synced at current location; page length n bytes
 
-    private Page pageseek = new Page();
-    private byte[] chksum = new byte[4];
+    private final Page pageseek = new Page();
+    private final byte[] chksum = new byte[4];
 
     public int pageSeek(Page og) {
         int page = returned;
@@ -282,20 +282,18 @@ public class SyncState {
      * Writes to the stream buffer.
      */
     public int write(byte[] abBuffer, int nBytes) {
-        /* Clear out space that has been previously returned. */
+        // Clear out space that has been previously returned.
         if (returned > 0) {
             fill -= returned;
             if (fill > 0) {
-                System.arraycopy(data, returned,
-                        data, 0,
-                        fill);
+                System.arraycopy(data, returned, data, 0, fill);
             }
             returned = 0;
         }
 
-        /* Check for enough space in the stream buffer and if it is
-         * allocated at all. If there isn't sufficient space, extend
-         * the buffer. */
+        // Check for enough space in the stream buffer and if it is
+        // allocated at all. If there isn't sufficient space, extend
+        // the buffer.
         if (data == null || nBytes > data.length - fill) {
             int nNewSize = nBytes + fill + 4096;
             byte[] abOldBuffer = data;
@@ -305,7 +303,7 @@ public class SyncState {
             }
         }
 
-        /* Now finally fill with the new data. */
+        // Now finally fill with the new data.
         System.arraycopy(abBuffer, 0, data, fill, nBytes);
         fill += nBytes;
         return 0;

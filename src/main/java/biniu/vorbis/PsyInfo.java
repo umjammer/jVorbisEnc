@@ -71,7 +71,7 @@ public class PsyInfo {
     float tone_abs_limit;
     float[] toneatt = new float[Psy.P_BANDS];
 
-    //int noisemaskp;
+//int noisemaskp;
     float noisemaxsupp;
     float noisewindowlo;
     float noisewindowhi;
@@ -82,7 +82,6 @@ public class PsyInfo {
     float[] noisecompand = new float[Psy.NOISE_COMPAND_LEVELS];
 
 //float max_curve_dB;
-
     int normal_channel_p;
     int normal_point_p;
     int normal_start;
@@ -176,5 +175,4 @@ public class PsyInfo {
         this.normal_thresh = info.normal_thresh;
         return true;
     }
-
 }

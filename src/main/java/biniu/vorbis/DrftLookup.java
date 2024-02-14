@@ -113,9 +113,9 @@ public class DrftLookup {
             c[i] = ch[i];
     }
 
-    private void dradb2(int ido, int l1, float[] cc, float[] ch,
-                        float[] wa1,
-                        int pwa1
+    private static void dradb2(int ido, int l1, float[] cc, float[] ch,
+                               float[] wa1,
+                               int pwa1
     ) {
         int i, k, t0, t1, t2, t3, t4, t5, t6;
         float ti2, tr2;
@@ -170,11 +170,11 @@ public class DrftLookup {
         }
     }
 
-    private void dradb3(int ido, int l1, float[] cc, float[] ch,
-                        float[] wa1,
-                        int pwa1,
-                        float[] wa2,
-                        int pwa2
+    private static void dradb3(int ido, int l1, float[] cc, float[] ch,
+                               float[] wa1,
+                               int pwa1,
+                               float[] wa2,
+                               int pwa2
     ) {
         int i, k, t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10;
         float ci2, ci3, di2, di3, cr2, cr3, dr2, dr3, ti2, tr2;
@@ -236,9 +236,9 @@ public class DrftLookup {
         }
     }
 
-    private void dradf2(int ido, int l1, float[] cc, float[] ch,
-                        float[] wa1,
-                        int pwa1
+    private static void dradf2(int ido, int l1, float[] cc, float[] ch,
+                               float[] wa1,
+                               int pwa1
     ) {
         int i, k;
         float ti2, tr2;
@@ -296,7 +296,7 @@ public class DrftLookup {
         }
     }
 
-    private float sqrt2 = 1.414213562373095f;
+    private final float sqrt2 = 1.414213562373095f;
 
     private void dradb4(int ido, int l1, float[] cc, float[] ch,
                         float[] wa1, int pwa1,
@@ -398,10 +398,10 @@ public class DrftLookup {
 
     static float hsqt2 = .70710678118654752f;
 
-    private void dradf4(int ido, int l1, float[] cc, float[] ch,
-                        float[] wa1, int pwa1,
-                        float[] wa2, int pwa2,
-                        float[] wa3, int pwa3
+    private static void dradf4(int ido, int l1, float[] cc, float[] ch,
+                               float[] wa1, int pwa1,
+                               float[] wa2, int pwa2,
+                               float[] wa3, int pwa3
     ) {
         int i, k, t0, t1, t2, t3, t4, t5, t6;
         float ci2, ci3, ci4, cr2, cr3, cr4, ti1, ti2, ti3, ti4, tr1, tr2, tr3, tr4;
@@ -503,7 +503,7 @@ public class DrftLookup {
         }
     }
 
-    private float tpi = 6.283185307179586f;
+    private final float tpi = 6.283185307179586f;
 
     private void dradfg(int ido, int ip, int l1, int idl1, float[] cc, float[] c1,
                         float[] c2, float[] ch, float[] ch2,
@@ -817,7 +817,7 @@ public class DrftLookup {
     }
 
     //////////////////////////////////////////////////////////////
-    private int[] ntryh = {
+    private final int[] ntryh = {
             4, 2, 3, 5};
 
     public void drfti1(int n, float[] wa, int pwa, int[] ifac) {
