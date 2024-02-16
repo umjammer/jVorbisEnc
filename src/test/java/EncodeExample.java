@@ -111,7 +111,7 @@ public class EncodeExample {
 
         // add a comment
         comment.init();
-        comment.addTag("ENCODER", "jVorbisEnc");
+        comment.addTag("ENCODER", "jVorbisEnc.test");
 
         // set up the analysis state and auxiliary encoding storage
         dsp.analysisInit(info);
