@@ -2,7 +2,7 @@
 [![Java CI](https://github.com/umjammer/jVorbisEnc/actions/workflows/maven.yml/badge.svg)](https://github.com/umjammer/jVorbisEnc/actions/workflows/maven.yml)
 [![CodeQL](https://github.com/umjammer/jVorbisEnc/actions/workflows/codeql.yml/badge.svg)](https://github.com/umjammer/jVorbisEnc/actions/workflows/codeql-analysis.yml)
 ![Java](https://img.shields.io/badge/Java-17-b07219)
-[![Parent](https://img.shields.io/badge/Parent-trironus-pink)](https://github.com/umjammer/trironus)
+[![Parent](https://img.shields.io/badge/Parent-tritonus-pink)](https://github.com/umjammer/tritonus)
 
 # jVorbisEnc
 
